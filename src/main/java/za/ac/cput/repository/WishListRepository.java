@@ -1,7 +1,7 @@
 package za.ac.cput.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import za.ac.cput.domain.Cart;
+import za.ac.cput.domain.WishList;
 
 /**
  * Mpumzi Mbula
@@ -9,5 +9,5 @@ import za.ac.cput.domain.Cart;
  * 17/05/2024
  *
  */
-public interface CartRepository  extends JpaRepository<Cart,Long>{
+public interface WishListRepository extends JpaRepository<WishList,Long> {
 }
