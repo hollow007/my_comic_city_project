@@ -14,11 +14,11 @@ import java.util.List;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
-    List<Review> findByComicBookID(long comicBookID);
-    List<Review> findByUserID(int userID);
-    Review create(Review review);
-    Review read(int reviewId);
-    Review update(Review review);
-    boolean delete(int reviewId);
-    List<Review> getAll();
+//    List<Review> findByComicBookID(int comicBookID);
+//    List<Review> findByUserID(int userID);
+//    Review create(Review review);
+//    Review read(int reviewId);
+//    Review update(Review review);
+//    boolean delete(int reviewId);
+//    List<Review> getAll();
 }

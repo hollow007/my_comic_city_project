@@ -75,7 +75,7 @@ class AuthorServiceTest {
                 .build();
 
         Author savedAuthor = service.update(updatedAuthor3);
-        assertEquals(savedAuthor.getAuthorID(), author2.getAuthorID());
+        assertEquals(savedAuthor.getAuthorID(), author3.getAuthorID());
         assertNotNull(savedAuthor);
         System.out.println(savedAuthor);
 

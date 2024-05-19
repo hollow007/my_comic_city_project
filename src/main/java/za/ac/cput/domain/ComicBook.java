@@ -26,6 +26,9 @@ public class ComicBook {
     )
 
     private List<Author> authors = new ArrayList<>();
+
+
+
     private double price;
 
     protected ComicBook() {

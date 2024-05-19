@@ -81,6 +81,12 @@ public class Helper {
         }
         return false;
     }
+    public static boolean isValidInt(int number){
+        if(number<=0){
+            return true;
+        }
+        return false;
+    }
 
 
 }

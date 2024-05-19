@@ -17,7 +17,13 @@ public class WishList{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long wishListId;
     private String wishlistName;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "wish_bool",
+            joinColumns = @JoinColumn(name = "wish_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+
     private List<ComicBook> comicBooks;
     private LocalDate createdDate;
     private LocalDate updatedDate;
