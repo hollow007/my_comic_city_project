@@ -1,5 +1,7 @@
 package za.ac.cput.util;
 
+import za.ac.cput.domain.ComicBook;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -59,4 +61,26 @@ public class Helper {
         return  false;
 
     }
+    public static boolean isNotInPast(LocalDate date) {
+        return !date.isBefore(LocalDate.now());
+    }
+
+    public static boolean isNotAfter(LocalDate date, LocalDate referenceDate) {
+        return !date.isAfter(referenceDate);
+    }
+
+    public static boolean isComicBooksListNullOrEmpty(List<ComicBook>comicBooks){
+        if(comicBooks==null|| comicBooks.isEmpty()){
+            return true;
+        }
+        return false;
+    }
+    public static boolean isValidPrice(double price){
+        if(price<0){
+            return true;
+        }
+        return false;
+    }
+
+
 }
