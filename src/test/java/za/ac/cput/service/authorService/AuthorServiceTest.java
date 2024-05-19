@@ -37,7 +37,6 @@ class AuthorServiceTest {
         System.out.println("=============================CREATE====================================");
 
         Author savedAuthor1 = service.create(author1);
-
         assertNotNull(savedAuthor1);
         System.out.println(savedAuthor1);
 
