@@ -37,7 +37,6 @@ class AuthorServiceTest {
         System.out.println("=============================CREATE====================================");
 
         Author savedAuthor1 = service.create(author1);
-
         assertNotNull(savedAuthor1);
         System.out.println(savedAuthor1);
 
@@ -86,8 +85,8 @@ class AuthorServiceTest {
     @Order(4)
     void delete() {
         System.out.println("=============================DELETE====================================");
-
-        service.delete(Long.valueOf(author2.getAuthorID()));
+         boolean isDeleted = service.delete(Long.valueOf(author2.getAuthorID()));
+        assertEquals(true, isDeleted);
         System.out.println("Author no:"+ author2.getAuthorID()+" Deleted");
     }
 

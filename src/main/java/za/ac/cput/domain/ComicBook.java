@@ -18,12 +18,13 @@ public class ComicBook {
     private double wieght;
     private LocalDate releaseDate;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "author_comicbook",
             joinColumns = @JoinColumn(name = "comicbook_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id")
     )
+
     private List<Author> authors = new ArrayList<>();
     private double price;
 
