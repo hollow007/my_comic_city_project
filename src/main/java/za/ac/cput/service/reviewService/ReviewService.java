@@ -3,7 +3,6 @@ package za.ac.cput.service.reviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.ac.cput.domain.Review;
-import za.ac.cput.domain.User;
 import za.ac.cput.repository.ReviewRepository;
 import za.ac.cput.repository.UserRepository;
 import za.ac.cput.util.ReviewHelper;
@@ -80,8 +79,9 @@ public class ReviewService implements IReviewService {
         return reviewRepository.findAll();
     }
 
+
     @Override
-    public List<Review> findByComicBookID(int comicBookID) {
+    public List<Review> findByComicBookID(long comicBookID) {
         return reviewRepository.findByComicBookID(comicBookID);
     }
 

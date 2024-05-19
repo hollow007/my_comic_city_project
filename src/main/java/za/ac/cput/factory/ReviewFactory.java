@@ -10,7 +10,7 @@ import java.time.LocalDate;
  */
 public class ReviewFactory {
 
-    public static Review createReview(int comicBookID, int userID, int reviewRating, String reviewText, LocalDate reviewDate, boolean spoilerFlag, String reviewTitle, int replyCount, String reviewStatus) {
+    public static Review createReview(long comicBookID, int userID, int reviewRating, String reviewText, LocalDate reviewDate, boolean spoilerFlag, String reviewTitle, int replyCount, String reviewStatus) {
         return Review.builder()
                 .comicBookID(comicBookID)
                 .userID(userID)
@@ -24,7 +24,7 @@ public class ReviewFactory {
                 .build();
     }
 
-    public static Review createReviewWithID(int reviewID, int comicBookID, int userID, int reviewRating, String reviewText, LocalDate reviewDate, boolean spoilerFlag, String reviewTitle, int replyCount, String reviewStatus) {
+    public static Review createReviewWithID(int reviewID, long comicBookID, int userID, int reviewRating, String reviewText, LocalDate reviewDate, boolean spoilerFlag, String reviewTitle, int replyCount, String reviewStatus) {
         return Review.builder()
                 .comicBookID(comicBookID)
                 .userID(userID)

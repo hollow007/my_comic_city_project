@@ -23,7 +23,7 @@ public class Review {
     private int reviewID;
 
     @Column(nullable = false)
-    private int comicBookID;
+    private long comicBookID;
 
     @Column(nullable = false)
     private int userID;
@@ -67,7 +67,7 @@ public class Review {
         return new Builder();
     }
 
-    public void setComicBookID(int comicBookID) {
+    public void setComicBookID(long comicBookID) {
         this.comicBookID = comicBookID;
     }
 
@@ -84,7 +84,7 @@ public class Review {
     }
 
     public static class Builder {
-        private int comicBookID;
+        private long comicBookID;
         private int userID;
         private int reviewRating;
         private String reviewText;
@@ -94,7 +94,7 @@ public class Review {
         private int replyCount;
         private String reviewStatus;
 
-        public Builder comicBookID(int comicBookID) {
+        public Builder comicBookID(long comicBookID) {
             this.comicBookID = comicBookID;
             return this;
         }
@@ -148,7 +148,7 @@ public class Review {
         return reviewID;
     }
 
-    public int getComicBookID() {
+    public long getComicBookID() {
         return comicBookID;
     }
 
