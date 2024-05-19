@@ -85,8 +85,8 @@ class AuthorServiceTest {
     @Order(4)
     void delete() {
         System.out.println("=============================DELETE====================================");
-
-        service.delete(Long.valueOf(author2.getAuthorID()));
+         boolean isDeleted = service.delete(Long.valueOf(author2.getAuthorID()));
+        assertEquals(true, isDeleted);
         System.out.println("Author no:"+ author2.getAuthorID()+" Deleted");
     }
 
