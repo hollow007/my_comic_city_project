@@ -14,6 +14,8 @@ public interface IReviewService {
     Review update(Review review);
     boolean delete(int reviewId);
     List<Review> getAll();
-    List<Review> findByComicBookID(int comicBookID);
+
+    List<Review> findByComicBookID(long comicBookID);
+
     List<Review> findByUserID(int userID);
 }

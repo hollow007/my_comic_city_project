@@ -14,7 +14,7 @@ import java.util.List;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
-    List<Review> findByComicBookID(int comicBookID);
+    List<Review> findByComicBookID(long comicBookID);
     List<Review> findByUserID(int userID);
     Review create(Review review);
     Review read(int reviewId);
