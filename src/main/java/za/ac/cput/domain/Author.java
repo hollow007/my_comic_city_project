@@ -3,10 +3,7 @@ package za.ac.cput.domain;
 // 221164014
 // https://github.com/Skiet88/comic__city_project
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;

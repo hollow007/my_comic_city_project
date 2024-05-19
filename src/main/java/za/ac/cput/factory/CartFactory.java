@@ -25,4 +25,16 @@ public class CartFactory {
                 .setUpdatedDate(updatedDate)
                 .build();
     }
-}
+    public static Cart buildCart(Long cartId,double totalPrice, List<ComicBook> comicBooks, LocalDate createdDate, LocalDate updatedDate){
+        if (cartId<=0||Helper.isValidPrice(totalPrice) || Helper.isComicBooksListNullOrEmpty(comicBooks) ||!Helper.isNotAfter(createdDate, LocalDate.now()) || Helper.isValidDate(updatedDate)) {
+            return null;
+        }
+        return new Cart.Builder().setCartId(cartId).setTotalPrice(totalPrice)
+                .setComicBookList(comicBooks)
+                .setCreatedDate(createdDate)
+                .setUpdatedDate(updatedDate)
+                .build();
+    }
+
+    }
+
