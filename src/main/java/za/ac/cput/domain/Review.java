@@ -5,8 +5,8 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import java.time.LocalDate;
 import java.util.Objects;
+
 /* Review.java
-   Review model class
    Author: Cavan Ramone Swartz (221055835)
    Date: 17 May 2024
    https://github.com/hollow007/my_comic_city_project
@@ -51,16 +51,97 @@ public class Review {
 
     public Review() {}
 
-    public Review(int comicBookID, int userID, int reviewRating, String reviewText, LocalDate reviewDate, boolean spoilerFlag, String reviewTitle, int replyCount, String reviewStatus) {
+    private Review(Builder builder) {
+        this.comicBookID = builder.comicBookID;
+        this.userID = builder.userID;
+        this.reviewRating = builder.reviewRating;
+        this.reviewText = builder.reviewText;
+        this.reviewDate = builder.reviewDate;
+        this.spoilerFlag = builder.spoilerFlag;
+        this.reviewTitle = builder.reviewTitle;
+        this.replyCount = builder.replyCount;
+        this.reviewStatus = builder.reviewStatus;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public void setComicBookID(int comicBookID) {
         this.comicBookID = comicBookID;
-        this.userID = userID;
-        this.reviewRating = reviewRating;
-        this.reviewText = reviewText;
-        this.reviewDate = reviewDate;
-        this.spoilerFlag = spoilerFlag;
+    }
+
+    public void setReviewTitle(String reviewTitle) {
         this.reviewTitle = reviewTitle;
-        this.replyCount = replyCount;
-        this.reviewStatus = reviewStatus;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public void setReviewText(String reviewText) {
+        this.reviewText = reviewText;
+    }
+
+    public static class Builder {
+        private int comicBookID;
+        private int userID;
+        private int reviewRating;
+        private String reviewText;
+        private LocalDate reviewDate;
+        private boolean spoilerFlag;
+        private String reviewTitle;
+        private int replyCount;
+        private String reviewStatus;
+
+        public Builder comicBookID(int comicBookID) {
+            this.comicBookID = comicBookID;
+            return this;
+        }
+
+        public Builder userID(int userID) {
+            this.userID = userID;
+            return this;
+        }
+
+        public Builder reviewRating(int reviewRating) {
+            this.reviewRating = reviewRating;
+            return this;
+        }
+
+        public Builder reviewText(String reviewText) {
+            this.reviewText = reviewText;
+            return this;
+        }
+
+        public Builder reviewDate(LocalDate reviewDate) {
+            this.reviewDate = reviewDate;
+            return this;
+        }
+
+        public Builder spoilerFlag(boolean spoilerFlag) {
+            this.spoilerFlag = spoilerFlag;
+            return this;
+        }
+
+        public Builder reviewTitle(String reviewTitle) {
+            this.reviewTitle = reviewTitle;
+            return this;
+        }
+
+        public Builder replyCount(int replyCount) {
+            this.replyCount = replyCount;
+            return this;
+        }
+
+        public Builder reviewStatus(String reviewStatus) {
+            this.reviewStatus = reviewStatus;
+            return this;
+        }
+
+        public Review build() {
+            return new Review(this);
+        }
     }
 
     public int getReviewID() {
@@ -139,35 +220,5 @@ public class Review {
                 ", replyCount=" + replyCount +
                 ", reviewStatus='" + reviewStatus + '\'' +
                 '}';
-    }
-
-    public void setReviewID(int reviewID) {
-    }
-
-    public void setComicBookID(int comicBookID) {
-    }
-
-    public void setUserID(int userID) {
-    }
-
-    public void setReviewRating(int reviewRating) {
-    }
-
-    public void setReviewText(String reviewText) {
-    }
-
-    public void setReviewDate(LocalDate reviewDate) {
-    }
-
-    public void setSpoilerFlag(boolean spoilerFlag) {
-    }
-
-    public void setReviewTitle(String reviewTitle) {
-    }
-
-    public void setReplyCount(int replyCount) {
-    }
-
-    public void setReviewStatus(String reviewStatus) {
     }
 }
