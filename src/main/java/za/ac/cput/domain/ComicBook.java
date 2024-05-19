@@ -26,10 +26,15 @@ public class ComicBook {
     )
 
     private List<Author> authors = new ArrayList<>();
+ master
+
+
+
     @ManyToMany(mappedBy = "comicBookList")
     private List<Cart> carts = new ArrayList<>();
     @ManyToMany(mappedBy = "comicBooks")
     private List<WishList> wishLists = new ArrayList<>();
+ master
     private double price;
 
     protected ComicBook() {
