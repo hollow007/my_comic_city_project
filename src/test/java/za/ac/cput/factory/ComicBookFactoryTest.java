@@ -17,10 +17,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class ComicBookFactoryTest {
-    private ComicBook book1;
+
     private Author author1;
     private Author author2;
     private List<Author> authors;
+    private ComicBook book1;
     private ComicBook book2;
     private ComicBook book3;
 
@@ -32,6 +33,7 @@ class ComicBookFactoryTest {
         authors = new ArrayList<>();
         authors.add(author1);
         authors.add(author2);
+
         book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors, 300.00);
         book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,07,17), authors, 300.00);
         book3 = ComicBookFactory.buildBuilder("CMB03", "Spider-Man", 3.4, LocalDate.now(), authors, -1);
