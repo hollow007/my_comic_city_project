@@ -1,7 +1,11 @@
 package za.ac.cput.service;
-// Mlungisi L. Mbuyazi
-// 221164014
-// https://github.com/Skiet88/comic__city_project
+
+/**
+ * Mpumzi Mbula
+ * 219053324
+ * 19/05/2024
+ *
+ */
 import org.springframework.stereotype.Service;
 
 @Service

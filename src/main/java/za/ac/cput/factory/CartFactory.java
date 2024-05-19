@@ -8,6 +8,12 @@ import za.ac.cput.util.Helper;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Mpumzi Mbula
+ * 219053324
+ * 17/05/2024
+ *
+ */
 public class CartFactory {
     public static Cart buildCart(double totalPrice, List<ComicBook> comicBooks, LocalDate createdDate, LocalDate updatedDate) {
         if (Helper.isValidPrice(totalPrice) || Helper.isComicBooksListNullOrEmpty(comicBooks) ||!Helper.isNotAfter(createdDate, LocalDate.now()) || Helper.isValidDate(updatedDate)) {
