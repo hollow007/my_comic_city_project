@@ -14,14 +14,13 @@ import java.util.Objects;
 @Entity
 public class WishList{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long wishListId;
     private String wishlistName;
     @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
             name = "wishList_comicbook",
             joinColumns = @JoinColumn(name = "wishList_id"),
-            inverseJoinColumns = @JoinColumn(name = "comic_book_id")
+            inverseJoinColumns = @JoinColumn(name = "comicbook_id")
     )
     private List<ComicBook> comicBooks;
     private LocalDate createdDate;

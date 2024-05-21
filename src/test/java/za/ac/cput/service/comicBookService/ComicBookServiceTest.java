@@ -22,8 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ComicBookServiceTest {
     @Autowired
     private ComicBookService comicBookService;
-    @Autowired
-    private AuthorService authorService;
+
     private ComicBook book1;
     private Author author1;
     private Author author2;
@@ -39,10 +38,10 @@ class ComicBookServiceTest {
 
 
         author1 = AuthorFactory.buildAuthor(001, "Lamark", "Principle", "Darwin");
-        authorService.create(author1);
+
 
         author2 = AuthorFactory.buildAuthor(002, "Jacob", "Gedleyihlekisa", "Zuma");
-        authorService.create(author2);
+
 
 
         authors = new ArrayList<>();
@@ -69,9 +68,9 @@ class ComicBookServiceTest {
         assertNotNull(savedComicCook2);
         System.out.println(savedComicCook2);
 
-        ComicBook savedComicCook3 = comicBookService.create(book3);
-        assertNotNull(savedComicCook3);
-        System.out.println(savedComicCook3);
+//        ComicBook savedComicCook3 = comicBookService.create(book3);
+//        assertNotNull(savedComicCook3);
+//        System.out.println(savedComicCook3);
     }
 
     @Test

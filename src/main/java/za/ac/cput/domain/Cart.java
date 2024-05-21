@@ -15,7 +15,6 @@ import java.util.Objects;
 @Entity
 public class Cart {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long cartId;
 
     @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
