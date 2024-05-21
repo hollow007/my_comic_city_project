@@ -12,13 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Mpumzi Mbula
+ * 219053324
+ * 19/05/2024
+ */
 class WishListFactoryTest {
     private WishList wishList1;
     private WishList wishList2;
     private WishList wishList3;
     private Author author1;
-
     private Author author2;
     private List<Author> authors;
     private ComicBook book1;
@@ -50,9 +53,9 @@ class WishListFactoryTest {
         comicBookList.add(book1);
         comicBookList.add(book2);
 
-        wishList1 = WishListFactory.buildWishList("myWishList1", comicBookList, LocalDate.of(2024, 02, 14), LocalDate.of(2024, 02, 15));
-        wishList2 = WishListFactory.buildWishList("", comicBookList, LocalDate.of(2024, 04, 20), LocalDate.of(2024, 05, 01));
-        wishList3 = WishListFactory.buildWishList("Books I Wish To Buy ", comicBookList, LocalDate.of(2025, 04, 20), LocalDate.of(2024, 05, 01));
+        wishList1 = WishListFactory.buildWishList(1,"myWishList1", comicBookList, LocalDate.of(2024, 02, 14), LocalDate.of(2024, 02, 15));
+        wishList2 = WishListFactory.buildWishList(2,"", comicBookList, LocalDate.of(2024, 04, 20), LocalDate.of(2024, 05, 01));
+        wishList3 = WishListFactory.buildWishList(3,"Books I Wish To Buy ", comicBookList, LocalDate.of(2025, 04, 20), LocalDate.of(2024, 05, 01));
     }
 
     @Test

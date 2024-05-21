@@ -6,11 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.Author;
 import za.ac.cput.domain.Cart;
 import za.ac.cput.domain.ComicBook;
-import za.ac.cput.domain.Publisher;
 import za.ac.cput.factory.AuthorFactory;
 import za.ac.cput.factory.CartFactory;
 import za.ac.cput.factory.ComicBookFactory;
-import za.ac.cput.factory.PublisherFactory;
 import za.ac.cput.service.authorService.AuthorService;
 
 import java.time.LocalDate;
@@ -18,7 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Mpumzi Mbula
+ * 219053324
+ * 19/05/2024
+ */
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CartServiceTest {
@@ -30,15 +32,9 @@ class CartServiceTest {
     Cart cart1;
     Cart cart2;
     Cart cart3;
-    private Publisher publisher1;
-
-    private List<Publisher> publishers;
 
     private Author author1;
     private Author author2;
-    private Author author3;
-    private Author author4;
-
     private ComicBook book1;
     private ComicBook book2;
     private ComicBook book3;
@@ -46,6 +42,7 @@ class CartServiceTest {
     private List<Author> authors2;
     private List<ComicBook> comicBookList1;
     private List<ComicBook> comicBookList2;
+    private List<ComicBook>comicBookList3;
 
     @BeforeEach
     void setUp() {
@@ -55,7 +52,7 @@ class CartServiceTest {
         author2 = AuthorFactory.buildAuthor(003, "Brown", "", "Chris");
 
         author1=authorService.create(author1);
-        author1=authorService.create(author2);
+        author2=authorService.create(author2);
 
         authors1 = new ArrayList<>();
         authors1.add(author1);
@@ -64,18 +61,16 @@ class CartServiceTest {
         authors2 = new ArrayList<>();
         authors2.add(author2);
 
-        publisher1 = PublisherFactory.buildPublisher(34655, "Marvel",2000);
-        publishers = new ArrayList<>();
-        publishers.add(publisher1);
 
-
-        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors1, publishers, 300.00);
+        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors1, 300.00);
         System.out.println(book1);
-        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,05,17), authors2, publishers,300.00);
 
+        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,05,19), authors2, 800.00);
         System.out.println(book2);
-        book3 = ComicBookFactory.buildBuilder("CMB03", "Spider-Man", 3.4, LocalDate.now(), authors1, publishers, 221);
+
+        book3 = ComicBookFactory.buildBuilder("CMB03", "Spider-Man", 3.4, LocalDate.now(), new ArrayList<>(authors1), 400);
         System.out.println(book3);
+
 
         comicBookList1 = new ArrayList<>();
         comicBookList1.add(book1);
@@ -84,15 +79,18 @@ class CartServiceTest {
         comicBookList2 = new ArrayList<>();
         comicBookList2.add(book2);
 
-        cart1 = CartFactory.buildCart( 2001,200.00, comicBookList1, LocalDate.of(2024, 02, 15), LocalDate.now());
+        comicBookList3=new ArrayList<>();
+        comicBookList3.add(book3);
+
+        cart1 = CartFactory.buildCart( 1,200.00, comicBookList1, LocalDate.of(2024, 02, 15), LocalDate.now());
         assertNotNull(cart1);
         System.out.println(cart1);
 
-        cart2 = CartFactory.buildCart( 2002,450, comicBookList2, LocalDate.of(2024, 04, 20), LocalDate.of(2024, 05, 01));
+        cart2 = CartFactory.buildCart( 2,450, comicBookList2, LocalDate.of(2024, 04, 20), LocalDate.of(2024, 05, 01));
         assertNotNull(cart2);
         System.out.println(cart2);
 
-        cart3 = CartFactory.buildCart( 2003,450, new ArrayList<>(comicBookList2), LocalDate.of(2024, 01, 20), LocalDate.of(2024, 05, 02));
+        cart3 = CartFactory.buildCart( 3,450, comicBookList3, LocalDate.of(2024, 01, 20), LocalDate.of(2024, 05, 02));
         assertNotNull(cart3);
         System.out.println(cart3);
     }
@@ -120,7 +118,7 @@ class CartServiceTest {
     @Order(2)
     void read() {
         System.out.println("=============================Update====================================");
-        Cart searchedCart = cartService.read(Long.valueOf(2001));
+        Cart searchedCart = cartService.read(Long.valueOf(2));
         assertNotNull(searchedCart);
         System.out.println(searchedCart);
     }
@@ -141,9 +139,9 @@ class CartServiceTest {
     void delete() {
         System.out.println("=============================DELETE====================================");
 
-        boolean isDeleted= cartService.delete(3L);
-        assertEquals(true,isDeleted);
-        System.out.println("Is The cart Deleted?"+isDeleted);
+        boolean exists= cartService.delete(Long.valueOf(3));
+        assertTrue(exists);
+        System.out.println("Is The cart Deleted?"+exists);
 
 
     }

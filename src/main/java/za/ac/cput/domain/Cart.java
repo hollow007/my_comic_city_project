@@ -15,13 +15,11 @@ import java.util.Objects;
 @Entity
 public class Cart {
     @Id
-   // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long cartId;
-
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "cart_id")
-//
-
+ master
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "cart_id")
+=======
 
     @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
@@ -29,6 +27,7 @@ public class Cart {
             joinColumns = @JoinColumn(name = "cart_id"),
             inverseJoinColumns = @JoinColumn(name = "comic_book_id")
     )
+ master
     List<ComicBook> comicBookList;
     private double totalPrice;
     private LocalDate createdDate;
