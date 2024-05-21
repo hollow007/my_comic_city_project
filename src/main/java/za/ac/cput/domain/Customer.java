@@ -1,9 +1,6 @@
 package za.ac.cput.domain;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 @Entity
@@ -13,13 +10,14 @@ public class Customer {
     private String firstName;
     private String lastName;
     @OneToOne(cascade = CascadeType.ALL)
-
     private Contact contact;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Cart cart;
     @OneToOne(cascade = CascadeType.ALL)
     private WishList wishList;
+//    @OneToManycascade (cascade= CascadeType.ALL)
+//    private Order order;
 
     protected Customer() {
     }

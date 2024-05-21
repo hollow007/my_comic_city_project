@@ -18,28 +18,21 @@ public class ComicBook {
     private double wieght;
     private LocalDate releaseDate;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "author_comicbook",
-            joinColumns = @JoinColumn(name = "comicbook_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id")
-    )
-
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private List<Author> authors = new ArrayList<>();
- master
 
-
-
-    @ManyToMany(mappedBy = "comicBookList")
+    @ManyToMany(mappedBy = "comicBookList", fetch = FetchType.EAGER)
     private List<Cart> carts = new ArrayList<>();
-    @ManyToMany(mappedBy = "comicBooks")
+
+    @ManyToMany(mappedBy = "comicBooks", fetch = FetchType.EAGER)
     private List<WishList> wishLists = new ArrayList<>();
- master
+
     private double price;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
+    private List<Publisher> publishers;
 
     protected ComicBook() {
     }
-
 
     private ComicBook(ComicBookBuilder e) {
         this.SKU = e.SKU;
@@ -48,6 +41,7 @@ public class ComicBook {
         this.releaseDate = e.releaseDate;
         this.authors = e.authors;
         this.price = e.price;
+        this.publishers = e.publishers;
     }
 
 
@@ -72,6 +66,10 @@ public class ComicBook {
         return authors;
     }
 
+    public List getPublishers() {
+        return publishers;
+    }
+
     public double getPrice() {
         return price;
     }
@@ -81,23 +79,26 @@ public class ComicBook {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ComicBook comicBook = (ComicBook) o;
-        return Double.compare(wieght, comicBook.wieght) == 0 && Double.compare(price, comicBook.price) == 0 && Objects.equals(SKU, comicBook.SKU) && Objects.equals(name, comicBook.name) && Objects.equals(releaseDate, comicBook.releaseDate) && Objects.equals(authors, comicBook.authors);
+        return Double.compare(wieght, comicBook.wieght) == 0 && Double.compare(price, comicBook.price) == 0 && Objects.equals(SKU, comicBook.SKU) && Objects.equals(name, comicBook.name) && Objects.equals(releaseDate, comicBook.releaseDate) && Objects.equals(authors, comicBook.authors) && Objects.equals(carts, comicBook.carts) && Objects.equals(wishLists, comicBook.wishLists) && Objects.equals(publishers, comicBook.publishers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(SKU, name, wieght, releaseDate, authors, price);
+        return Objects.hash(SKU, name, wieght, releaseDate, authors, carts, wishLists, price, publishers);
     }
 
     @Override
     public String toString() {
-        return "Domain.ComicBook{" +
+        return "ComicBook{" +
                 "SKU='" + SKU + '\'' +
                 ", name='" + name + '\'' +
                 ", wieght=" + wieght +
                 ", releaseDate=" + releaseDate +
                 ", authors=" + authors +
+                ", carts=" + carts +
+                ", wishLists=" + wishLists +
                 ", price=" + price +
+                ", publishers=" + publishers +
                 '}';
     }
 
@@ -108,6 +109,12 @@ public class ComicBook {
         private LocalDate releaseDate;
         private List<Author> authors;
         private double price;
+        private List<Publisher> publishers;
+
+        public ComicBookBuilder setPublishers(List<Publisher> publishers) {
+            this.publishers = publishers;
+            return this;
+        }
 
         public ComicBookBuilder() {
         }
@@ -148,6 +155,7 @@ public class ComicBook {
             this.releaseDate = e.releaseDate;
             this.authors = e.authors;
             this.price = e.price;
+            this.publishers = e.publishers;
 
             return this;
         }

@@ -17,12 +17,13 @@ public class WishList{
     private long wishListId;
     private String wishlistName;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "wish_bool",
-            joinColumns = @JoinColumn(name = "wish_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id")
-    )
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "wish_bool",
+//            joinColumns = @JoinColumn(name = "wish_id"),
+//            inverseJoinColumns = @JoinColumn(name = "book_id")
+//    )
+
 
 
     @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
@@ -31,7 +32,6 @@ public class WishList{
             joinColumns = @JoinColumn(name = "wishList_id"),
             inverseJoinColumns = @JoinColumn(name = "comicbook_id")
     )
-
     private List<ComicBook> comicBooks;
     private LocalDate createdDate;
     private LocalDate updatedDate;

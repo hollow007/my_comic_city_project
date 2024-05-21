@@ -8,8 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Service;
 import za.ac.cput.domain.Author;
 import za.ac.cput.domain.ComicBook;
+import za.ac.cput.domain.Publisher;
 import za.ac.cput.factory.AuthorFactory;
 import za.ac.cput.factory.ComicBookFactory;
+import za.ac.cput.factory.PublisherFactory;
 import za.ac.cput.service.authorService.AuthorService;
 
 import java.time.LocalDate;
@@ -30,6 +32,10 @@ class ComicBookServiceTest {
     private ComicBook book2;
     private ComicBook book3;
 
+    private Publisher publisher1;
+
+    private List<Publisher> publishers;
+
     @BeforeEach
     void setUp() {
         System.out.println("=============================SET-UP====================================");
@@ -47,11 +53,17 @@ class ComicBookServiceTest {
         authors = new ArrayList<>();
         authors.add(author1);
         //authors.add(author2);
-        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors, 300.00);
+
+        publisher1 = PublisherFactory.buildPublisher(34655, "Marvel",2000);
+        publishers = new ArrayList<>();
+        publishers.add(publisher1);
+
+        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors, publishers, 300.00);
         System.out.println(book1);
-        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,05,19), authors, 800.00);
+        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,05,17), authors, publishers,300.00);
+
         System.out.println(book2);
-        book3 = ComicBookFactory.buildBuilder("CMB03", "Spider-Man", 3.4, LocalDate.now(), authors, 400);
+        book3 = ComicBookFactory.buildBuilder("CMB03", "Spider-Man", 3.4, LocalDate.now(), authors, publishers, 221);
         System.out.println(book3);
 
     }
@@ -99,6 +111,7 @@ class ComicBookServiceTest {
     }
 
     @Test
+
     @Order(4)
     void delete() {
         System.out.println("=============================DELETE====================================");
