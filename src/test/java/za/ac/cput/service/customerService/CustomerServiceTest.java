@@ -70,8 +70,8 @@ class CustomerServiceTest {
         comicBookList.add(book1);
         comicBookList.add(book2);
 
-        cart1 = CartFactory.buildCart(600.00,comicBookList, LocalDate.of(2024,02,15),LocalDate.now());
-        cart2=CartFactory.buildCart(600,comicBookList,LocalDate.of(2025,04,20),LocalDate.of(2024,05,01));
+        cart1 = CartFactory.buildCart(2001,600.00,comicBookList, LocalDate.of(2024,02,15),LocalDate.now());
+        cart2=CartFactory.buildCart(2002, 600,comicBookList,LocalDate.of(2025,04,20),LocalDate.of(2024,05,01));
 
 
         wishList1 = WishListFactory.buildWishList("myWishList1", comicBookList, LocalDate.of(2024, 02, 14), LocalDate.of(2024, 02, 15));

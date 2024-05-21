@@ -84,15 +84,15 @@ class CartServiceTest {
         comicBookList2 = new ArrayList<>();
         comicBookList2.add(book2);
 
-        cart1 = CartFactory.buildCart( 200.00, comicBookList1, LocalDate.of(2024, 02, 15), LocalDate.now());
+        cart1 = CartFactory.buildCart( 2001,200.00, comicBookList1, LocalDate.of(2024, 02, 15), LocalDate.now());
         assertNotNull(cart1);
         System.out.println(cart1);
 
-        cart2 = CartFactory.buildCart( 450, comicBookList2, LocalDate.of(2024, 04, 20), LocalDate.of(2024, 05, 01));
+        cart2 = CartFactory.buildCart( 2002,450, comicBookList2, LocalDate.of(2024, 04, 20), LocalDate.of(2024, 05, 01));
         assertNotNull(cart2);
         System.out.println(cart2);
 
-        cart3 = CartFactory.buildCart( 450, new ArrayList<>(comicBookList2), LocalDate.of(2024, 01, 20), LocalDate.of(2024, 05, 02));
+        cart3 = CartFactory.buildCart( 2003,450, new ArrayList<>(comicBookList2), LocalDate.of(2024, 01, 20), LocalDate.of(2024, 05, 02));
         assertNotNull(cart3);
         System.out.println(cart3);
     }
@@ -120,7 +120,7 @@ class CartServiceTest {
     @Order(2)
     void read() {
         System.out.println("=============================Update====================================");
-        Cart searchedCart = cartService.read(1L);
+        Cart searchedCart = cartService.read(Long.valueOf(2001));
         assertNotNull(searchedCart);
         System.out.println(searchedCart);
     }

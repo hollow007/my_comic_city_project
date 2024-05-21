@@ -113,7 +113,6 @@ class WishListServiceTest {
         assertNotNull(searchedWishList);
         System.out.println(searchedWishList);
 
-
     }
 
     @Test

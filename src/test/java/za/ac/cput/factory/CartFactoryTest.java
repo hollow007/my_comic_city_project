@@ -54,9 +54,9 @@ class CartFactoryTest {
 
 
 
-        cart1=CartFactory.buildCart(600.00,comicBookList,LocalDate.of(2024,02,15),LocalDate.now());
-        cart2=CartFactory.buildCart(-8,comicBookList,LocalDate.of(2024,04,20),LocalDate.of(2024,05,01));
-        cart3=CartFactory.buildCart(600,comicBookList,LocalDate.of(2025,04,20),LocalDate.of(2024,05,01));
+        cart1=CartFactory.buildCart(2001,600.00,comicBookList,LocalDate.of(2024,02,15),LocalDate.now());
+        cart2=CartFactory.buildCart(2002,-8,comicBookList,LocalDate.of(2024,04,20),LocalDate.of(2024,05,01));
+        cart3=CartFactory.buildCart(2003,600,comicBookList,LocalDate.of(2025,04,20),LocalDate.of(2024,05,01));
 
     }
     @Test

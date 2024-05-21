@@ -16,8 +16,8 @@ public class Customer {
     private Cart cart;
     @OneToOne(cascade = CascadeType.ALL)
     private WishList wishList;
-   // @OneToManycascade (cascade= CascadeType.ALL)
-    //private Order order;
+//    @OneToManycascade (cascade= CascadeType.ALL)
+//    private Order order;
 
     protected Customer() {
     }

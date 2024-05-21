@@ -14,11 +14,11 @@ public class Order {
     private Customer user;
 
     @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "order_comicbook",
-//            joinColumns = @JoinColumn(name = "order_id"),
-//            inverseJoinColumns = @JoinColumn(name = "comic_book_id")
-//    )
+    @JoinTable(
+            name = "order_comicbook",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "comic_book_id")
+    )
     private List<ComicBook> comicBooks;
     private double totalAmount;
 
