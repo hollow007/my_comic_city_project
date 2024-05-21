@@ -1,17 +1,28 @@
 package za.ac.cput.domain;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-
+@Entity
 public class Order {
+    @Id
     private String orderId;
     private LocalDate orderDate;
-    private User user;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Customer user;
+
+    @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "order_comicbook",
+//            joinColumns = @JoinColumn(name = "order_id"),
+//            inverseJoinColumns = @JoinColumn(name = "comic_book_id")
+//    )
     private List<ComicBook> comicBooks;
     private double totalAmount;
 
-    private Order() {
+    protected Order() {
     }
 
     private Order(OrderBuilder builder) {
@@ -30,7 +41,7 @@ public class Order {
         return orderDate;
     }
 
-    public User getUser() {
+    public Customer getUser() {
         return user;
     }
 
@@ -73,7 +84,7 @@ public class Order {
     public static class OrderBuilder {
         private String orderId;
         private LocalDate orderDate;
-        private User user;
+        private Customer user;
         private List<ComicBook> comicBooks;
         private double totalAmount;
 
@@ -90,7 +101,7 @@ public class Order {
             return this;
         }
 
-        public OrderBuilder setUser(User user) {
+        public OrderBuilder setUser(Customer user) {
             this.user = user;
             return this;
         }

@@ -16,8 +16,8 @@ public class Author {
      @Embedded
     private Name name;
 
-    @ManyToMany(mappedBy = "authors")
-    private List<ComicBook> comicBooks = new ArrayList<>();
+    @ManyToMany(mappedBy = "authors", cascade = CascadeType.ALL)
+  private List<ComicBook> comicBooks = new ArrayList<>();
 
 
     protected Author() {

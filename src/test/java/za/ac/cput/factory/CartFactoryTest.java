@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import za.ac.cput.domain.Author;
 import za.ac.cput.domain.Cart;
 import za.ac.cput.domain.ComicBook;
+import za.ac.cput.domain.Publisher;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,6 +17,9 @@ class CartFactoryTest {
     private Cart cart1;
     private Cart cart2;
     private Cart cart3;
+    private Publisher publisher1;
+
+    private List<Publisher> publishers;
     private Author author1;
     private Author author2;
     private List<Author> authors;
@@ -27,6 +31,7 @@ class CartFactoryTest {
     @BeforeEach
     void setUp() {
 
+
         author1 = AuthorFactory.buildAuthor(001, "Lamark", "", "Darwin");
         author2 = AuthorFactory.buildAuthor(002, "Jacob", "Gedleyihlekisa", "Zuma");
 
@@ -35,8 +40,12 @@ class CartFactoryTest {
         authors.add(author1);
         authors.add(author2);
 
-        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors, 300.00);
-        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024, 05, 18), authors, 300.00);
+        publisher1 = PublisherFactory.buildPublisher(34655, "Marvel",2000);
+        publishers = new ArrayList<>();
+        publishers.add(publisher1);
+
+        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors, publishers, 300.00);
+        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,07,17), authors, publishers,300.00);
 
         comicBookList=new ArrayList<>();
 

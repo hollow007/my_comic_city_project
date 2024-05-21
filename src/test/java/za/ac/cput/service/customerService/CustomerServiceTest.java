@@ -1,6 +1,7 @@
 package za.ac.cput.service.customerService;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.*;
@@ -38,6 +39,9 @@ class CustomerServiceTest {
     private WishList wishList2;
     List<ComicBook> comicBookList;
     List<Author> authors;
+    private Publisher publisher1;
+
+    private List<Publisher> publishers;
 
     @BeforeEach
     void setUp() {
@@ -52,8 +56,12 @@ class CustomerServiceTest {
         authors.add(author1);
         //authors.add(author2);
 
-        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors,300.00);
-        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024, 05, 18), authors, 300.00);
+        publisher1 = PublisherFactory.buildPublisher(34655, "Marvel",2000);
+        publishers = new ArrayList<>();
+        publishers.add(publisher1);
+
+        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors, publishers, 300.00);
+        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,07,17), authors, publishers,300.00);
 
         bookService.create(book1);
         bookService.create(book2);

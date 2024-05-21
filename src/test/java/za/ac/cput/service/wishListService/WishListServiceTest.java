@@ -1,16 +1,11 @@
 package za.ac.cput.service.wishListService;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import za.ac.cput.domain.Author;
-import za.ac.cput.domain.Cart;
-import za.ac.cput.domain.ComicBook;
-import za.ac.cput.domain.WishList;
-import za.ac.cput.factory.AuthorFactory;
-import za.ac.cput.factory.CartFactory;
-import za.ac.cput.factory.ComicBookFactory;
-import za.ac.cput.factory.WishListFactory;
+import za.ac.cput.domain.*;
+import za.ac.cput.factory.*;
 import za.ac.cput.service.authorService.AuthorService;
 
 import java.time.LocalDate;
@@ -44,6 +39,10 @@ class WishListServiceTest {
     private List<ComicBook> comicBookList1;
     private List<ComicBook> comicBookList2;
 
+    private Publisher publisher1;
+
+    private List<Publisher> publishers;
+
     @BeforeEach
     void setup() {
         System.out.println("=============================SET-UP====================================");
@@ -61,14 +60,16 @@ class WishListServiceTest {
         authors2 = new ArrayList<>();
         authors2.add(author2);
 
+        publisher1 = PublisherFactory.buildPublisher(34655, "Marvel",2000);
+        publishers = new ArrayList<>();
+        publishers.add(publisher1);
 
-        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors1, 300.00);
+
+        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors1, publishers, 300.00);
         System.out.println(book1);
-
-        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024, 05, 19), authors2, 800.00);
+        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,05,17), authors2, publishers,300.00);
         System.out.println(book2);
-
-        book3 = ComicBookFactory.buildBuilder("CMB03", "Spider-Man", 3.4, LocalDate.now(), new ArrayList<>(authors1), 400);
+        book3 = ComicBookFactory.buildBuilder("CMB03", "Spider-Man", 3.4, LocalDate.now(), authors1, publishers, 221);
         System.out.println(book3);
 
         comicBookList1 = new ArrayList<>();
