@@ -6,13 +6,19 @@ import za.ac.cput.domain.WishList;
 import za.ac.cput.repository.WishListRepository;
 
 import java.util.List;
+/**
+ * Mpumzi Mbula
+ * 219053324
+ * 19/05/2024
+ */
 @Service
 public class WishListService implements IWishListService{
-    private WishListRepository wishListRepository;
 
+
+    private WishListRepository wishListRepository;
     @Autowired
-    public WishListService (WishListRepository repository) {
-        this.wishListRepository= repository;
+    public WishListService(WishListRepository wishListRepository){
+        this.wishListRepository=wishListRepository;
     }
 
     @Override
@@ -33,7 +39,7 @@ public class WishListService implements IWishListService{
     @Override
     public boolean delete(Long wishListId) {
         wishListRepository.deleteById(wishListId);
-    return wishListRepository.existsById(wishListId);
+    return !wishListRepository.existsById(wishListId);
     }
 
     @Override

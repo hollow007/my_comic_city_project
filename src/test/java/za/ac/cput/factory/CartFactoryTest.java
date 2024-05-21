@@ -11,7 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Mpumzi Mbula
+ * 219053324
+ * 19/05/2024
+ */
 class CartFactoryTest {
     private Cart cart1;
     private Cart cart2;
@@ -45,9 +49,9 @@ class CartFactoryTest {
 
 
 
-        cart1=CartFactory.buildCart(600.00,comicBookList,LocalDate.of(2024,02,15),LocalDate.now());
-        cart2=CartFactory.buildCart(-8,comicBookList,LocalDate.of(2024,04,20),LocalDate.of(2024,05,01));
-        cart3=CartFactory.buildCart(600,comicBookList,LocalDate.of(2025,04,20),LocalDate.of(2024,05,01));
+        cart1=CartFactory.buildCart(1,600.00,comicBookList,LocalDate.of(2024,02,15),LocalDate.now());
+        cart2=CartFactory.buildCart(2,-8,comicBookList,LocalDate.of(2024,04,20),LocalDate.of(2024,05,01));
+        cart3=CartFactory.buildCart(3,600,comicBookList,LocalDate.of(2025,04,20),LocalDate.of(2024,05,01));
 
     }
     @Test

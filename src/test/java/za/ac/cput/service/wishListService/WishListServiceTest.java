@@ -4,21 +4,23 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.Author;
-import za.ac.cput.domain.Cart;
 import za.ac.cput.domain.ComicBook;
 import za.ac.cput.domain.WishList;
 import za.ac.cput.factory.AuthorFactory;
-import za.ac.cput.factory.CartFactory;
 import za.ac.cput.factory.ComicBookFactory;
 import za.ac.cput.factory.WishListFactory;
 import za.ac.cput.service.authorService.AuthorService;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Mpumzi Mbula
+ * 219053324
+ * 19/05/2024
+ */
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -28,6 +30,7 @@ class WishListServiceTest {
     private WishListService wishListService;
     @Autowired
     AuthorService authorService;
+
     private WishList wishList1;
     private WishList wishList2;
     private WishList wishList3;
@@ -43,6 +46,7 @@ class WishListServiceTest {
     private List<Author> authors2;
     private List<ComicBook> comicBookList1;
     private List<ComicBook> comicBookList2;
+    private List<ComicBook>comicBookList3;
 
     @BeforeEach
     void setup() {
@@ -52,7 +56,7 @@ class WishListServiceTest {
         author2 = AuthorFactory.buildAuthor(006, "James", "Hazen", "Panuel");
 
         author1 = authorService.create(author1);
-        author1 = authorService.create(author2);
+        author2 = authorService.create(author2);
 
         authors1 = new ArrayList<>();
         authors1.add(author1);
@@ -65,22 +69,30 @@ class WishListServiceTest {
         book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors1, 300.00);
         System.out.println(book1);
 
+
         book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024, 05, 19), authors2, 800.00);
         System.out.println(book2);
 
+
         book3 = ComicBookFactory.buildBuilder("CMB03", "Spider-Man", 3.4, LocalDate.now(), new ArrayList<>(authors1), 400);
         System.out.println(book3);
+
+
 
         comicBookList1 = new ArrayList<>();
         comicBookList1.add(book1);
 
 
+
         comicBookList2 = new ArrayList<>();
         comicBookList2.add(book2);
 
-        wishList1 = WishListFactory.buildWishList("myWishList1", comicBookList1, LocalDate.of(2024, 02, 14), LocalDate.of(2024, 02, 15));
-        wishList2 = WishListFactory.buildWishList("myList", comicBookList2, LocalDate.of(2024, 04, 20), LocalDate.of(2024, 05, 01));
-        wishList3 = WishListFactory.buildWishList("Books I Wish To Buy ", new ArrayList<>(comicBookList2), LocalDate.of(2024, 03, 13), LocalDate.of(2024, 05, 01));
+        comicBookList3=new ArrayList<>();
+        comicBookList3.add(book3);
+
+        wishList1 = WishListFactory.buildWishList(1,"myWishList1", comicBookList1, LocalDate.of(2024, 02, 14), LocalDate.of(2024, 02, 15));
+        wishList2 = WishListFactory.buildWishList(2,"myList", comicBookList2, LocalDate.of(2024, 04, 20), LocalDate.of(2024, 05, 01));
+        wishList3 = WishListFactory.buildWishList(3,"Books I Wish To Buy ", comicBookList3, LocalDate.of(2024, 03, 13), LocalDate.of(2024, 05, 01));
 
 
     }
@@ -107,7 +119,7 @@ class WishListServiceTest {
     @Test
     @Order(2)
     void read() {
-        System.out.println("=============================Update====================================");
+        System.out.println("=============================Read====================================");
         WishList searchedWishList =wishListService.read(1L);
         assertNotNull(searchedWishList);
         System.out.println(searchedWishList);
@@ -118,28 +130,29 @@ class WishListServiceTest {
     @Test
     @Order(3)
     void update() {
-
-        WishList wishListUpdated = new WishList.Builder().copy(wishList2).setUpdatedDate(LocalDate.now()).build();
+        System.out.println("=============================Update====================================");
+        WishList wishListUpdated = new WishList.Builder().copy(wishList3).setUpdatedDate(LocalDate.now()).build();
 
         WishList updatedWishListDB = wishListService.update(wishListUpdated);
         assertNotNull(updatedWishListDB);
         System.out.println(updatedWishListDB);
     }
 
+
     @Test
     @Order(4)
     void delete() {
         System.out.println("=============================DELETE====================================");
 
-        boolean isDeleted= wishListService.delete(3L);
-        assertEquals(true,isDeleted);
+        boolean isDeleted= wishListService.delete(Long.valueOf(3));
+        assertTrue(isDeleted);
         System.out.println("Is The cart Deleted?"+isDeleted);
     }
 
     @Test
     @Order(5)
     void getall() {
-
+        System.out.println("=============================GETALL====================================");
         System.out.println(wishListService.getall());
     }
 }

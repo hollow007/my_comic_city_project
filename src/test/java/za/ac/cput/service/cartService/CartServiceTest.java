@@ -16,7 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Mpumzi Mbula
+ * 219053324
+ * 19/05/2024
+ */
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CartServiceTest {
@@ -31,9 +35,6 @@ class CartServiceTest {
 
     private Author author1;
     private Author author2;
-    private Author author3;
-    private Author author4;
-
     private ComicBook book1;
     private ComicBook book2;
     private ComicBook book3;
@@ -41,6 +42,7 @@ class CartServiceTest {
     private List<Author> authors2;
     private List<ComicBook> comicBookList1;
     private List<ComicBook> comicBookList2;
+    private List<ComicBook>comicBookList3;
 
     @BeforeEach
     void setUp() {
@@ -50,7 +52,7 @@ class CartServiceTest {
         author2 = AuthorFactory.buildAuthor(003, "Brown", "", "Chris");
 
         author1=authorService.create(author1);
-        author1=authorService.create(author2);
+        author2=authorService.create(author2);
 
         authors1 = new ArrayList<>();
         authors1.add(author1);
@@ -69,6 +71,7 @@ class CartServiceTest {
         book3 = ComicBookFactory.buildBuilder("CMB03", "Spider-Man", 3.4, LocalDate.now(), new ArrayList<>(authors1), 400);
         System.out.println(book3);
 
+
         comicBookList1 = new ArrayList<>();
         comicBookList1.add(book1);
 
@@ -76,15 +79,18 @@ class CartServiceTest {
         comicBookList2 = new ArrayList<>();
         comicBookList2.add(book2);
 
-        cart1 = CartFactory.buildCart( 200.00, comicBookList1, LocalDate.of(2024, 02, 15), LocalDate.now());
+        comicBookList3=new ArrayList<>();
+        comicBookList3.add(book3);
+
+        cart1 = CartFactory.buildCart( 1,200.00, comicBookList1, LocalDate.of(2024, 02, 15), LocalDate.now());
         assertNotNull(cart1);
         System.out.println(cart1);
 
-        cart2 = CartFactory.buildCart( 450, comicBookList2, LocalDate.of(2024, 04, 20), LocalDate.of(2024, 05, 01));
+        cart2 = CartFactory.buildCart( 2,450, comicBookList2, LocalDate.of(2024, 04, 20), LocalDate.of(2024, 05, 01));
         assertNotNull(cart2);
         System.out.println(cart2);
 
-        cart3 = CartFactory.buildCart( 450, new ArrayList<>(comicBookList2), LocalDate.of(2024, 01, 20), LocalDate.of(2024, 05, 02));
+        cart3 = CartFactory.buildCart( 3,450, comicBookList3, LocalDate.of(2024, 01, 20), LocalDate.of(2024, 05, 02));
         assertNotNull(cart3);
         System.out.println(cart3);
     }
@@ -112,7 +118,7 @@ class CartServiceTest {
     @Order(2)
     void read() {
         System.out.println("=============================Update====================================");
-        Cart searchedCart = cartService.read(1L);
+        Cart searchedCart = cartService.read(Long.valueOf(2));
         assertNotNull(searchedCart);
         System.out.println(searchedCart);
     }
@@ -133,9 +139,9 @@ class CartServiceTest {
     void delete() {
         System.out.println("=============================DELETE====================================");
 
-        boolean isDeleted= cartService.delete(3L);
-        assertEquals(true,isDeleted);
-        System.out.println("Is The cart Deleted?"+isDeleted);
+        boolean exists= cartService.delete(Long.valueOf(3));
+        assertTrue(exists);
+        System.out.println("Is The cart Deleted?"+exists);
 
 
     }
