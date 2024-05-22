@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Mpumzi Mbula
@@ -16,18 +17,13 @@ import java.util.Objects;
 public class Cart {
     @Id
     private long cartId;
- master
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @JoinColumn(name = "cart_id")
-=======
-
     @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
             name = "cart_comicbook",
             joinColumns = @JoinColumn(name = "cart_id"),
             inverseJoinColumns = @JoinColumn(name = "comic_book_id")
     )
- master
+
     List<ComicBook> comicBookList;
     private double totalPrice;
     private LocalDate createdDate;
@@ -80,9 +76,10 @@ public class Cart {
 
     @Override
     public String toString() {
+        String comicBookSKUs = comicBookList.stream().map(ComicBook::getSKU).collect(Collectors.joining(", "));
         return "Cart{" +
                 "cartId=" + cartId +
-                ", comicBookList=" + comicBookList +
+                ", comicBookList=[" + comicBookSKUs + "]" +
                 ", totalPrice=" + totalPrice +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
