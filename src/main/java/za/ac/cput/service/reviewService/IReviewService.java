@@ -1,21 +1,15 @@
 package za.ac.cput.service.reviewService;
 
 import za.ac.cput.domain.Review;
+import za.ac.cput.service.IService;
 import java.util.List;
-/* IReviewService.interface
+/* IReviewService.java
    Author: Cavan Ramone Swartz (221055835)
    Date: 18 May 2024
    https://github.com/hollow007/my_comic_city_project
  */
 
-public interface IReviewService {
-    Review create(Review review);
-    Review read(int reviewId);
-    Review update(Review review);
-    boolean delete(int reviewId);
+public interface IReviewService extends IService<Review, Integer> {
+
     List<Review> getAll();
-
-    List<Review> findByComicBookID(long comicBookID);
-
-    List<Review> findByUserID(int userID);
 }
