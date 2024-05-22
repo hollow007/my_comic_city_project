@@ -40,11 +40,11 @@ class CustomerFactoryTest {
         authors.add(author2);
 
         publisher1 = PublisherFactory.buildPublisher(34655, "Marvel",2000);
-        publishers = new ArrayList<>();
-        publishers.add(publisher1);
 
-        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors, publishers, 300.00);
-        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,07,17), authors, publishers,300.00);
+
+
+        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors, publisher1, 300.00);
+        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,07,17), authors, publisher1,300.00);
 
         comicBookList.add(book1);
         comicBookList.add(book2);
@@ -52,7 +52,7 @@ class CustomerFactoryTest {
         cart1 = CartFactory.buildCart(2001,600.00,comicBookList, LocalDate.of(2024,02,15),LocalDate.now());
         cart2=CartFactory.buildCart(2002,600,comicBookList,LocalDate.of(2025,04,20),LocalDate.of(2024,05,01));
 
-        wishList1 = WishListFactory.buildWishList("myWishList1", comicBookList, LocalDate.of(2024, 02, 14), LocalDate.of(2024, 02, 15));
+        wishList1 = WishListFactory.buildWishList(1,"myWishList1", comicBookList, LocalDate.of(2024, 02, 14), LocalDate.of(2024, 02, 15));
 
         customer1 = CustomerFactory.buildCustomer(1234, "Mbasa", "Cabane",
                 ContactFactory.buildContact("mbasac@gmail.com", "0741236547", "0213456789"),

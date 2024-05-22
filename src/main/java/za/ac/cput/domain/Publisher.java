@@ -1,8 +1,6 @@
 package za.ac.cput.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import za.ac.cput.service.publisherService.PublisherService;
 
 import java.util.ArrayList;
@@ -16,7 +14,8 @@ public class Publisher {
     private String name;
     private int yearFounded;
 
-    //private List<ComicBook> comicBooks = new ArrayList<>();
+    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
+    private List<ComicBook> comicBooks;
     protected Publisher(){}
 
     private Publisher(PublisherBuilder builder){
