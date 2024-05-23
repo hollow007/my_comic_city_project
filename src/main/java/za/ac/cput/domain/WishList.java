@@ -16,14 +16,10 @@ import java.util.stream.Collectors;
 @Entity
 public class WishList{
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long wishListId;
     private String wishlistName;
-
-
-
-
-
-    @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "wishList_comicbook",
             joinColumns = @JoinColumn(name = "wishList_id"),

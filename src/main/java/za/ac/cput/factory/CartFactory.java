@@ -15,6 +15,16 @@ import java.util.List;
  *
  */
 public class CartFactory {
+    public static Cart buildCart(double totalPrice, List<ComicBook> comicBooks, LocalDate createdDate, LocalDate updatedDate){
+        if (Helper.isValidPrice(totalPrice) || Helper.isComicBooksListNullOrEmpty(comicBooks) ||!Helper.isNotAfter(createdDate, LocalDate.now()) || Helper.isValidDate(updatedDate)) {
+            return null;
+        }
+        return new Cart.Builder().setTotalPrice(totalPrice)
+                .setComicBookList(comicBooks)
+                .setCreatedDate(createdDate)
+                .setUpdatedDate(updatedDate)
+                .build();
+    }
 
     public static Cart buildCart(long cartId,double totalPrice, List<ComicBook> comicBooks, LocalDate createdDate, LocalDate updatedDate){
         if (cartId<=0||Helper.isValidPrice(totalPrice) || Helper.isComicBooksListNullOrEmpty(comicBooks) ||!Helper.isNotAfter(createdDate, LocalDate.now()) || Helper.isValidDate(updatedDate)) {

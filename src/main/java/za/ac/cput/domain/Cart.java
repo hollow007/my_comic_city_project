@@ -16,8 +16,9 @@ import java.util.stream.Collectors;
 @Entity
 public class Cart {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long cartId;
-    @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "cart_comicbook",
             joinColumns = @JoinColumn(name = "cart_id"),

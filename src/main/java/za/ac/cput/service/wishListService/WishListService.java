@@ -2,7 +2,9 @@ package za.ac.cput.service.wishListService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import za.ac.cput.domain.ComicBook;
 import za.ac.cput.domain.WishList;
+import za.ac.cput.repository.ComicBookRepository;
 import za.ac.cput.repository.WishListRepository;
 
 import java.util.List;
@@ -14,15 +16,15 @@ import java.util.List;
 @Service
 public class WishListService implements IWishListService{
 
-
-    private WishListRepository wishListRepository;
     @Autowired
-    public WishListService(WishListRepository wishListRepository){
-        this.wishListRepository=wishListRepository;
-    }
+    private WishListRepository wishListRepository;
+
+    @Autowired
+   private ComicBookRepository comicBookRepository;
 
     @Override
     public WishList create(WishList wishList) {
+        comicBookRepository.saveAll(wishList.getComicBooks());
         return wishListRepository.save(wishList);
     }
 
