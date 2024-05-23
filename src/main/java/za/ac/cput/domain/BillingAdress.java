@@ -107,10 +107,10 @@ public class BillingAdress extends Address{
 
 
         public BillingAdressBuilder copy (BillingAdress  o){
-            this.street =" 13 Vilakazi";
-            this.suburb = "Mamelodi";
-            this.city = "Johannesburg";
-            this.postalCode=  "3000";
+            this.street = o.street;
+            this.suburb = o.suburb;
+            this.postalCode = o.postalCode;
+            this.city = o.city;
             this.paymentMethod = o.paymentMethod;
             this.invoiceNotes = o.invoiceNotes;
             return this;
