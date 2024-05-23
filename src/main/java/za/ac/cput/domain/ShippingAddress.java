@@ -104,10 +104,10 @@ public class ShippingAddress extends Address{
 
 
         public ShippingAddressBuilder copy (ShippingAddress o){
-            this.street = "18 walmer";
-            this.suburb = "Khayelitsha";
-            this.postalCode = "5000";
-            this.city = "Cape Town";
+            this.street = o.street;
+            this.suburb = o.suburb;
+            this.postalCode = o.postalCode;
+            this.city = o.city;
             this.preffered_delivery_time = o.preffered_delivery_time;
             this.signature_required = o.signature_required;
             return this;
