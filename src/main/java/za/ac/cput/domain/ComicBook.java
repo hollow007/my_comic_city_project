@@ -63,7 +63,7 @@ public class ComicBook {
         return releaseDate;
     }
 
-    public List getAuthor() {
+    public List<Author> getAuthor() {
         return authors;
     }
 

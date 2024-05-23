@@ -4,7 +4,9 @@ package za.ac.cput.service.cartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.ac.cput.domain.Cart;
+import za.ac.cput.domain.ComicBook;
 import za.ac.cput.repository.CartRepository;
+import za.ac.cput.repository.ComicBookRepository;
 
 import java.util.List;
 /**
@@ -14,17 +16,19 @@ import java.util.List;
  */
 @Service
 public class CartService implements ICartService{
-    private CartRepository cartRepository;
-
     @Autowired
-    public CartService(CartRepository cartRepository)
-    {
-        this.cartRepository=cartRepository;
-    }
+    private CartRepository cartRepository;
+    @Autowired
+    private ComicBookRepository comicBookRepository;
 
     @Override
     public Cart create(Cart cart) {
-     return cartRepository.save(cart);
+
+        comicBookRepository.saveAll(cart.getComicBookList());
+
+
+
+        return cartRepository.save(cart);
     }
 
     @Override

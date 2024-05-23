@@ -39,8 +39,7 @@ class ComicBookServiceTest {
     @BeforeEach
     void setUp() {
         System.out.println("=============================SET-UP====================================");
-//        author1 = authorService.read(Long.valueOf(001));
-//        author2 = authorService.read(Long.valueOf(003));
+
 
 
         author1 = AuthorFactory.buildAuthor(001, "Lamark", "Principle", "Darwin");
@@ -79,9 +78,9 @@ class ComicBookServiceTest {
         assertNotNull(savedComicCook2);
         System.out.println(savedComicCook2);
 
-//        ComicBook savedComicCook3 = comicBookService.create(book3);
-//        assertNotNull(savedComicCook3);
-//        System.out.println(savedComicCook3);
+        ComicBook savedComicCook3 = comicBookService.create(book3);
+        assertNotNull(savedComicCook3);
+        System.out.println(savedComicCook3);
     }
 
     @Test

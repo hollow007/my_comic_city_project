@@ -10,6 +10,7 @@ import java.util.Objects;
 @Entity
 public class Publisher {
     @Id
+
     private long publisherId;
     private String name;
     private int yearFounded;
