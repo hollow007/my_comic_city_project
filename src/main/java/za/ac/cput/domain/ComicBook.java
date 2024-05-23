@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 public class ComicBook {
@@ -28,8 +29,8 @@ public class ComicBook {
     private List<WishList> wishLists = new ArrayList<>();
 
     private double price;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
-    private List<Publisher> publishers;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
+    private Publisher publisher;
 
     protected ComicBook() {
     }
@@ -41,7 +42,7 @@ public class ComicBook {
         this.releaseDate = e.releaseDate;
         this.authors = e.authors;
         this.price = e.price;
-        this.publishers = e.publishers;
+        this.publisher = e.publisher;
     }
 
 
@@ -66,8 +67,8 @@ public class ComicBook {
         return authors;
     }
 
-    public List getPublishers() {
-        return publishers;
+    public Publisher getPublisher() {
+        return publisher;
     }
 
     public double getPrice() {
@@ -79,26 +80,25 @@ public class ComicBook {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ComicBook comicBook = (ComicBook) o;
-        return Double.compare(wieght, comicBook.wieght) == 0 && Double.compare(price, comicBook.price) == 0 && Objects.equals(SKU, comicBook.SKU) && Objects.equals(name, comicBook.name) && Objects.equals(releaseDate, comicBook.releaseDate) && Objects.equals(authors, comicBook.authors) && Objects.equals(carts, comicBook.carts) && Objects.equals(wishLists, comicBook.wishLists) && Objects.equals(publishers, comicBook.publishers);
+        return Double.compare(wieght, comicBook.wieght) == 0 && Double.compare(price, comicBook.price) == 0 && Objects.equals(SKU, comicBook.SKU) && Objects.equals(name, comicBook.name) && Objects.equals(releaseDate, comicBook.releaseDate) && Objects.equals(authors, comicBook.authors) && Objects.equals(carts, comicBook.carts) && Objects.equals(wishLists, comicBook.wishLists) && Objects.equals(publisher, comicBook.publisher);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(SKU, name, wieght, releaseDate, authors, carts, wishLists, price, publishers);
+        return Objects.hash(SKU, name, wieght, releaseDate, authors, carts, wishLists, price, publisher);
     }
 
     @Override
     public String toString() {
+        String authorNames = authors.stream().map(author -> author.getName().getFirstName()).collect(Collectors.joining(", "));
         return "ComicBook{" +
                 "SKU='" + SKU + '\'' +
                 ", name='" + name + '\'' +
-                ", wieght=" + wieght +
+                ", weight=" + wieght +
                 ", releaseDate=" + releaseDate +
-                ", authors=" + authors +
-                ", carts=" + carts +
-                ", wishLists=" + wishLists +
+                ", authors=[" + authorNames + "]" +
                 ", price=" + price +
-                ", publishers=" + publishers +
+                ", publisher=" + publisher.getName() +
                 '}';
     }
 
@@ -109,10 +109,13 @@ public class ComicBook {
         private LocalDate releaseDate;
         private List<Author> authors;
         private double price;
-        private List<Publisher> publishers;
+        @ManyToOne
+        @JoinColumn(name = "publisher_id")
 
-        public ComicBookBuilder setPublishers(List<Publisher> publishers) {
-            this.publishers = publishers;
+        private Publisher publisher;
+
+        public ComicBookBuilder setPublisher(Publisher publisher) {
+            this.publisher = publisher;
             return this;
         }
 
@@ -155,7 +158,7 @@ public class ComicBook {
             this.releaseDate = e.releaseDate;
             this.authors = e.authors;
             this.price = e.price;
-            this.publishers = e.publishers;
+            this.publisher = e.publisher;
 
             return this;
         }

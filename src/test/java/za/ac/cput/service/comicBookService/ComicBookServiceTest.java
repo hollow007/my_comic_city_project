@@ -34,7 +34,7 @@ class ComicBookServiceTest {
 
     private Publisher publisher1;
 
-    private List<Publisher> publishers;
+
 
     @BeforeEach
     void setUp() {
@@ -55,15 +55,14 @@ class ComicBookServiceTest {
         //authors.add(author2);
 
         publisher1 = PublisherFactory.buildPublisher(34655, "Marvel",2000);
-        publishers = new ArrayList<>();
-        publishers.add(publisher1);
 
-        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors, publishers, 300.00);
+
+        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors, publisher1, 300.00);
         System.out.println(book1);
-        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,05,17), authors, publishers,300.00);
+        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,05,17), authors, publisher1,300.00);
 
         System.out.println(book2);
-        book3 = ComicBookFactory.buildBuilder("CMB03", "Spider-Man", 3.4, LocalDate.now(), authors, publishers, 221);
+        book3 = ComicBookFactory.buildBuilder("CMB03", "Spider-Man", 3.4, LocalDate.now(), authors, publisher1, 221);
         System.out.println(book3);
 
     }

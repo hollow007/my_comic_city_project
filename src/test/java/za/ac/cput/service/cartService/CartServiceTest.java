@@ -6,9 +6,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.Author;
 import za.ac.cput.domain.Cart;
 import za.ac.cput.domain.ComicBook;
+import za.ac.cput.domain.Publisher;
 import za.ac.cput.factory.AuthorFactory;
 import za.ac.cput.factory.CartFactory;
 import za.ac.cput.factory.ComicBookFactory;
+import za.ac.cput.factory.PublisherFactory;
 import za.ac.cput.service.authorService.AuthorService;
 
 import java.time.LocalDate;
@@ -35,6 +37,8 @@ class CartServiceTest {
 
     private Author author1;
     private Author author2;
+    Publisher publisher1;
+    Publisher publisher2;
     private ComicBook book1;
     private ComicBook book2;
     private ComicBook book3;
@@ -47,6 +51,10 @@ class CartServiceTest {
     @BeforeEach
     void setUp() {
         System.out.println("=============================SET-UP====================================");
+
+
+        publisher1 = PublisherFactory.buildPublisher(67954, "Kat Publishers", 2010);
+        publisher2 = PublisherFactory.buildPublisher(87949, "Nathan Publishers", 2007);
 
         author1 = AuthorFactory.buildAuthor(001, "Lamark", "Principle", "Darwin");
         author2 = AuthorFactory.buildAuthor(003, "Brown", "", "Chris");
@@ -62,13 +70,13 @@ class CartServiceTest {
         authors2.add(author2);
 
 
-        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors1, 300.00);
+        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors1, publisher1,300.00);
         System.out.println(book1);
 
-        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,05,19), authors2, 800.00);
+        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,05,19), authors2,publisher1,800.00);
         System.out.println(book2);
 
-        book3 = ComicBookFactory.buildBuilder("CMB03", "Spider-Man", 3.4, LocalDate.now(), new ArrayList<>(authors1), 400);
+        book3 = ComicBookFactory.buildBuilder("CMB03", "Spider-Man", 3.4, LocalDate.now(), new ArrayList<>(authors1), publisher2,400);
         System.out.println(book3);
 
 

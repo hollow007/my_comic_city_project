@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.Author;
 import za.ac.cput.domain.ComicBook;
+import za.ac.cput.domain.Publisher;
 import za.ac.cput.domain.WishList;
 import za.ac.cput.factory.AuthorFactory;
 import za.ac.cput.factory.ComicBookFactory;
+import za.ac.cput.factory.PublisherFactory;
 import za.ac.cput.factory.WishListFactory;
 import za.ac.cput.service.authorService.AuthorService;
 import java.time.LocalDate;
@@ -47,10 +49,15 @@ class WishListServiceTest {
     private List<ComicBook> comicBookList1;
     private List<ComicBook> comicBookList2;
     private List<ComicBook>comicBookList3;
+    private Publisher publisher1;
+    private Publisher publisher2;
 
     @BeforeEach
     void setup() {
         System.out.println("=============================SET-UP====================================");
+
+        publisher1 = PublisherFactory.buildPublisher(67954, "Kat Publishers", 2010);
+        publisher2 = PublisherFactory.buildPublisher(87949, "Nathan Publishers", 2007);
 
         author1 = AuthorFactory.buildAuthor(005, "Mpumzi", "August", "Mbula");
         author2 = AuthorFactory.buildAuthor(006, "James", "Hazen", "Panuel");
@@ -66,15 +73,15 @@ class WishListServiceTest {
         authors2.add(author2);
 
 
-        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors1, 300.00);
+        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors1, publisher1,300.00);
         System.out.println(book1);
 
 
-        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024, 05, 19), authors2, 800.00);
+        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024, 05, 19), authors2, publisher2,800.00);
         System.out.println(book2);
 
 
-        book3 = ComicBookFactory.buildBuilder("CMB03", "Spider-Man", 3.4, LocalDate.now(), new ArrayList<>(authors1), 400);
+        book3 = ComicBookFactory.buildBuilder("CMB03", "Spider-Man", 3.4, LocalDate.now(), new ArrayList<>(authors1), publisher1,400);
         System.out.println(book3);
 
 
@@ -146,7 +153,7 @@ class WishListServiceTest {
 
         boolean isDeleted= wishListService.delete(Long.valueOf(3));
         assertTrue(isDeleted);
-        System.out.println("Is The cart Deleted?"+isDeleted);
+        System.out.println("Is The wishList Deleted?"+isDeleted);
     }
 
     @Test

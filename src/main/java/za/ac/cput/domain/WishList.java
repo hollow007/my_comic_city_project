@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
 /**
  * Mpumzi Mbula
  * 219053324
@@ -17,12 +19,7 @@ public class WishList{
     private long wishListId;
     private String wishlistName;
 
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "wish_bool",
-//            joinColumns = @JoinColumn(name = "wish_id"),
-//            inverseJoinColumns = @JoinColumn(name = "book_id")
-//    )
+
 
 
 
@@ -84,10 +81,10 @@ public class WishList{
 
     @Override
     public String toString() {
-        return "Wishlist{" +
+        String comicBookSKUs = comicBooks.stream().map(ComicBook::getSKU).collect(Collectors.joining(", "));
+        return "WishList{" +
                 "wishListId=" + wishListId +
-                ", wishlistName='" + wishlistName + '\'' +
-                ", comicBooks=" + comicBooks +
+                ", comicBooks=[" + comicBookSKUs + "]" +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
                 '}';
