@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
+import java.util.ArrayList;
 
 /* Review.java
    Author: Cavan Ramone Swartz (221055835)
@@ -22,11 +24,15 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reviewID;
 
-    @Column(nullable = false)
-    private long comicBookID;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "reviews_comic_books",
+            joinColumns = @JoinColumn(name = "review_id"),
+            inverseJoinColumns = @JoinColumn(name = "comic_book_id"))
+    private List<ComicBook> comicBooks;
 
-    @Column(nullable = false)
-    private int userID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(nullable = false)
     private int reviewRating;
@@ -52,8 +58,8 @@ public class Review {
     public Review() {}
 
     private Review(Builder builder) {
-        this.comicBookID = builder.comicBookID;
-        this.userID = builder.userID;
+        this.comicBooks = builder.comicBooks;
+        this.user = builder.user;
         this.reviewRating = builder.reviewRating;
         this.reviewText = builder.reviewText;
         this.reviewDate = builder.reviewDate;
@@ -67,25 +73,41 @@ public class Review {
         return new Builder();
     }
 
-    public void setComicBookID(long comicBookID) {
-        this.comicBookID = comicBookID;
+    public void setComicBooks(List<ComicBook> comicBooks) {
+        this.comicBooks = comicBooks;
     }
 
-    public void setReviewTitle(String reviewTitle) {
-        this.reviewTitle = reviewTitle;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setReviewID(int reviewID) {
+    }
+
+    public void setReviewRating(int reviewRating) {
     }
 
     public void setReviewText(String reviewText) {
-        this.reviewText = reviewText;
+    }
+
+    public void setReviewDate(LocalDate reviewDate) {
+    }
+
+    public void setSpoilerFlag(boolean spoilerFlag) {
+    }
+
+    public void setReviewTitle(String reviewTitle) {
+    }
+
+    public void setReplyCount(int replyCount) {
+    }
+
+    public void setReviewStatus(String reviewStatus) {
     }
 
     public static class Builder {
-        private long comicBookID;
-        private int userID;
+        private List<ComicBook> comicBooks;
+        private User user;
         private int reviewRating;
         private String reviewText;
         private LocalDate reviewDate;
@@ -94,13 +116,13 @@ public class Review {
         private int replyCount;
         private String reviewStatus;
 
-        public Builder comicBookID(long comicBookID) {
-            this.comicBookID = comicBookID;
+        public Builder comicBooks(List<ComicBook> comicBooks) {
+            this.comicBooks = comicBooks;
             return this;
         }
 
-        public Builder userID(int userID) {
-            this.userID = userID;
+        public Builder user(User user) {
+            this.user = user;
             return this;
         }
 
@@ -129,8 +151,7 @@ public class Review {
             return this;
         }
 
-        public Builder replyCount(int replyCount) {
-            this.replyCount = replyCount;
+        public Builder replyCount(int replyCount) {this.replyCount = replyCount;
             return this;
         }
 
@@ -148,12 +169,12 @@ public class Review {
         return reviewID;
     }
 
-    public long getComicBookID() {
-        return comicBookID;
+    public List<ComicBook> getComicBooks() {
+        return comicBooks;
     }
 
-    public int getUserID() {
-        return userID;
+    public User getUser() {
+        return user;
     }
 
     public int getReviewRating() {
@@ -190,28 +211,28 @@ public class Review {
         if (!(o instanceof Review)) return false;
         Review review = (Review) o;
         return getReviewID() == review.getReviewID() &&
-                getComicBookID() == review.getComicBookID() &&
-                getUserID() == review.getUserID() &&
                 getReviewRating() == review.getReviewRating() &&
                 isSpoilerFlag() == review.isSpoilerFlag() &&
                 getReplyCount() == review.getReplyCount() &&
                 getReviewStatus().equals(review.getReviewStatus()) &&
                 getReviewText().equals(review.getReviewText()) &&
                 getReviewDate().equals(review.getReviewDate()) &&
-                getReviewTitle().equals(review.getReviewTitle());
+                getReviewTitle().equals(review.getReviewTitle()) &&
+                getComicBooks().equals(review.getComicBooks()) &&
+                getUser().equals(review.getUser());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(reviewID, comicBookID, userID, reviewRating, reviewText, reviewDate, spoilerFlag, reviewTitle, replyCount, reviewStatus);
+        return Objects.hash(reviewID, getComicBooks(), getUser(), getReviewRating(), getReviewText(), getReviewDate(), spoilerFlag, getReviewTitle(), replyCount, reviewStatus);
     }
 
     @Override
     public String toString() {
         return "Review{" +
                 "reviewID=" + reviewID +
-                ", comicBookID=" + comicBookID +
-                ", userID=" + userID +
+                ", comicBooks=" + comicBooks +
+                ", user=" + user +
                 ", reviewRating=" + reviewRating +
                 ", reviewText='" + reviewText + '\'' +
                 ", reviewDate=" + reviewDate +
