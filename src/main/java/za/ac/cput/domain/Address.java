@@ -15,11 +15,11 @@ import java.util.Objects;
 @IdClass(AddressId.class)
 public class Address {
     @Id
-    private String street;
-    private String suburb;
-    private String city;
+   protected String street;
+    protected String suburb;
+    protected String city;
     @Id
-    private String postalCode;
+    protected String postalCode;
 
     public Address() {
     }
