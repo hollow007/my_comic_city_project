@@ -3,6 +3,9 @@ package za.ac.cput.util;
 import za.ac.cput.domain.ComicBook;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -86,6 +89,20 @@ public class Helper {
             return true;
         }
         return false;
+    }
+
+    public static boolean isInvalidPostalCode(String postalCode){
+        int postalCodeAsInt=Integer.parseInt(postalCode);
+        if(postalCodeAsInt<0001||postalCodeAsInt>9999){
+            return true;
+        }
+        return false;
+
+    }
+    public static boolean isInvalidTime(LocalTime time){
+    return !time.isAfter(LocalTime.now());
+
+
     }
 
 
