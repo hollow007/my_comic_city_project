@@ -75,12 +75,13 @@ public class WishList{
         return Objects.hash(wishListId, wishlistName, comicBooks, createdDate, updatedDate);
     }
 
+
     @Override
     public String toString() {
-        String comicBookSKUs = comicBooks.stream().map(ComicBook::getSKU).collect(Collectors.joining(", "));
         return "WishList{" +
                 "wishListId=" + wishListId +
-                ", comicBooks=[" + comicBookSKUs + "]" +
+                ", wishlistName='" + wishlistName + '\'' +
+                ", comicBooks=" + comicBooks +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
                 '}';
