@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Entity
 public class WishList{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long wishListId;
     private String wishlistName;
     @ManyToMany(fetch = FetchType.EAGER)

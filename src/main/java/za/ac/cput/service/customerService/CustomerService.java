@@ -29,7 +29,8 @@ public class CustomerService implements ICustomerService{
 
     @Override
     public boolean delete(Long aLong) {
-        return false;
+        repository.deleteById(aLong);
+        return !repository.existsById(aLong);
     }
 
 

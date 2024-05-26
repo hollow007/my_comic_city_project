@@ -43,42 +43,43 @@ class CustomerServiceTest {
 
     private List<Publisher> publishers;
 
-//    @BeforeEach
-//    void setUp() {
-//        comicBookList=new ArrayList<>();
-//
-//        authors = new ArrayList<>();
-//        author1 = AuthorFactory.buildAuthor(001, "Lamark", "", "Darwin");
-//        authorServic.create(author1);
-//        author2 = AuthorFactory.buildAuthor(002, "Jacob", "Gedleyihlekisa", "Zuma");
-//        authorServic.create(author1);
-//
-//        authors.add(author1);
-//        //authors.add(author2);
-//
-//        publisher1 = PublisherFactory.buildPublisher(34655, "Marvel",2000);
-//
-//
-//        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors, publisher1, 300.00);
-//        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,07,17), authors, publisher1,300.00);
-//
-//        bookService.create(book1);
-//        bookService.create(book2);
-//
-//
-//        comicBookList.add(book1);
-//        comicBookList.add(book2);
-//
-//        cart1 = CartFactory.buildCart(2001,600.00,comicBookList, LocalDate.of(2024,02,15),LocalDate.now());
-//        cart2=CartFactory.buildCart(2002, 600,comicBookList,LocalDate.of(2025,04,20),LocalDate.of(2024,05,01));
-//
-//
-//        wishList1 = WishListFactory.buildWishList(1,"myWishList1", comicBookList, LocalDate.of(2024, 02, 14), LocalDate.of(2024, 02, 15));
-//        wishList2 = WishListFactory.buildWishList(2,"myWishList2", comicBookList, LocalDate.of(2024, 02, 12), LocalDate.of(2024, 03, 16));
-//
-//        customer1 = CustomerFactory.buildCustomer(1234, "Lebo", "Jutha", ContactFactory.buildContact("juthal@gmail.com", "0741236547", "0213456789"), cart1, wishList1);
-//        customer2 = CustomerFactory.buildCustomer(9875, "Lazi", "Liso", ContactFactory.buildContact("lazil@gmail.com", "0786435498", "0214569879"), cart2, wishList2);;
-//    }
+    @BeforeEach
+    void setUp() {
+        comicBookList=new ArrayList<>();
+
+        authors = new ArrayList<>();
+        author1 = AuthorFactory.buildAuthor(001, "Lamark", "", "Darwin");
+        authorServic.create(author1);
+        author2 = AuthorFactory.buildAuthor(002, "Jacob", "Gedleyihlekisa", "Zuma");
+        authorServic.create(author1);
+
+        authors.add(author1);
+        //authors.add(author2);
+
+        publisher1 = PublisherFactory.buildPublisher(34655, "Marvel",2000);
+
+
+        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors, publisher1, 300.00);
+        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,03,17), authors, publisher1,300.00);
+
+        bookService.create(book1);
+        bookService.create(book2);
+
+
+        comicBookList.add(book1);
+        comicBookList.add(book2);
+
+        cart1 = CartFactory.buildCart(2001,600.00,comicBookList, LocalDate.of(2024,02,15),LocalDate.now());
+        cart2 = CartFactory.buildCart(2002,600.00,comicBookList, LocalDate.of(2024,02,15),LocalDate.now());
+        //cart2=CartFactory.buildCart(2002, 600,comicBookList,LocalDate.of(2025,04,20),LocalDate.of(2024,05,01));
+
+
+        wishList1 = WishListFactory.buildWishList(1,"myWishList1", comicBookList, LocalDate.of(2024, 02, 14), LocalDate.of(2024, 02, 15));
+        wishList2 = WishListFactory.buildWishList(2,"myWishList2", comicBookList, LocalDate.of(2024, 02, 12), LocalDate.of(2024, 03, 16));
+
+        customer1 = CustomerFactory.buildCustomer(1234, "Lebo", "Jutha", ContactFactory.buildContact("juthal@gmail.com", "0741236547", "0213456789"), cart1, wishList1);
+        customer2 = CustomerFactory.buildCustomer(9875, "Lazi", "Liso", ContactFactory.buildContact("lazil@gmail.com", "0786435498", "0214569879"), cart2, wishList2);;
+    }
 
 
 
@@ -89,6 +90,10 @@ class CustomerServiceTest {
     Customer savedCustomer = service.create(customer1);
     assertNotNull(savedCustomer);
     System.out.println(savedCustomer);
+
+    Customer savedCustomer2 = service.create(customer2);
+    assertNotNull(savedCustomer2);
+    System.out.println(savedCustomer2);
 
 
     }
@@ -117,6 +122,13 @@ class CustomerServiceTest {
     }
     @Test
     @Order(4)
+    void delete(){
+        boolean isDeleted = service.delete(Long.valueOf(customer1.getCustomerId()));
+        assertTrue(isDeleted);
+        System.out.println("Customer no " + customer1.getCustomerId() + " deleted");
+    }
+    @Test
+    @Order(5)
     void getall() {
         System.out.println("===========================GETALL========================================");
         System.out.println(service.getall());

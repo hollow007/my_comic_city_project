@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Entity
 public class Cart {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long cartId;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
