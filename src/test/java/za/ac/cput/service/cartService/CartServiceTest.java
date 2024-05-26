@@ -88,15 +88,15 @@ class CartServiceTest {
         comicBookList3=new ArrayList<>();
         comicBookList3.add(book3);
 
-        cart1 = CartFactory.buildCart( 200.00, comicBookList1, LocalDate.of(2024, 02, 15), LocalDate.now());
+        cart1 = CartFactory.buildCart( 1,200.00, comicBookList1, LocalDate.of(2024, 02, 15), LocalDate.now());
         assertNotNull(cart1);
         System.out.println(cart1);
 
-        cart2 = CartFactory.buildCart( 450, comicBookList2, LocalDate.of(2024, 04, 20), LocalDate.of(2024, 05, 01));
+        cart2 = CartFactory.buildCart( 2,450, comicBookList2, LocalDate.of(2024, 04, 20), LocalDate.of(2024, 05, 01));
         assertNotNull(cart2);
         System.out.println(cart2);
 
-        cart3 = CartFactory.buildCart( 3450, comicBookList3, LocalDate.of(2024, 01, 20), LocalDate.of(2024, 05, 02));
+        cart3 = CartFactory.buildCart( 3, 3450, comicBookList3, LocalDate.of(2024, 01, 20), LocalDate.of(2024, 05, 02));
         assertNotNull(cart3);
         System.out.println(cart3);
     }

@@ -5,12 +5,12 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-@Entity
+//@Entity
 public class Order {
-    @Id
+    //@Id
     private String orderId;
     private LocalDate orderDate;
-    @ManyToOne(cascade = CascadeType.ALL)
+//    @ManyToOne(cascade = CascadeType.ALL)
     private Customer user;
 
     @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
