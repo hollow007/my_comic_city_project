@@ -17,8 +17,8 @@ public class Review {
     @Id
     private Long reviewID;
 
-    @ManyToMany(mappedBy = "reviews", fetch = FetchType.EAGER)
-    private List<ComicBook> comicBooks = new ArrayList<>();
+    @ManyToOne
+    private ComicBook comicBook;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Customer customer;
@@ -36,7 +36,7 @@ public class Review {
     private Review(ReviewBuilder e) {
         this.reviewID = e.reviewID;
         this.customer = e.customer;
-        this.comicBooks = e.comicBooks;
+        this.comicBook = e.comicBook;
         this.reviewRating = e.reviewRating;
         this.reviewDescription = e.reviewDescription;
         this.reviewDate = e.reviewDate;
@@ -47,8 +47,8 @@ public class Review {
         return reviewID;
     }
 
-    public List<ComicBook> getComicBooks() {
-        return comicBooks;
+    public ComicBook getComicBook() {
+        return comicBook;
     }
 
     public Customer getCustomer() {
@@ -76,20 +76,19 @@ public class Review {
         if (this == o) return true;
         if (o == null || getClass()!= o.getClass()) return false;
         Review review = (Review) o;
-        return Objects.equals(reviewID, review.reviewID) && Objects.equals(customer, review.customer) && Objects.equals(comicBooks, review.comicBooks) && reviewRating == review.reviewRating && Objects.equals(reviewDescription, review.reviewDescription) && Objects.equals(reviewDate, review.reviewDate) && Objects.equals(reviewTitle, review.reviewTitle);
+        return Objects.equals(reviewID, review.reviewID) && Objects.equals(customer, review.customer) && Objects.equals(comicBook, review.comicBook) && reviewRating == review.reviewRating && Objects.equals(reviewDescription, review.reviewDescription) && Objects.equals(reviewDate, review.reviewDate) && Objects.equals(reviewTitle, review.reviewTitle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(reviewID, customer, comicBooks, reviewRating, reviewDescription, reviewDate, reviewTitle);
+        return Objects.hash(reviewID, customer, comicBook, reviewRating, reviewDescription, reviewDate, reviewTitle);
     }
 
     @Override
     public String toString() {
-        String comicBookNames = comicBooks.stream().map(comicBook -> comicBook.getName()).collect(Collectors.joining(", "));
         return "Review{" +
                 "reviewID=" + reviewID +
-                ", comicBooks=[" + comicBookNames + "]" +
+                ", comicBook=" + comicBook +
                 ", customer=" + customer +
                 ", reviewRating=" + reviewRating +
                 ", reviewDescription='" + reviewDescription + '\'' +
@@ -101,7 +100,7 @@ public class Review {
     public static class ReviewBuilder {
         private Long reviewID;
         private Customer customer;
-        private List<ComicBook> comicBooks;
+        private ComicBook comicBook;
         private int reviewRating;
         private String reviewDescription;
         private LocalDate reviewDate;
@@ -117,8 +116,8 @@ public class Review {
             return this;
         }
 
-        public ReviewBuilder setComicBooks(List<ComicBook> comicBooks) {
-            this.comicBooks = comicBooks;
+        public ReviewBuilder setComicBook(ComicBook comicBook) {
+            this.comicBook = comicBook;
             return this;
         }
 

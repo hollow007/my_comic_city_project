@@ -16,13 +16,14 @@ public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long invoiceId;
     private LocalDateTime dateTimeGenerated;
-    @OneToOne(mappedBy = "invoice")
+    @OneToOne
     private Order order;
 
     protected Invoice() {
     }
 
     private Invoice(InvoiceBuilder e) {
+        this.invoiceId = e.invoiceId;
         this.dateTimeGenerated = e.dateTimeGenerated;
         this.order = e.order;
     }
@@ -62,20 +63,27 @@ public class Invoice {
     }
 
     public static class InvoiceBuilder {
+        private Long invoiceId;
         private LocalDateTime dateTimeGenerated;
         private Order order;
+
+        public InvoiceBuilder setInvoiceId(Long invoiceId){
+            this.invoiceId = invoiceId;
+            return this;
+        }
 
         public InvoiceBuilder setDateTimeGenerated(LocalDateTime dateTimeGenerated) {
             this.dateTimeGenerated = dateTimeGenerated;
             return this;
         }
 
-        public InvoiceBuilder setOrders(Order order) {
+        public InvoiceBuilder setOrder(Order order) {
             this.order = order;
             return this;
         }
 
         public InvoiceBuilder copy(Invoice e) {
+            this.invoiceId = e.invoiceId;
             this.dateTimeGenerated = e.dateTimeGenerated;
             this.order = e.order;
             return this;
