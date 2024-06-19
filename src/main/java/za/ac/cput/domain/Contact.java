@@ -79,7 +79,7 @@ public class Contact {
             return this;
         }
 
-        public ContactBuilder setWorkTelephone(Address address) {
+        public ContactBuilder setAddress(Address address) {
             this.address = address;
             return this;
         }
