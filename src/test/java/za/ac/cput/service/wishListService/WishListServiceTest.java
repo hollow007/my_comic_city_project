@@ -94,9 +94,9 @@ class WishListServiceTest {
         comicBookList3=new ArrayList<>();
         comicBookList3.add(book3);
 
-        wishList1 = WishListFactory.buildWishList("myWishList1", comicBookList1, LocalDate.of(2024, 02, 14), LocalDate.of(2024, 02, 15));
-        wishList2 = WishListFactory.buildWishList("myList", comicBookList2, LocalDate.of(2024, 04, 20), LocalDate.of(2024, 05, 01));
-        wishList3 = WishListFactory.buildWishList("Books I Wish To Buy ", comicBookList3, LocalDate.of(2024, 03, 13), LocalDate.of(2024, 05, 01));
+        wishList1 = WishListFactory.buildWishList(1,"myWishList1", comicBookList1, LocalDate.of(2024, 02, 14), LocalDate.of(2024, 02, 15));
+        wishList2 = WishListFactory.buildWishList(2,"myList", comicBookList2, LocalDate.of(2024, 04, 20), LocalDate.of(2024, 05, 01));
+        wishList3 = WishListFactory.buildWishList(3,"Books I Wish To Buy ", comicBookList3, LocalDate.of(2024, 03, 13), LocalDate.of(2024, 05, 01));
 
 
     }

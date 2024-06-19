@@ -15,8 +15,8 @@ public class Publisher {
     private String name;
     private int yearFounded;
 
-    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
-    private List<ComicBook> comicBooks;
+//    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
+//    private List<ComicBook> comicBooks;
     protected Publisher(){}
 
     private Publisher(PublisherBuilder builder){
