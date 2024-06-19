@@ -7,78 +7,111 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
-@Entity
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "comic_books")
 public class ComicBook {
+
     @Id
-    private String SKU;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long SKU;
+
     private String name;
-    private double wieght;
+
+    private String description;
+
+    private double weight;
+
     private LocalDate releaseDate;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "comic_book_author",
+            joinColumns = @JoinColumn(name = "comic_book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id")
+    )
+    private List<Author> authors ;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    private List<Author> authors = new ArrayList<>();
+    @ManyToMany
+    private List<Cart> carts ;
 
-
-    @ManyToMany(mappedBy = "comicBookList", fetch = FetchType.EAGER)
-    private List<Cart> carts = new ArrayList<>();
-
-
-    @ManyToMany(mappedBy = "comicBooks", fetch = FetchType.EAGER)
-    private List<WishList> wishLists = new ArrayList<>();
+    @ManyToMany
+    private List<WishList> wishLists ;
 
     private double price;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
+    private int quantity;
+
+    private String ISBN;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 
+    private String genre;
+
+    @Lob
+    @Column(length=100000)
+    private byte[] photo;
     protected ComicBook() {
+
     }
 
-    private ComicBook(ComicBookBuilder e) {
-        this.SKU = e.SKU;
-        this.name = e.name;
-        this.wieght = e.wieght;
-        this.releaseDate = e.releaseDate;
-        this.authors = e.authors;
-        this.price = e.price;
-        this.publisher = e.publisher;
+    private ComicBook(Builder builder) {
+        this.SKU = builder.SKU;
+        this.name = builder.name;
+        this.description = builder.description;
+        this.weight = builder.weight;
+        this.releaseDate = builder.releaseDate;
+        this.authors = builder.authors;
+        this.price = builder.price;
+        this.quantity = builder.quantity;
+        this.ISBN = builder.ISBN;
+        this.publisher = builder.publisher;
+        this.genre = builder.genre;
+        this.photo = builder.photo;
     }
 
 
+    public Long getSKU() { return SKU; }
+    public String getName() { return name; }
+    public String getDescription() { return description; }
+    public double getWeight() { return weight; }
+    public LocalDate getReleaseDate() { return releaseDate; }
+    public List<Author> getAuthors() { return authors; }
+    public double getPrice() { return price; }
+    public int getQuantity() { return quantity; }
+    public String getISBN() { return ISBN; }
+    public Publisher getPublisher() { return publisher; }
+    public String getGenre() { return genre; }
 
-    public String getSKU() {
-        return SKU;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public double getWieght() {
-        return wieght;
-    }
-
-    public LocalDate getReleaseDate() {
-        return releaseDate;
-    }
-
-    public List<Author> getAuthor() {
-        return authors;
-    }
-
-    public Publisher getPublisher() {
-        return publisher;
-    }
-
-    public double getPrice() {
-        return price;
+    @Override
+    public String toString() {
+        return "ComicBook{" +
+                "SKU=" + SKU +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", weight=" + weight +
+                ", releaseDate=" + releaseDate +
+                ", authors=" + authors +
+                ", carts=" + carts +
+                ", wishLists=" + wishLists +
+                ", price=" + price +
+                ", stockQuantity=" + quantity +
+                ", ISBN='" + ISBN + '\'' +
+                ", publisher=" + publisher +
+                ", genre='" + genre + '\'' +
+                '}';
     }
 
     @Override
@@ -86,93 +119,114 @@ public class ComicBook {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ComicBook comicBook = (ComicBook) o;
-        return Double.compare(wieght, comicBook.wieght) == 0 && Double.compare(price, comicBook.price) == 0 && Objects.equals(SKU, comicBook.SKU) && Objects.equals(name, comicBook.name) && Objects.equals(releaseDate, comicBook.releaseDate) && Objects.equals(authors, comicBook.authors) && Objects.equals(carts, comicBook.carts) && Objects.equals(wishLists, comicBook.wishLists) && Objects.equals(publisher, comicBook.publisher);
+        return Double.compare(weight, comicBook.weight) == 0 && Double.compare(price, comicBook.price) == 0 && quantity == comicBook.quantity && Objects.equals(SKU, comicBook.SKU) && Objects.equals(name, comicBook.name) && Objects.equals(description, comicBook.description) && Objects.equals(releaseDate, comicBook.releaseDate) && Objects.equals(authors, comicBook.authors) && Objects.equals(carts, comicBook.carts) && Objects.equals(wishLists, comicBook.wishLists) && Objects.equals(ISBN, comicBook.ISBN) && Objects.equals(publisher, comicBook.publisher) && Objects.equals(genre, comicBook.genre) && Arrays.equals(photo, comicBook.photo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(SKU, name, wieght, releaseDate, authors, carts, wishLists, price, publisher);
+        int result = Objects.hash(SKU, name, description, weight, releaseDate, authors, carts, wishLists, price, quantity, ISBN, publisher, genre);
+        result = 31 * result + Arrays.hashCode(photo);
+        return result;
     }
 
-    @Override
-    public String toString() {
-        String authorNames = authors.stream().map(author -> author.getName().getFirstName()).collect(Collectors.joining(", "));
-        return "ComicBook{" +
-                "SKU='" + SKU + '\'' +
-                ", name='" + name + '\'' +
-                ", weight=" + wieght +
-                ", releaseDate=" + releaseDate +
-                ", authors=[" + authorNames + "]" +
-                ", price=" + price +
-                ", publisher=" + (publisher != null ? publisher.getName() : "No Publisher") +
-                '}';
-    }
-
-    public static class ComicBookBuilder{
-        private String SKU;
+    public static class Builder {
+        private Long SKU;
         private String name;
-        private double wieght;
+        private String description;
+        private double weight;
         private LocalDate releaseDate;
         private List<Author> authors;
         private double price;
-        @ManyToOne
-        @JoinColumn(name = "publisher_id")
-
+        private int quantity;
+        private String ISBN;
         private Publisher publisher;
+        private String genre;
+        private byte[] photo;
 
-        public ComicBookBuilder setPublisher(Publisher publisher) {
-            this.publisher = publisher;
-            return this;
-        }
 
-        public ComicBookBuilder() {
-        }
-
-        public ComicBookBuilder setSKU(String SKU) {
+        public Builder SKU(Long SKU) {
             this.SKU = SKU;
             return this;
         }
 
-        public ComicBookBuilder setName(String name) {
+       public Builder(){}
+
+        public Builder copy(ComicBook c) {
+            this.SKU = c.SKU;
+            this.name = c.name;
+            this.description = c.description;
+            this.weight = c.weight;
+            this.releaseDate = c.releaseDate;
+            this.authors = c.authors;
+            this.price = c.price;
+            this.quantity = c.quantity;
+            this.ISBN = c.ISBN;
+            this.publisher = c.publisher;
+            this.genre = c.genre;
+            this.photo = c.photo;
+
+            return this;
+        }
+
+        public Builder setName(String name) {
             this.name = name;
             return this;
         }
 
-        public ComicBookBuilder setWieght(double wieght) {
-            this.wieght = wieght;
+        public Builder setDescription(String description) {
+            this.description = description;
             return this;
         }
 
-        public ComicBookBuilder setReleaseDate(LocalDate releaseDate) {
+        public Builder setWeight(double weight) {
+            this.weight = weight;
+            return this;
+        }
+
+        public Builder setReleaseDate(LocalDate releaseDate) {
             this.releaseDate = releaseDate;
             return this;
         }
 
-        public ComicBookBuilder setAuthor(List<Author> authors) {
+        public Builder setAuthors(List<Author> authors) {
             this.authors = authors;
             return this;
         }
 
-        public ComicBookBuilder setPrice(double price) {
+
+
+        public Builder setPrice(double price) {
             this.price = price;
             return this;
         }
-        public ComicBookBuilder copy(ComicBook e) {
-            this.SKU = e.SKU;
-            this.name = e.name;
-            this.wieght = e.wieght;
-            this.releaseDate = e.releaseDate;
-            this.authors = e.authors;
-            this.price = e.price;
-            this.publisher = e.publisher;
 
+        public Builder setQuantity(int quantity) {
+            this.quantity = quantity;
             return this;
         }
 
-       public ComicBook build(){
+        public Builder setISBN(String ISBN) {
+            this.ISBN = ISBN;
+            return this;
+        }
 
+        public Builder setPublisher(Publisher publisher) {
+            this.publisher = publisher;
+            return this;
+        }
+
+        public Builder setCategory(String genre) {
+            this.genre = genre;
+            return this;
+        }
+        public Builder setPhoto(byte[] photo) {
+            this.photo = photo;
+            return this;
+        }
+
+        public ComicBook build() {
             return new ComicBook(this);
-       }
+        }
     }
-
 }
+
