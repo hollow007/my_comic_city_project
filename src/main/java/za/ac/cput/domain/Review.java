@@ -20,7 +20,7 @@ public class Review {
     @ManyToMany(mappedBy = "reviews", fetch = FetchType.EAGER)
     private List<ComicBook> comicBooks = new ArrayList<>();
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Customer customer;
 
     private int reviewRating;
