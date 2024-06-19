@@ -4,6 +4,7 @@ package za.ac.cput.domain;
 // https://github.com/Skiet88/comic__city_project
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 import java.util.Objects;
 
@@ -12,7 +13,8 @@ public class Contact {
     @Id
     private  String email;
     private  String mobile;
-    private String workTelephone;
+    @OneToOne
+    private Address address;
 
     protected Contact() {
 
@@ -21,7 +23,7 @@ public class Contact {
     private Contact(ContactBuilder contactBuilder) {
         this.email = contactBuilder.email;
         this.mobile = contactBuilder.mobile;
-        this.workTelephone = contactBuilder.workTelephone;
+        this.address = contactBuilder.address;
     }
 
     public String getEmail() {
@@ -32,8 +34,8 @@ public class Contact {
         return mobile;
     }
 
-    public String getWorkTelephone() {
-        return workTelephone;
+    public Address getAddress() {
+        return address;
     }
 
 
@@ -42,12 +44,12 @@ public class Contact {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Contact contact = (Contact) o;
-        return Objects.equals(email, contact.email) && Objects.equals(mobile, contact.mobile) && Objects.equals(workTelephone, contact.workTelephone);
+        return Objects.equals(email, contact.email) && Objects.equals(mobile, contact.mobile) && Objects.equals(address, contact.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email, mobile, workTelephone);
+        return Objects.hash(email, mobile, address);
     }
 
     @Override
@@ -55,13 +57,13 @@ public class Contact {
         return "Domain.Contact{" +
                 "email='" + email + '\'' +
                 ", mobile='" + mobile + '\'' +
-                ", workTelephone='" + workTelephone + '\'' +
+                ", workTelephone='" + address + '\'' +
                 '}';
     }
     public static class ContactBuilder{
         private  String email;
         private  String mobile;
-        private String workTelephone;
+        private Address address;
 
         public ContactBuilder() {
         }
@@ -77,14 +79,14 @@ public class Contact {
             return this;
         }
 
-        public ContactBuilder setWorkTelephone(String workTelephone) {
-            this.workTelephone = workTelephone;
+        public ContactBuilder setWorkTelephone(Address address) {
+            this.address = address;
             return this;
         }
         public ContactBuilder copy(Contact contact) {
             this.email = contact.email;
             this.mobile = contact.mobile;
-            this.workTelephone = contact.workTelephone;
+            this.address = contact.address;
             return this;
         }
 
