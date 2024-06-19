@@ -5,13 +5,15 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-//@Entity
+
+@Entity
 public class Order {
-    //@Id
+    @Id
     private String orderId;
     private LocalDate orderDate;
-//    @ManyToOne(cascade = CascadeType.ALL)
-    private Customer user;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Customer customer;
 
     @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
@@ -22,15 +24,20 @@ public class Order {
     private List<ComicBook> comicBooks;
     private double totalAmount;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "invoice_id", referencedColumnName = "invoiceId")
+    private Invoice invoice;
+
     protected Order() {
     }
 
     private Order(OrderBuilder builder) {
         this.orderId = builder.orderId;
         this.orderDate = builder.orderDate;
-        this.user = builder.user;
+        this.customer = builder.customer;
         this.comicBooks = builder.comicBooks;
         this.totalAmount = builder.totalAmount;
+        this.invoice = builder.invoice;
     }
 
     public String getOrderId() {
@@ -41,8 +48,8 @@ public class Order {
         return orderDate;
     }
 
-    public Customer getUser() {
-        return user;
+    public Customer getCustomer() {
+        return customer;
     }
 
     public List<ComicBook> getComicBooks() {
@@ -53,6 +60,10 @@ public class Order {
         return totalAmount;
     }
 
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,13 +72,14 @@ public class Order {
         return Double.compare(order.totalAmount, totalAmount) == 0 &&
                 Objects.equals(orderId, order.orderId) &&
                 Objects.equals(orderDate, order.orderDate) &&
-                Objects.equals(user, order.user) &&
-                Objects.equals(comicBooks, order.comicBooks);
+                Objects.equals(customer, order.customer) &&
+                Objects.equals(comicBooks, order.comicBooks) &&
+                Objects.equals(invoice, order.invoice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderId, orderDate, user, comicBooks, totalAmount);
+        return Objects.hash(orderId, orderDate, customer, comicBooks, totalAmount, invoice);
     }
 
     @Override
@@ -75,18 +87,20 @@ public class Order {
         return "Order{" +
                 "orderId='" + orderId + '\'' +
                 ", orderDate=" + orderDate +
-                ", user=" + user +
+                ", customer=" + customer +
                 ", comicBooks=" + comicBooks +
                 ", totalAmount=" + totalAmount +
+                ", invoice=" + invoice +
                 '}';
     }
 
     public static class OrderBuilder {
         private String orderId;
         private LocalDate orderDate;
-        private Customer user;
+        private Customer customer;
         private List<ComicBook> comicBooks;
         private double totalAmount;
+        private Invoice invoice;
 
         public OrderBuilder() {
         }
@@ -101,8 +115,8 @@ public class Order {
             return this;
         }
 
-        public OrderBuilder setUser(Customer user) {
-            this.user = user;
+        public OrderBuilder setCustomer(Customer customer) {
+            this.customer = customer;
             return this;
         }
 
@@ -116,12 +130,18 @@ public class Order {
             return this;
         }
 
+        public OrderBuilder setInvoice(Invoice invoice) {
+            this.invoice = invoice;
+            return this;
+        }
+
         public OrderBuilder copy(Order order) {
             this.orderId = order.orderId;
             this.orderDate = order.orderDate;
-            this.user = order.user;
+            this.customer = order.customer;
             this.comicBooks = order.comicBooks;
             this.totalAmount = order.totalAmount;
+            this.invoice = order.invoice;
 
             return this;
         }
