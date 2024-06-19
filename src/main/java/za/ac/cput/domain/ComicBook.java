@@ -40,13 +40,13 @@ public class ComicBook {
             joinColumns = @JoinColumn(name = "comic_book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id")
     )
-    private List<Author> authors = new ArrayList<>();
+    private List<Author> authors ;
 
     @ManyToMany
-    private List<Cart> carts = new ArrayList<>();
+    private List<Cart> carts ;
 
     @ManyToMany
-    private List<WishList> wishLists = new ArrayList<>();
+    private List<WishList> wishLists ;
 
     private double price;
 
@@ -135,7 +135,7 @@ public class ComicBook {
         private String description;
         private double weight;
         private LocalDate releaseDate;
-        private List<Author> authors = new ArrayList<>();
+        private List<Author> authors;
         private double price;
         private int quantity;
         private String ISBN;
