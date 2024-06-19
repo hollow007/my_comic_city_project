@@ -12,13 +12,13 @@ import java.util.Objects;
 @Entity
 public class Author {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long authorID;
      @Embedded
     private Name name;
 
     @ManyToMany(mappedBy = "authors", cascade = CascadeType.ALL)
-  private List<ComicBook> comicBooks = new ArrayList<>();
-
+    private List<ComicBook> comicBooks = new ArrayList<>();
 
     protected Author() {
     }

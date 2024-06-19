@@ -50,7 +50,7 @@ public class ComicBook {
 
     private double price;
 
-    private int stockQuantity;
+    private int quantity;
 
     private String ISBN;
 
@@ -75,7 +75,7 @@ public class ComicBook {
         this.releaseDate = builder.releaseDate;
         this.authors = builder.authors;
         this.price = builder.price;
-        this.stockQuantity = builder.stockQuantity;
+        this.quantity = builder.quantity;
         this.ISBN = builder.ISBN;
         this.publisher = builder.publisher;
         this.genre = builder.genre;
@@ -90,7 +90,7 @@ public class ComicBook {
     public LocalDate getReleaseDate() { return releaseDate; }
     public List<Author> getAuthors() { return authors; }
     public double getPrice() { return price; }
-    public int getStockQuantity() { return stockQuantity; }
+    public int getQuantity() { return quantity; }
     public String getISBN() { return ISBN; }
     public Publisher getPublisher() { return publisher; }
     public String getGenre() { return genre; }
@@ -107,7 +107,7 @@ public class ComicBook {
                 ", carts=" + carts +
                 ", wishLists=" + wishLists +
                 ", price=" + price +
-                ", stockQuantity=" + stockQuantity +
+                ", stockQuantity=" + quantity +
                 ", ISBN='" + ISBN + '\'' +
                 ", publisher=" + publisher +
                 ", genre='" + genre + '\'' +
@@ -119,12 +119,12 @@ public class ComicBook {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ComicBook comicBook = (ComicBook) o;
-        return Double.compare(weight, comicBook.weight) == 0 && Double.compare(price, comicBook.price) == 0 && stockQuantity == comicBook.stockQuantity && Objects.equals(SKU, comicBook.SKU) && Objects.equals(name, comicBook.name) && Objects.equals(description, comicBook.description) && Objects.equals(releaseDate, comicBook.releaseDate) && Objects.equals(authors, comicBook.authors) && Objects.equals(carts, comicBook.carts) && Objects.equals(wishLists, comicBook.wishLists) && Objects.equals(ISBN, comicBook.ISBN) && Objects.equals(publisher, comicBook.publisher) && Objects.equals(genre, comicBook.genre) && Arrays.equals(photo, comicBook.photo);
+        return Double.compare(weight, comicBook.weight) == 0 && Double.compare(price, comicBook.price) == 0 && quantity == comicBook.quantity && Objects.equals(SKU, comicBook.SKU) && Objects.equals(name, comicBook.name) && Objects.equals(description, comicBook.description) && Objects.equals(releaseDate, comicBook.releaseDate) && Objects.equals(authors, comicBook.authors) && Objects.equals(carts, comicBook.carts) && Objects.equals(wishLists, comicBook.wishLists) && Objects.equals(ISBN, comicBook.ISBN) && Objects.equals(publisher, comicBook.publisher) && Objects.equals(genre, comicBook.genre) && Arrays.equals(photo, comicBook.photo);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(SKU, name, description, weight, releaseDate, authors, carts, wishLists, price, stockQuantity, ISBN, publisher, genre);
+        int result = Objects.hash(SKU, name, description, weight, releaseDate, authors, carts, wishLists, price, quantity, ISBN, publisher, genre);
         result = 31 * result + Arrays.hashCode(photo);
         return result;
     }
@@ -137,7 +137,7 @@ public class ComicBook {
         private LocalDate releaseDate;
         private List<Author> authors = new ArrayList<>();
         private double price;
-        private int stockQuantity;
+        private int quantity;
         private String ISBN;
         private Publisher publisher;
         private String genre;
@@ -159,7 +159,7 @@ public class ComicBook {
             this.releaseDate = c.releaseDate;
             this.authors = c.authors;
             this.price = c.price;
-            this.stockQuantity = c.stockQuantity;
+            this.quantity = c.quantity;
             this.ISBN = c.ISBN;
             this.publisher = c.publisher;
             this.genre = c.genre;
@@ -168,54 +168,54 @@ public class ComicBook {
             return this;
         }
 
-        public Builder name(String name) {
+        public Builder setName(String name) {
             this.name = name;
             return this;
         }
 
-        public Builder description(String description) {
+        public Builder setDescription(String description) {
             this.description = description;
             return this;
         }
 
-        public Builder weight(double weight) {
+        public Builder setWeight(double weight) {
             this.weight = weight;
             return this;
         }
 
-        public Builder releaseDate(LocalDate releaseDate) {
+        public Builder setReleaseDate(LocalDate releaseDate) {
             this.releaseDate = releaseDate;
             return this;
         }
 
-        public Builder authors(List<Author> authors) {
+        public Builder setAuthors(List<Author> authors) {
             this.authors = authors;
             return this;
         }
 
 
 
-        public Builder price(double price) {
+        public Builder setPrice(double price) {
             this.price = price;
             return this;
         }
 
-        public Builder stockQuantity(int stockQuantity) {
-            this.stockQuantity = stockQuantity;
+        public Builder setQuantity(int quantity) {
+            this.quantity = quantity;
             return this;
         }
 
-        public Builder ISBN(String ISBN) {
+        public Builder setISBN(String ISBN) {
             this.ISBN = ISBN;
             return this;
         }
 
-        public Builder publisher(Publisher publisher) {
+        public Builder setPublisher(Publisher publisher) {
             this.publisher = publisher;
             return this;
         }
 
-        public Builder category(String genre) {
+        public Builder setCategory(String genre) {
             this.genre = genre;
             return this;
         }
