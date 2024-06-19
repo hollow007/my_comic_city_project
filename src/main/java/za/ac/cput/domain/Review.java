@@ -17,8 +17,8 @@ public class Review {
     @Id
     private Long reviewID;
 
-    @ManyToMany(mappedBy = "reviews", fetch = FetchType.EAGER)
-    private List<ComicBook> comicBooks = new ArrayList<>();
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ComicBook> comicBooks;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Customer customer;
