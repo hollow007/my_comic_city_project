@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Objects;
 @Entity
 public class Customer extends User{
-    @Id    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;
 
     @OneToOne(cascade = CascadeType.ALL)

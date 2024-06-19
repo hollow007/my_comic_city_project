@@ -26,9 +26,10 @@ public class Publisher {
         this.comicBooks = builder.comicBooks;
     }
 
-    public long getPublisherId(){
+    public Long getPublisherId() {
         return publisherId;
     }
+
     public String getName(){return name;}
 
     public int getYearFounded(){return yearFounded;}
