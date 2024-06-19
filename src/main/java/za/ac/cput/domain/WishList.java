@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 @Entity
 public class WishList{
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long wishListId;
-    private String wishlistName;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long wishListId;
+    private String wishListName;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "wishList_comicbook",
@@ -29,26 +29,22 @@ public class WishList{
     private LocalDate createdDate;
     private LocalDate updatedDate;
 
-
+    public WishList() {
+    }
     protected WishList(Builder builder){
         this.wishListId=builder.wishListId;
-        this.wishlistName= builder.wishlistName;;
+        this.wishListName=builder.wishListName;
         this.comicBooks=builder.comicBooks;
         this.createdDate=builder.createdDate;
         this.updatedDate=builder.updatedDate;
-
     }
 
-    public WishList() {
-
-    }
-
-    public long getWishListId() {
+    public Long getWishListId() {
         return wishListId;
     }
 
-    public String getWishlistName() {
-        return wishlistName;
+    public String getWishListName() {
+        return wishListName;
     }
 
     public List<ComicBook> getComicBooks() {
@@ -66,21 +62,20 @@ public class WishList{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof WishList wishlist)) return false;
-        return Objects.equals(wishListId, wishlist.wishListId) && Objects.equals(wishlistName, wishlist.wishlistName) && Objects.equals(comicBooks, wishlist.comicBooks) && Objects.equals(createdDate, wishlist.createdDate) && Objects.equals(updatedDate, wishlist.updatedDate);
+        if (!(o instanceof WishList wishList)) return false;
+        return Objects.equals(wishListId, wishList.wishListId) && Objects.equals(wishListName, wishList.wishListName) && Objects.equals(comicBooks, wishList.comicBooks) && Objects.equals(createdDate, wishList.createdDate) && Objects.equals(updatedDate, wishList.updatedDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(wishListId, wishlistName, comicBooks, createdDate, updatedDate);
+        return Objects.hash(wishListId, wishListName, comicBooks, createdDate, updatedDate);
     }
-
 
     @Override
     public String toString() {
         return "WishList{" +
                 "wishListId=" + wishListId +
-                ", wishlistName='" + wishlistName + '\'' +
+                ", wishlistName='" + wishListName + '\'' +
                 ", comicBooks=" + comicBooks +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
@@ -88,22 +83,23 @@ public class WishList{
     }
 
     public static class Builder{
-        private long wishListId;
-        private String wishlistName;
+
+        private Long wishListId;
+        private String wishListName;
         private List<ComicBook> comicBooks;
         private LocalDate createdDate;
         private LocalDate updatedDate;
-        public Builder(){
 
+        public Builder() {
         }
 
-        public Builder setWishListId(long wishListId) {
+        public Builder setWishListId(Long wishListId) {
             this.wishListId = wishListId;
             return this;
         }
 
-        public Builder setWishlistName(String wishlistName) {
-            this.wishlistName = wishlistName;
+        public Builder setWishListName(String wishlistName) {
+            this.wishListName = wishlistName;
             return this;
         }
 
@@ -121,20 +117,16 @@ public class WishList{
             this.updatedDate = updatedDate;
             return this;
         }
-
-        public Builder copy(WishList wishlist){
-            this.wishListId=wishlist.wishListId;
-            this.wishlistName=wishlist.wishlistName;
-            this.comicBooks=wishlist.comicBooks;
-            this.createdDate=wishlist.createdDate;
-            this.updatedDate=wishlist.updatedDate;
+        public Builder copy(WishList wishList){
+            this.wishListId=wishList.wishListId;
+            this.wishListName=wishList.wishListName;
+            this.comicBooks=wishList.comicBooks;
+            this.createdDate=wishList.createdDate;
+            this.updatedDate=wishList.updatedDate;
             return this;
         }
-
         public WishList build(){
             return new WishList(this);
         }
     }
-
-
 }
