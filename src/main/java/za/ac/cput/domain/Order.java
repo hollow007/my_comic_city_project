@@ -12,8 +12,7 @@ public class Order {
     private String orderId;
     private LocalDate orderDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Customer customer;
+
 
     @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
@@ -24,9 +23,7 @@ public class Order {
     private List<ComicBook> comicBooks;
     private double totalAmount;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "invoice_id", referencedColumnName = "invoiceId")
-    private Invoice invoice;
+
 
     protected Order() {
     }
@@ -34,10 +31,10 @@ public class Order {
     private Order(OrderBuilder builder) {
         this.orderId = builder.orderId;
         this.orderDate = builder.orderDate;
-        this.customer = builder.customer;
+
         this.comicBooks = builder.comicBooks;
         this.totalAmount = builder.totalAmount;
-        this.invoice = builder.invoice;
+
     }
 
     public String getOrderId() {
@@ -48,9 +45,6 @@ public class Order {
         return orderDate;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
 
     public List<ComicBook> getComicBooks() {
         return comicBooks;
@@ -60,9 +54,7 @@ public class Order {
         return totalAmount;
     }
 
-    public Invoice getInvoice() {
-        return invoice;
-    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -72,14 +64,13 @@ public class Order {
         return Double.compare(order.totalAmount, totalAmount) == 0 &&
                 Objects.equals(orderId, order.orderId) &&
                 Objects.equals(orderDate, order.orderDate) &&
-                Objects.equals(customer, order.customer) &&
-                Objects.equals(comicBooks, order.comicBooks) &&
-                Objects.equals(invoice, order.invoice);
+
+                Objects.equals(comicBooks, order.comicBooks) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderId, orderDate, customer, comicBooks, totalAmount, invoice);
+        return Objects.hash(orderId, orderDate, comicBooks, totalAmount);
     }
 
     @Override
@@ -87,20 +78,20 @@ public class Order {
         return "Order{" +
                 "orderId='" + orderId + '\'' +
                 ", orderDate=" + orderDate +
-                ", customer=" + customer +
+
                 ", comicBooks=" + comicBooks +
                 ", totalAmount=" + totalAmount +
-                ", invoice=" + invoice +
+
                 '}';
     }
 
     public static class OrderBuilder {
         private String orderId;
         private LocalDate orderDate;
-        private Customer customer;
+
         private List<ComicBook> comicBooks;
         private double totalAmount;
-        private Invoice invoice;
+
 
         public OrderBuilder() {
         }
@@ -115,10 +106,7 @@ public class Order {
             return this;
         }
 
-        public OrderBuilder setCustomer(Customer customer) {
-            this.customer = customer;
-            return this;
-        }
+
 
         public OrderBuilder setComicBooks(List<ComicBook> comicBooks) {
             this.comicBooks = comicBooks;
@@ -130,18 +118,15 @@ public class Order {
             return this;
         }
 
-        public OrderBuilder setInvoice(Invoice invoice) {
-            this.invoice = invoice;
-            return this;
-        }
+
 
         public OrderBuilder copy(Order order) {
             this.orderId = order.orderId;
             this.orderDate = order.orderDate;
-            this.customer = order.customer;
+
             this.comicBooks = order.comicBooks;
             this.totalAmount = order.totalAmount;
-            this.invoice = order.invoice;
+
 
             return this;
         }
