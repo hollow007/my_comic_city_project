@@ -5,13 +5,10 @@ import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
 @Entity
-public class Customer {
+public class Customer extends User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;
-    private String firstName;
-    private String lastName;
-    private String password;
     @OneToOne(cascade = CascadeType.ALL)
     private Contact contact;
 
@@ -28,9 +25,9 @@ public class Customer {
 
     private Customer(CustomerBuilder c) {
         this.customerId = c.customerId;
-        this.firstName = c.firstName;
-        this.lastName = c.lastName;
-        this.password = c.password;
+        firstName = c.firstName;
+        lastName = c.lastName;
+        password = c.password;
         this.contact = c.contact;
         this.cart = c.cart;
         this.wishList = c.wishList;
