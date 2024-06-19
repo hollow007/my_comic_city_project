@@ -18,7 +18,6 @@ public class Review {
     private Long reviewID;
 
     @ManyToOne
-    @JoinColumn(name = "comic_book_id")
     private ComicBook comicBook;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
