@@ -25,7 +25,7 @@ public class Review {
 
     private int reviewRating;
 
-    private String reviewText;
+    private String reviewDescription;
 
     private LocalDate reviewDate;
 
@@ -38,7 +38,7 @@ public class Review {
         this.customer = e.customer;
         this.comicBooks = e.comicBooks;
         this.reviewRating = e.reviewRating;
-        this.reviewText = e.reviewText;
+        this.reviewDescription = e.reviewDescription;
         this.reviewDate = e.reviewDate;
         this.reviewTitle = e.reviewTitle;
     }
@@ -59,8 +59,8 @@ public class Review {
         return reviewRating;
     }
 
-    public String getReviewText() {
-        return reviewText;
+    public String getReviewDescription() {
+        return reviewDescription;
     }
 
     public LocalDate getReviewDate() {
@@ -76,12 +76,12 @@ public class Review {
         if (this == o) return true;
         if (o == null || getClass()!= o.getClass()) return false;
         Review review = (Review) o;
-        return Objects.equals(reviewID, review.reviewID) && Objects.equals(customer, review.customer) && Objects.equals(comicBooks, review.comicBooks) && reviewRating == review.reviewRating && Objects.equals(reviewText, review.reviewText) && Objects.equals(reviewDate, review.reviewDate) && Objects.equals(reviewTitle, review.reviewTitle);
+        return Objects.equals(reviewID, review.reviewID) && Objects.equals(customer, review.customer) && Objects.equals(comicBooks, review.comicBooks) && reviewRating == review.reviewRating && Objects.equals(reviewDescription, review.reviewDescription) && Objects.equals(reviewDate, review.reviewDate) && Objects.equals(reviewTitle, review.reviewTitle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(reviewID, customer, comicBooks, reviewRating, reviewText, reviewDate, reviewTitle);
+        return Objects.hash(reviewID, customer, comicBooks, reviewRating, reviewDescription, reviewDate, reviewTitle);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class Review {
                 ", comicBooks=[" + comicBookNames + "]" +
                 ", customer=" + customer +
                 ", reviewRating=" + reviewRating +
-                ", reviewText='" + reviewText + '\'' +
+                ", reviewDescription='" + reviewDescription + '\'' +
                 ", reviewDate=" + reviewDate +
                 ", reviewTitle='" + reviewTitle + '\'' +
                 '}';
@@ -103,7 +103,7 @@ public class Review {
         private Customer customer;
         private List<ComicBook> comicBooks;
         private int reviewRating;
-        private String reviewText;
+        private String reviewDescription;
         private LocalDate reviewDate;
         private String reviewTitle;
 
@@ -127,8 +127,8 @@ public class Review {
             return this;
         }
 
-        public ReviewBuilder setReviewText(String reviewText) {
-            this.reviewText = reviewText;
+        public ReviewBuilder setReviewDescription(String reviewDescription) {
+            this.reviewDescription = reviewDescription;
             return this;
         }
 
