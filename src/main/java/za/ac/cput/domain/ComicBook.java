@@ -1,6 +1,6 @@
 package za.ac.cput.domain;
 // Mlungisi L. Mbuyazi
-// 221164014
+//// 221164014
 // https://github.com/Skiet88/comic__city_project
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -42,10 +42,10 @@ public class ComicBook {
     )
     private List<Author> authors ;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "comicBooks",cascade = CascadeType.ALL)
     private List<Cart> carts ;
 
-    @ManyToMany
+     @ManyToMany(mappedBy = "comicBooks",cascade = CascadeType.ALL)
     private List<WishList> wishLists ;
 
     private double price;
