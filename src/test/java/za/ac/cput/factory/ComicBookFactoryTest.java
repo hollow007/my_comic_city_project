@@ -2,7 +2,7 @@ package za.ac.cput.factory;
 // Mlungisi L. Mbuyazi
 // 221164014
 // https://github.com/Skiet88/comic__city_project
-
+//
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,6 +31,9 @@ class ComicBookFactoryTest {
 
     @BeforeEach
     void setUp() {
+
+        photo = new byte[0];
+      
         publisher1 = PublisherFactory.buildPublisher(34655, "Marvel",2000);
 
 

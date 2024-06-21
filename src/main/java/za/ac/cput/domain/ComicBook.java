@@ -3,6 +3,7 @@ package za.ac.cput.domain;
 //// 221164014
 // https://github.com/Skiet88/comic__city_project
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
