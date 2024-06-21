@@ -5,13 +5,14 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+
 @Entity
 public class Order {
     @Id
     private String orderId;
     private LocalDate orderDate;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Customer user;
+
+
 
     @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
@@ -22,15 +23,18 @@ public class Order {
     private List<ComicBook> comicBooks;
     private double totalAmount;
 
+
+
     protected Order() {
     }
 
     private Order(OrderBuilder builder) {
         this.orderId = builder.orderId;
         this.orderDate = builder.orderDate;
-        this.user = builder.user;
+
         this.comicBooks = builder.comicBooks;
         this.totalAmount = builder.totalAmount;
+
     }
 
     public String getOrderId() {
@@ -41,9 +45,6 @@ public class Order {
         return orderDate;
     }
 
-    public Customer getUser() {
-        return user;
-    }
 
     public List<ComicBook> getComicBooks() {
         return comicBooks;
@@ -53,6 +54,8 @@ public class Order {
         return totalAmount;
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,13 +64,13 @@ public class Order {
         return Double.compare(order.totalAmount, totalAmount) == 0 &&
                 Objects.equals(orderId, order.orderId) &&
                 Objects.equals(orderDate, order.orderDate) &&
-                Objects.equals(user, order.user) &&
-                Objects.equals(comicBooks, order.comicBooks);
+
+                Objects.equals(comicBooks, order.comicBooks) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderId, orderDate, user, comicBooks, totalAmount);
+        return Objects.hash(orderId, orderDate, comicBooks, totalAmount);
     }
 
     @Override
@@ -75,18 +78,20 @@ public class Order {
         return "Order{" +
                 "orderId='" + orderId + '\'' +
                 ", orderDate=" + orderDate +
-                ", user=" + user +
+
                 ", comicBooks=" + comicBooks +
                 ", totalAmount=" + totalAmount +
+
                 '}';
     }
 
     public static class OrderBuilder {
         private String orderId;
         private LocalDate orderDate;
-        private Customer user;
+
         private List<ComicBook> comicBooks;
         private double totalAmount;
+
 
         public OrderBuilder() {
         }
@@ -101,10 +106,7 @@ public class Order {
             return this;
         }
 
-        public OrderBuilder setUser(Customer user) {
-            this.user = user;
-            return this;
-        }
+
 
         public OrderBuilder setComicBooks(List<ComicBook> comicBooks) {
             this.comicBooks = comicBooks;
@@ -116,12 +118,15 @@ public class Order {
             return this;
         }
 
+
+
         public OrderBuilder copy(Order order) {
             this.orderId = order.orderId;
             this.orderDate = order.orderDate;
-            this.user = order.user;
+
             this.comicBooks = order.comicBooks;
             this.totalAmount = order.totalAmount;
+
 
             return this;
         }

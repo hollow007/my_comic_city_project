@@ -18,8 +18,6 @@ public class ShippingAddress extends Address{
 
     private static final Address.AddressBuilder AddressBuilder = new AddressBuilder();
     private LocalTime preffered_delivery_time;
-    private String signature_required;
-
 
 
     public ShippingAddress() {}
@@ -27,17 +25,12 @@ public class ShippingAddress extends Address{
     private ShippingAddress(ShippingAddressBuilder builder)  {
         super(builder);
         this.preffered_delivery_time = builder.preffered_delivery_time;
-        this.signature_required = builder.signature_required;
     }
 
     public LocalTime getPreffered_delivery_time() {
         return preffered_delivery_time;
     }
 
-    public String getSignature_required() {
-        return signature_required;
-
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -45,48 +38,47 @@ public class ShippingAddress extends Address{
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ShippingAddress that = (ShippingAddress) o;
-        return Objects.equals(preffered_delivery_time, that.preffered_delivery_time) && Objects.equals(signature_required, that.signature_required);
+        return Objects.equals(preffered_delivery_time, that.preffered_delivery_time);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), preffered_delivery_time, signature_required);
+        return Objects.hash(super.hashCode(), preffered_delivery_time);
     }
 
     @Override
     public String toString() {
         return "ShippingAddress{" +
                 "preffered_delivery_time='" + preffered_delivery_time + '\'' +
-                ", signature_required='" + signature_required + '\'' +
                 '}'+ super.toString();
     }
 
 
     public static class ShippingAddressBuilder extends AddressBuilder{
         protected LocalTime preffered_delivery_time;
-        protected String signature_required;
+
 
 
         @Override
-        public AddressBuilder setStreet(String street) {
+        public ShippingAddressBuilder setStreet(String street) {
             this.street = street;
             return this;
         }
 
         @Override
-        public AddressBuilder setSuburb(String suburb) {
+        public ShippingAddressBuilder setSuburb(String suburb) {
             this.suburb = suburb;
             return this;
         }
 
         @Override
-        public AddressBuilder setCity(String city) {
+        public ShippingAddressBuilder setCity(String city) {
             this.city = city;
             return this;
         }
 
         @Override
-        public AddressBuilder setPostalCode(String postalCode) {
+        public ShippingAddressBuilder setPostalCode(String postalCode) {
             this.postalCode = postalCode;
             return this;
         }
@@ -96,12 +88,6 @@ public class ShippingAddress extends Address{
             return this;
         }
 
-        public ShippingAddressBuilder setSignature_required(String signature_required) {
-            this.signature_required = signature_required;
-            return this;
-
-        }
-
 
         public ShippingAddressBuilder copy (ShippingAddress o){
             this.street = o.street;
@@ -109,7 +95,6 @@ public class ShippingAddress extends Address{
             this.postalCode = o.postalCode;
             this.city = o.city;
             this.preffered_delivery_time = o.preffered_delivery_time;
-            this.signature_required = o.signature_required;
             return this;
 
         }
