@@ -18,7 +18,7 @@ public class Author {
     private Name name;
 
     @ManyToMany(mappedBy = "authors", cascade = CascadeType.ALL)
-    private List<ComicBook> comicBooks = new ArrayList<>();
+    private List<ComicBook> comicBooks ;
 
     protected Author() {
     }

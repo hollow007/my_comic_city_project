@@ -16,7 +16,14 @@ public class WishListController {
 
     @PostMapping("/create")
     public WishList create(@RequestBody WishList wishList){
-        return service.create(wishList);
+        System.out.println("Recieved WishList:"+wishList);
+
+        WishList createdWishList=service.create(wishList);
+        System.out.println(createdWishList);
+
+
+
+        return createdWishList;
     }
 
     @GetMapping("/read/{wishListId}")
@@ -33,7 +40,7 @@ public class WishListController {
     public boolean delete(@PathVariable long wishListId){
         return service.delete(wishListId);
     }
-    @GetMapping("/getAll")
+    @GetMapping("/getall")
     public List<WishList> getall(){
         return service.getall();
     }

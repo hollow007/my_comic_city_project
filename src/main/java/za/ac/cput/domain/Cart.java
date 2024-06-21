@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Mpumzi Mbula
@@ -17,42 +16,33 @@ import java.util.stream.Collectors;
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long cartId;
+    private Long cartId;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "cart_comicbook",
             joinColumns = @JoinColumn(name = "cart_id"),
             inverseJoinColumns = @JoinColumn(name = "comic_book_id")
     )
-
-    List<ComicBook> comicBookList;
-    private double totalPrice;
+    private List<ComicBook> comicBooks;
     private LocalDate createdDate;
     private LocalDate updatedDate;
 
-    protected Cart (Builder builder) {
-        this.cartId = builder.cartId;
-        this.comicBookList = builder.comicBookList;
-        this.totalPrice = builder.totalPrice;
-        this.createdDate = builder.createdDate;
-        this.updatedDate = builder.updatedDate;
-
-    }
-
     public Cart() {
+    }
+    protected Cart(Builder builder){
+       this.cartId=builder.cartId;
+       this.comicBooks=builder.comicBooks;
+       this.createdDate=builder.createdDate;
+       this.updatedDate=builder.updatedDate;
 
     }
 
-    public long getCartId() {
+    public Long getCartId() {
         return cartId;
     }
 
-    public List<ComicBook> getComicBookList() {
-        return comicBookList;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
+    public List<ComicBook> getComicBooks() {
+        return comicBooks;
     }
 
     public LocalDate getCreatedDate() {
@@ -67,49 +57,42 @@ public class Cart {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Cart cart)) return false;
-        return cartId == cart.cartId && Double.compare(totalPrice, cart.totalPrice) == 0 && Objects.equals(comicBookList, cart.comicBookList) && Objects.equals(createdDate, cart.createdDate) && Objects.equals(updatedDate, cart.updatedDate);
+        return Objects.equals(cartId, cart.cartId) && Objects.equals(comicBooks, cart.comicBooks) && Objects.equals(createdDate, cart.createdDate) && Objects.equals(updatedDate, cart.updatedDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cartId, comicBookList, totalPrice, createdDate, updatedDate);
+        return Objects.hash(cartId, comicBooks, createdDate, updatedDate);
     }
 
     @Override
     public String toString() {
-        String comicBookSKUs = comicBookList.stream().map(ComicBook::getSKU).collect(Collectors.joining(", "));
         return "Cart{" +
                 "cartId=" + cartId +
-                ", comicBookList=[" + comicBookSKUs + "]" +
-                ", totalPrice=" + totalPrice +
+                ", comicBooks=" + comicBooks +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
                 '}';
     }
+    public static class Builder{
 
-    public static class Builder {
-        private long cartId;
+        private Long cartId;
 
-        List<ComicBook> comicBookList;
-        private double totalPrice;
+       private  List<ComicBook> comicBooks;
         private LocalDate createdDate;
         private LocalDate updatedDate;
-        public Builder (){
 
+
+        public Builder() {
         }
 
-        public Builder setCartId(long cartId) {
+        public Builder setCartId(Long cartId) {
             this.cartId = cartId;
             return this;
         }
 
-        public Builder setComicBookList(List<ComicBook> comicBookList) {
-            this.comicBookList = comicBookList;
-            return this;
-        }
-
-        public Builder setTotalPrice(double totalPrice) {
-            this.totalPrice = totalPrice;
+        public Builder setComicBooks(List<ComicBook> comicBooks) {
+            this.comicBooks = comicBooks;
             return this;
         }
 
@@ -122,19 +105,18 @@ public class Cart {
             this.updatedDate = updatedDate;
             return this;
         }
-        public Builder copy (Cart cart) {
-            this.cartId = cart.cartId;
-            this.comicBookList = cart.comicBookList;
-            this.totalPrice = cart.totalPrice;
-            this.createdDate = cart.createdDate;
-            this.updatedDate = cart.updatedDate;
+        public Builder copy(Cart cart){
+            this.cartId=cart.cartId;
+            this.comicBooks=cart.comicBooks;
+            this.createdDate=cart.createdDate;
+            this.updatedDate=cart.updatedDate;
             return this;
         }
 
         public Cart build(){
             return new Cart(this);
         }
-
     }
+
 
 }
