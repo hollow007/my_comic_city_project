@@ -13,8 +13,12 @@ public class Contact {
     @Id
     private  String email;
     private  String mobile;
+
     @OneToOne
-    private Address address;
+    private BillingAdress billingAdress;
+
+    @OneToOne
+    private ShippingAddress shippingAddress;
 
     protected Contact() {
 
@@ -23,7 +27,8 @@ public class Contact {
     private Contact(ContactBuilder contactBuilder) {
         this.email = contactBuilder.email;
         this.mobile = contactBuilder.mobile;
-        this.address = contactBuilder.address;
+        this.shippingAddress = contactBuilder.shippingAddress;
+        this.billingAdress = contactBuilder.billingAdress;
     }
 
     public String getEmail() {
@@ -34,36 +39,42 @@ public class Contact {
         return mobile;
     }
 
-    public Address getAddress() {
-        return address;
+    public BillingAdress getBillingAdress() {
+        return billingAdress;
     }
 
+    public ShippingAddress getShippingAddress() {
+        return shippingAddress;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Contact contact = (Contact) o;
-        return Objects.equals(email, contact.email) && Objects.equals(mobile, contact.mobile) && Objects.equals(address, contact.address);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(email, mobile, address);
+        return Objects.equals(email, contact.email) && Objects.equals(mobile, contact.mobile) && Objects.equals(billingAdress, contact.billingAdress) && Objects.equals(shippingAddress, contact.shippingAddress);
     }
 
     @Override
     public String toString() {
-        return "Domain.Contact{" +
+        return "Contact{" +
                 "email='" + email + '\'' +
                 ", mobile='" + mobile + '\'' +
-                ", workTelephone='" + address + '\'' +
+                ", billingAdress=" + billingAdress +
+                ", shippingAddress=" + shippingAddress +
                 '}';
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, mobile, billingAdress, shippingAddress);
+    }
+
     public static class ContactBuilder{
         private  String email;
         private  String mobile;
-        private Address address;
+        private BillingAdress billingAdress;
+        private ShippingAddress shippingAddress;
 
         public ContactBuilder() {
         }
@@ -79,14 +90,24 @@ public class Contact {
             return this;
         }
 
-        public ContactBuilder setAddress(Address address) {
-            this.address = address;
+
+        public ContactBuilder setBillingAdress(BillingAdress billingAdress) {
+            this.billingAdress = billingAdress;
             return this;
         }
+
+
+        public ContactBuilder setShippingAddress(ShippingAddress shippingAddress) {
+            this.shippingAddress = shippingAddress;
+            return this;
+        }
+
         public ContactBuilder copy(Contact contact) {
             this.email = contact.email;
             this.mobile = contact.mobile;
-            this.address = contact.address;
+            this.shippingAddress = contact.shippingAddress;
+            this.billingAdress = contact.billingAdress;
+
             return this;
         }
 

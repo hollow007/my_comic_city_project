@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import za.ac.cput.domain.ComicBook;
 @Repository
-public interface ComicBookRepository extends JpaRepository<ComicBook, String> {
+public interface ComicBookRepository extends JpaRepository<ComicBook, Long> {
 
 
 }

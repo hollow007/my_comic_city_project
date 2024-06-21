@@ -1,6 +1,7 @@
 package za.ac.cput.factory;
-
-
+// Mlungisi L. Mbuyazi
+// 221164014
+// https://github.com/Skiet88/comic__city_project
 
 import za.ac.cput.domain.Author;
 import za.ac.cput.domain.ComicBook;
@@ -11,19 +12,28 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ComicBookFactory {
-    public static ComicBook buildBuilder(String sku, String name, double wieght, LocalDate releaseDate, List<Author> authors, Publisher publisher, double price) {
-        if (Helper.isStringNullorEmpty(sku) || Helper.isStringNullorEmpty(name) || wieght <= 0.0 || Helper.isValidDate(releaseDate) || Helper.isListNullorEmpty(authors) || publisher==null|| price <= 0.0) {
+    public static ComicBook bookBuilder(String name, String genre, String description, String ISBN, double price, double weight,
+                                        int quantity, List<Author> authors, Publisher publisher,  LocalDate releaseDate, byte[] photo) {
+        if ( Helper.isStringNullorEmpty(name) || weight <= 0 || Helper.isValidDate(releaseDate) || Helper.isListNullorEmpty(authors)
+                || Helper.isObjectNull(publisher)|| price <= 0 || Helper.isStringNullorEmpty(description)|| Helper.isStringNullorEmpty(ISBN)
+                || Helper.isStringNullorEmpty(genre) || Helper.isArrayNullOrEmpty(photo)){
 
             return null;
         }
 
-        return new ComicBook.ComicBookBuilder().setSKU(sku)
+        return new ComicBook.Builder()
                 .setName(name)
-                .setWieght(wieght)
+                .setWeight(weight)
                 .setReleaseDate(releaseDate)
-                .setAuthor(authors)
+                .setAuthors(authors)
                 .setPublisher(publisher)
                 .setPrice(price)
+                .setCategory(genre)
+                .setISBN(ISBN)
+                .setDescription(description)
+                .setQuantity(quantity)
+                .setPhoto(photo)
                 .build();
+
     }
 }
