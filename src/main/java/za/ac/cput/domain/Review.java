@@ -1,245 +1,148 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.ArrayList;
-
+import java.util.stream.Collectors;
 /* Review.java
    Author: Cavan Ramone Swartz (221055835)
-   Date: 17 May 2024
+   Date: 18 June 2024
    https://github.com/hollow007/my_comic_city_project
  */
 
 @Entity
-@Table(name = "reviews")
-@DynamicInsert
-@DynamicUpdate
 public class Review {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int reviewID;
+    private Long reviewID;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "reviews_comic_books",
-            joinColumns = @JoinColumn(name = "review_id"),
-            inverseJoinColumns = @JoinColumn(name = "comic_book_id"))
-    private List<ComicBook> comicBooks;
+    @ManyToOne
+    private ComicBook comicBook;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Customer customer;
 
-    @Column(nullable = false)
     private int reviewRating;
 
-    @Column(nullable = false)
-    private String reviewText;
+    private String reviewDescription;
 
-    @Column(nullable = false)
     private LocalDate reviewDate;
 
-    @Column(nullable = false)
-    private boolean spoilerFlag;
-
-    @Column(nullable = false)
     private String reviewTitle;
 
-    @Column(nullable = false)
-    private int replyCount;
+    protected Review() {}
 
-    @Column(nullable = false)
-    private String reviewStatus;
-
-    public Review() {}
-
-    private Review(Builder builder) {
-        this.comicBooks = builder.comicBooks;
-        this.user = builder.user;
-        this.reviewRating = builder.reviewRating;
-        this.reviewText = builder.reviewText;
-        this.reviewDate = builder.reviewDate;
-        this.spoilerFlag = builder.spoilerFlag;
-        this.reviewTitle = builder.reviewTitle;
-        this.replyCount = builder.replyCount;
-        this.reviewStatus = builder.reviewStatus;
+    private Review(ReviewBuilder e) {
+        this.reviewID = e.reviewID;
+        this.customer = e.customer;
+        this.comicBook = e.comicBook;
+        this.reviewRating = e.reviewRating;
+        this.reviewDescription = e.reviewDescription;
+        this.reviewDate = e.reviewDate;
+        this.reviewTitle = e.reviewTitle;
     }
 
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    public void setComicBooks(List<ComicBook> comicBooks) {
-        this.comicBooks = comicBooks;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setReviewID(int reviewID) {
-    }
-
-    public void setReviewRating(int reviewRating) {
-    }
-
-    public void setReviewText(String reviewText) {
-    }
-
-    public void setReviewDate(LocalDate reviewDate) {
-    }
-
-    public void setSpoilerFlag(boolean spoilerFlag) {
-    }
-
-    public void setReviewTitle(String reviewTitle) {
-    }
-
-    public void setReplyCount(int replyCount) {
-    }
-
-    public void setReviewStatus(String reviewStatus) {
-    }
-
-    public static class Builder {
-        private List<ComicBook> comicBooks;
-        private User user;
-        private int reviewRating;
-        private String reviewText;
-        private LocalDate reviewDate;
-        private boolean spoilerFlag;
-        private String reviewTitle;
-        private int replyCount;
-        private String reviewStatus;
-
-        public Builder comicBooks(List<ComicBook> comicBooks) {
-            this.comicBooks = comicBooks;
-            return this;
-        }
-
-        public Builder user(User user) {
-            this.user = user;
-            return this;
-        }
-
-        public Builder reviewRating(int reviewRating) {
-            this.reviewRating = reviewRating;
-            return this;
-        }
-
-        public Builder reviewText(String reviewText) {
-            this.reviewText = reviewText;
-            return this;
-        }
-
-        public Builder reviewDate(LocalDate reviewDate) {
-            this.reviewDate = reviewDate;
-            return this;
-        }
-
-        public Builder spoilerFlag(boolean spoilerFlag) {
-            this.spoilerFlag = spoilerFlag;
-            return this;
-        }
-
-        public Builder reviewTitle(String reviewTitle) {
-            this.reviewTitle = reviewTitle;
-            return this;
-        }
-
-        public Builder replyCount(int replyCount) {this.replyCount = replyCount;
-            return this;
-        }
-
-        public Builder reviewStatus(String reviewStatus) {
-            this.reviewStatus = reviewStatus;
-            return this;
-        }
-
-        public Review build() {
-            return new Review(this);
-        }
-    }
-
-    public int getReviewID() {
+    public Long getReviewID() {
         return reviewID;
     }
 
-    public List<ComicBook> getComicBooks() {
-        return comicBooks;
+    public ComicBook getComicBook() {
+        return comicBook;
     }
 
-    public User getUser() {
-        return user;
+    public Customer getCustomer() {
+        return customer;
     }
 
     public int getReviewRating() {
         return reviewRating;
     }
 
-    public String getReviewText() {
-        return reviewText;
+    public String getReviewDescription() {
+        return reviewDescription;
     }
 
     public LocalDate getReviewDate() {
         return reviewDate;
     }
 
-    public boolean isSpoilerFlag() {
-        return spoilerFlag;
-    }
-
     public String getReviewTitle() {
         return reviewTitle;
-    }
-
-    public int getReplyCount() {
-        return replyCount;
-    }
-
-    public String getReviewStatus() {
-        return reviewStatus;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Review)) return false;
+        if (o == null || getClass()!= o.getClass()) return false;
         Review review = (Review) o;
-        return getReviewID() == review.getReviewID() &&
-                getReviewRating() == review.getReviewRating() &&
-                isSpoilerFlag() == review.isSpoilerFlag() &&
-                getReplyCount() == review.getReplyCount() &&
-                getReviewStatus().equals(review.getReviewStatus()) &&
-                getReviewText().equals(review.getReviewText()) &&
-                getReviewDate().equals(review.getReviewDate()) &&
-                getReviewTitle().equals(review.getReviewTitle()) &&
-                getComicBooks().equals(review.getComicBooks()) &&
-                getUser().equals(review.getUser());
+        return Objects.equals(reviewID, review.reviewID) && Objects.equals(customer, review.customer) && Objects.equals(comicBook, review.comicBook) && reviewRating == review.reviewRating && Objects.equals(reviewDescription, review.reviewDescription) && Objects.equals(reviewDate, review.reviewDate) && Objects.equals(reviewTitle, review.reviewTitle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(reviewID, getComicBooks(), getUser(), getReviewRating(), getReviewText(), getReviewDate(), spoilerFlag, getReviewTitle(), replyCount, reviewStatus);
+        return Objects.hash(reviewID, customer, comicBook, reviewRating, reviewDescription, reviewDate, reviewTitle);
     }
 
     @Override
     public String toString() {
         return "Review{" +
                 "reviewID=" + reviewID +
-                ", comicBooks=" + comicBooks +
-                ", user=" + user +
+                ", comicBook=" + comicBook +
+                ", customer=" + customer +
                 ", reviewRating=" + reviewRating +
-                ", reviewText='" + reviewText + '\'' +
+                ", reviewDescription='" + reviewDescription + '\'' +
                 ", reviewDate=" + reviewDate +
-                ", spoilerFlag=" + spoilerFlag +
                 ", reviewTitle='" + reviewTitle + '\'' +
-                ", replyCount=" + replyCount +
-                ", reviewStatus='" + reviewStatus + '\'' +
                 '}';
+    }
+
+    public static class ReviewBuilder {
+        private Long reviewID;
+        private Customer customer;
+        private ComicBook comicBook;
+        private int reviewRating;
+        private String reviewDescription;
+        private LocalDate reviewDate;
+        private String reviewTitle;
+
+        public ReviewBuilder setReviewID(Long reviewID) {
+            this.reviewID = reviewID;
+            return this;
+        }
+
+        public ReviewBuilder setCustomer(Customer customer) {
+            this.customer = customer;
+            return this;
+        }
+
+        public ReviewBuilder setComicBook(ComicBook comicBook) {
+            this.comicBook = comicBook;
+            return this;
+        }
+
+        public ReviewBuilder setReviewRating(int reviewRating) {
+            this.reviewRating = reviewRating;
+            return this;
+        }
+
+        public ReviewBuilder setReviewDescription(String reviewDescription) {
+            this.reviewDescription = reviewDescription;
+            return this;
+        }
+
+        public ReviewBuilder setReviewDate(LocalDate reviewDate) {
+            this.reviewDate = reviewDate;
+            return this;
+        }
+
+        public ReviewBuilder setReviewTitle(String reviewTitle) {
+            this.reviewTitle = reviewTitle;
+            return this;
+        }
+
+        public Review build() {
+            return new Review(this);
+        }
     }
 }

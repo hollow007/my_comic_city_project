@@ -16,9 +16,7 @@ import java.util.Objects;
 @DiscriminatorValue("BillingAddress_type")
 public class BillingAdress extends Address{
 
-    private static final Address.AddressBuilder AddressBuilder = new AddressBuilder() ;
     private String paymentMethod;
-    private String invoiceNotes;
 
     public BillingAdress(){
     }
@@ -26,7 +24,6 @@ public class BillingAdress extends Address{
     private BillingAdress(BillingAdressBuilder builder){
         super(builder);
         this.paymentMethod = builder.paymentMethod;
-        this.invoiceNotes = builder.invoiceNotes;
 
     }
 
@@ -35,9 +32,7 @@ public class BillingAdress extends Address{
         return paymentMethod;
     }
 
-    public String getInvoiceNotes() {
-        return invoiceNotes;
-    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -45,19 +40,18 @@ public class BillingAdress extends Address{
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         BillingAdress that = (BillingAdress) o;
-        return Objects.equals(paymentMethod, that.paymentMethod) && Objects.equals(invoiceNotes, that.invoiceNotes);
+        return Objects.equals(paymentMethod, that.paymentMethod);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), paymentMethod, invoiceNotes);
+        return Objects.hash(super.hashCode(), paymentMethod);
     }
 
     @Override
     public String toString() {
         return "BillingAdress{" +
                 "paymentMethod='" + paymentMethod + '\'' +
-                ", invoiceNotes='" + invoiceNotes + '\'' +
                 "Street='" + super.toString()+ '\'' +
                 '}';
 
@@ -112,7 +106,6 @@ public class BillingAdress extends Address{
             this.postalCode = o.postalCode;
             this.city = o.city;
             this.paymentMethod = o.paymentMethod;
-            this.invoiceNotes = o.invoiceNotes;
             return this;
 
         }

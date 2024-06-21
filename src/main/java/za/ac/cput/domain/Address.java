@@ -70,7 +70,7 @@ public class Address {
                 '}';
     }
 
-    public  static class AddressBuilder{
+    public static class AddressBuilder{
 
         protected String street;
         protected String suburb;
