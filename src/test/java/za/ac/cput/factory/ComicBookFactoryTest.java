@@ -2,7 +2,7 @@ package za.ac.cput.factory;
 // Mlungisi L. Mbuyazi
 // 221164014
 // https://github.com/Skiet88/comic__city_project
-
+//
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,25 +28,28 @@ class ComicBookFactoryTest {
     private ComicBook book1;
     private ComicBook book2;
     private ComicBook book3;
+    byte[] photo;
 
     @BeforeEach
     void setUp() {
+        photo = new byte[0];
+
         publisher1 = PublisherFactory.buildPublisher(34655, "Marvel",2000);
 
 
-
-
-        author1 = AuthorFactory.buildAuthor(001, "Lamark", "", "Darwin");
+        author1 = AuthorFactory.buildAuthor(001,"Lamark", "", "Darwin");
         author2 = AuthorFactory.buildAuthor(002, "Jacob", "Gedleyihlekisa", "Zuma");
 
         authors = new ArrayList<>();
         authors.add(author1);
         authors.add(author2);
 
-        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors, publisher1, 300.00);
-        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,07,17), authors, publisher1,300.00);
-        book3 = ComicBookFactory.buildBuilder("CMB03", "Spider-Man", 3.4, LocalDate.now(), authors, publisher1, -1);
-
+        book1 = ComicBookFactory.bookBuilder("Thor", "Fantasy", "AsGuards Prince son of Zuis",
+                "B01", 299.99, 2.00, 1, authors, publisher1, LocalDate.of(2022, 03, 04), photo);
+        book2 = ComicBookFactory.bookBuilder("Thor", "Fantasy", "AsGuards Prince son of Zuis",
+                "B02", 199.99, 1.80, 1, authors, publisher1, LocalDate.of(2024, 03, 15), photo);
+        book3 = ComicBookFactory.bookBuilder("Thor", "Fantasy", "AsGuards Prince son of Zuis",
+                "B03", 539.99, 3.50, 3, authors, publisher1, LocalDate.of(2021, 05, 30), photo);
     }
 
     @Test

@@ -4,6 +4,7 @@ package za.ac.cput.domain;
 // https://github.com/Skiet88/comic__city_project
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 import java.util.Objects;
 
@@ -12,7 +13,12 @@ public class Contact {
     @Id
     private  String email;
     private  String mobile;
-    private String workTelephone;
+
+    @OneToOne
+    private BillingAdress billingAdress;
+
+    @OneToOne
+    private ShippingAddress shippingAddress;
 
     protected Contact() {
 
@@ -21,7 +27,8 @@ public class Contact {
     private Contact(ContactBuilder contactBuilder) {
         this.email = contactBuilder.email;
         this.mobile = contactBuilder.mobile;
-        this.workTelephone = contactBuilder.workTelephone;
+        this.shippingAddress = contactBuilder.shippingAddress;
+        this.billingAdress = contactBuilder.billingAdress;
     }
 
     public String getEmail() {
@@ -32,36 +39,42 @@ public class Contact {
         return mobile;
     }
 
-    public String getWorkTelephone() {
-        return workTelephone;
+    public BillingAdress getBillingAdress() {
+        return billingAdress;
     }
 
+    public ShippingAddress getShippingAddress() {
+        return shippingAddress;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Contact contact = (Contact) o;
-        return Objects.equals(email, contact.email) && Objects.equals(mobile, contact.mobile) && Objects.equals(workTelephone, contact.workTelephone);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(email, mobile, workTelephone);
+        return Objects.equals(email, contact.email) && Objects.equals(mobile, contact.mobile) && Objects.equals(billingAdress, contact.billingAdress) && Objects.equals(shippingAddress, contact.shippingAddress);
     }
 
     @Override
     public String toString() {
-        return "Domain.Contact{" +
+        return "Contact{" +
                 "email='" + email + '\'' +
                 ", mobile='" + mobile + '\'' +
-                ", workTelephone='" + workTelephone + '\'' +
+                ", billingAdress=" + billingAdress +
+                ", shippingAddress=" + shippingAddress +
                 '}';
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, mobile, billingAdress, shippingAddress);
+    }
+
     public static class ContactBuilder{
         private  String email;
         private  String mobile;
-        private String workTelephone;
+        private BillingAdress billingAdress;
+        private ShippingAddress shippingAddress;
 
         public ContactBuilder() {
         }
@@ -77,14 +90,24 @@ public class Contact {
             return this;
         }
 
-        public ContactBuilder setWorkTelephone(String workTelephone) {
-            this.workTelephone = workTelephone;
+
+        public ContactBuilder setBillingAdress(BillingAdress billingAdress) {
+            this.billingAdress = billingAdress;
             return this;
         }
+
+
+        public ContactBuilder setShippingAddress(ShippingAddress shippingAddress) {
+            this.shippingAddress = shippingAddress;
+            return this;
+        }
+
         public ContactBuilder copy(Contact contact) {
             this.email = contact.email;
             this.mobile = contact.mobile;
-            this.workTelephone = contact.workTelephone;
+            this.shippingAddress = contact.shippingAddress;
+            this.billingAdress = contact.billingAdress;
+
             return this;
         }
 

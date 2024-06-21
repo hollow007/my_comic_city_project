@@ -6,6 +6,6 @@ import za.ac.cput.service.IService;
 
 import java.util.List;
 @Service
-public interface IComicBookService extends IService<ComicBook, String> {
+public interface IComicBookService extends IService<ComicBook, Long> {
     List<ComicBook> getAll();
  }
