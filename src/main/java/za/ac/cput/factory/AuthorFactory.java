@@ -9,10 +9,10 @@ import za.ac.cput.domain.Name;
 import za.ac.cput.util.Helper;
 
 public class AuthorFactory {
-    public static Author buildAuthor(long authorID, String firstName, String middleName , String lastName){
+    public static Author buildAuthor(String firstName, String middleName , String lastName){
         Name name;
 
-        if(authorID <= 0 || Helper.isStringNullorEmpty(firstName) || Helper.isStringNullorEmpty(lastName)){
+        if(Helper.isStringNullorEmpty(firstName) || Helper.isStringNullorEmpty(lastName)){
             return null;
         }
 
@@ -20,9 +20,8 @@ public class AuthorFactory {
                 .setLastName(lastName)
                 .setMiddleName(middleName)
                 .build();
-                // name.getId();
-        //System.out.println(name.getId());
-        return new Author.AuthorBuilder().setAuthorID(authorID)
+
+        return new Author.AuthorBuilder()
                 .setName(name)
                 .build();
     }
