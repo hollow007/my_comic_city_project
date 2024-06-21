@@ -90,9 +90,16 @@ public class Contact {
             return this;
         }
 
+
         public ContactBuilder setBillingAdress(BillingAdress billingAdress) {
             this.billingAdress = billingAdress;
             return this;
+        }
+       
+
+        public ContactBuilder setAddress(Address address) {
+            this.address = address;
+          return this;
         }
 
         public ContactBuilder setShippingAddress(ShippingAddress shippingAddress) {
