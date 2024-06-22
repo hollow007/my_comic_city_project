@@ -15,13 +15,15 @@ public class WishListFactory {
      * 17/05/2024
      *
      */
-    public static  WishList buildWishList(long wishListId,String wishListName, List<ComicBook> comicBookList, LocalDate createdDate, LocalDate updatedDate){
-        if(wishListId<=0 || Helper.isStringNullorEmpty(wishListName)||Helper.isListNullorEmpty(comicBookList)|| !Helper.isNotAfter(createdDate,LocalDate.now())||Helper.isValidDate(updatedDate)){
-            return null;
+    public static  WishList buildWishList(Long wishListId,String wishListName, List<ComicBook> comicBooks, LocalDate createdDate, LocalDate updatedDate){
+        if(wishListId<=0 || Helper.isStringNullorEmpty(wishListName)|| Helper.isComicBooksListNullOrEmpty(comicBooks) ||
+                Helper.isAfter(createdDate, LocalDate.now()) ||
+                Helper.isAfter(updatedDate, LocalDate.now())){
+    return null;
         }
         return new WishList.Builder().setWishListId(wishListId)
-                .setWishlistName(wishListName)
-                .setComicBooks(comicBookList)
+                .setWishListName(wishListName)
+                .setComicBooks(comicBooks)
                 .setCreatedDate(createdDate)
                 .setUpdatedDate(updatedDate)
                 .build();

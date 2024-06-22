@@ -21,42 +21,47 @@ class CartFactoryTest {
     private Cart cart1;
     private Cart cart2;
     private Cart cart3;
+    byte[] photo;
     private Author author1;
     private Author author2;
     private List<Author> authors;
     private ComicBook book1;
     private ComicBook book2;
+    private ComicBook book3;
     private Publisher publisher1;
-     private Publisher publisher2;
-    List<ComicBook>comicBookList;
+
+    private List<ComicBook>comicBooks;
 
     @BeforeEach
     void setUp() {
+        photo = new byte[0];
 
-        publisher1 = PublisherFactory.buildPublisher(67954, "Kat Publishers", 2010);
-        publisher2 = PublisherFactory.buildPublisher(87949, "Nathan Publishers", 2007);
+        publisher1 = PublisherFactory.buildPublisher(34655, "Marvel",2000);
 
-        author1 = AuthorFactory.buildAuthor(001, "Lamark", "", "Darwin");
+
+        author1 = AuthorFactory.buildAuthor(001,"Lamark", "", "Darwin");
         author2 = AuthorFactory.buildAuthor(002, "Jacob", "Gedleyihlekisa", "Zuma");
 
         authors = new ArrayList<>();
-
         authors.add(author1);
         authors.add(author2);
 
-        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors, publisher1,300.00);
-        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024, 05, 18), authors,publisher2, 300.00);
+        book1 = ComicBookFactory.bookBuilder("Thor", "Fantasy", "AsGuards Prince son of Zuis",
+                "B01", 299.99, 2.00, 1, authors, publisher1, LocalDate.of(2022, 03, 04), photo);
+        book2 = ComicBookFactory.bookBuilder("Thor", "Fantasy", "AsGuards Prince son of Zuis",
+                "B02", 199.99, 1.80, 1, authors, publisher1, LocalDate.of(2024, 03, 15), photo);
+        book3 = ComicBookFactory.bookBuilder("Thor", "Fantasy", "AsGuards Prince son of Zuis",
+                "B03", 539.99, 3.50, 3, authors, publisher1, LocalDate.of(2021, 05, 30), photo);
 
-        comicBookList=new ArrayList<>();
+        comicBooks=new ArrayList<>();
 
-        comicBookList.add(book1);
-        comicBookList.add(book2);
+        comicBooks.add(book1);
+        comicBooks.add(book2);
+        comicBooks.add(book3);
 
-
-
-        cart1=CartFactory.buildCart(1,600.00,comicBookList,LocalDate.of(2024,02,15),LocalDate.now());
-        cart2=CartFactory.buildCart(2,-8,comicBookList,LocalDate.of(2024,04,20),LocalDate.of(2024,05,01));
-        cart3=CartFactory.buildCart(3,600,comicBookList,LocalDate.of(2025,04,20),LocalDate.of(2024,05,01));
+        cart1=CartFactory.buildCart(1L,comicBooks,LocalDate.of(2023,02,15),LocalDate.of(2023,03,01));
+        cart2=CartFactory.buildCart(2L,comicBooks,LocalDate.of(2024,04,20),LocalDate.of(2027,05,01));
+        cart3=CartFactory.buildCart(3L,comicBooks,LocalDate.of(2025,04,20),LocalDate.of(2024,05,01));
 
     }
     @Test
@@ -65,13 +70,13 @@ class CartFactoryTest {
         System.out.println(cart1);
     }
     @Test
-    void cartWithInvalidPriceMustBeNull(){
-    assertNull(cart2);
+    void cartWithFutureUpdateDateMustNull(){
+        assertNull(cart2);
         System.out.println(cart2);
     }
     @Test
-    void cartWithFutureCreationDateMustFail(){
-        //assertNotNull(cart3);
+    void cartWithFutureCreationDateMustNull(){
+        assertNull(cart3);
         System.out.println(cart3);
     }
 
