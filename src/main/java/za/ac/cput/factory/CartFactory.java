@@ -12,30 +12,25 @@ import java.util.List;
  * Mpumzi Mbula
  * 219053324
  * 17/05/2024
- *
  */
 public class CartFactory {
-//    public static Cart buildCart(double totalPrice, List<ComicBook> comicBooks, LocalDate createdDate, LocalDate updatedDate){
-//        if (Helper.isValidPrice(totalPrice) || Helper.isComicBooksListNullOrEmpty(comicBooks) ||!Helper.isNotAfter(createdDate, LocalDate.now()) || Helper.isValidDate(updatedDate)) {
-//            return null;
-//        }
-//        return new Cart.Builder().setTotalPrice(totalPrice)
-//                .setComicBookList(comicBooks)
-//                .setCreatedDate(createdDate)
-//                .setUpdatedDate(updatedDate)
-//                .build();
- //   }
+    public static Cart buildCart(Long cartId, List<ComicBook> comicBooks, LocalDate createdDate, LocalDate updateDate) {
+if (cartId <= 0 ||
+               Helper.isComicBooksListNullOrEmpty(comicBooks) ||
+               Helper.isAfter(createdDate, LocalDate.now())||
+               Helper.isAfter(updateDate, LocalDate.now())
+        )
 
-    public static Cart buildCart(long cartId,double totalPrice, List<ComicBook> comicBooks, LocalDate createdDate, LocalDate updatedDate){
-        if (cartId<=0||Helper.isValidPrice(totalPrice) || Helper.isComicBooksListNullOrEmpty(comicBooks) ||!Helper.isNotAfter(createdDate, LocalDate.now()) || Helper.isValidDate(updatedDate)) {
-            return null;
+        {
+   return null;
         }
-        return new Cart.Builder().setCartId(cartId).setTotalPrice(totalPrice)
-                .setComicBookList(comicBooks)
+
+        return new Cart.Builder().setCartId(cartId)
+                .setComicBooks(comicBooks)
                 .setCreatedDate(createdDate)
-                .setUpdatedDate(updatedDate)
+                .setUpdatedDate(updateDate)
                 .build();
     }
 
-    }
+}
 

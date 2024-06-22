@@ -1,6 +1,7 @@
 package za.ac.cput.util;
 
 import za.ac.cput.domain.ComicBook;
+import za.ac.cput.domain.Publisher;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -68,8 +69,8 @@ public class Helper {
         return !date.isBefore(LocalDate.now());
     }
 
-    public static boolean isNotAfter(LocalDate date, LocalDate referenceDate) {
-        return !date.isAfter(referenceDate);
+    public static boolean isAfter(LocalDate date, LocalDate referenceDate) {
+        return date.isAfter(referenceDate);
     }
 
     public static boolean isComicBooksListNullOrEmpty(List<ComicBook>comicBooks){
@@ -105,5 +106,20 @@ public class Helper {
 
     }
 
+    public static boolean isArrayNullOrEmpty(byte[] photo) {
+        if(photo==null){
+            return true;
+        }
+        return false;
 
+    }
+
+
+    public static boolean isObjectNull(Publisher publisher) {
+        if(publisher==null){
+            return true;
+        }
+        return false;
+
+    }
 }

@@ -43,10 +43,10 @@ public class ComicBook {
     )
     private List<Author> authors ;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "comicBooks",cascade = CascadeType.ALL)
     private List<Cart> carts ;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "comicBooks",cascade = CascadeType.ALL)
     private List<WishList> wishLists ;
 
     private double price;

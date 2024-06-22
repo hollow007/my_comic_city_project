@@ -21,38 +21,46 @@ class WishListFactoryTest {
     private WishList wishList1;
     private WishList wishList2;
     private WishList wishList3;
+    byte[]photo;
     private Author author1;
     private Author author2;
     private List<Author> authors;
     private ComicBook book1;
     private ComicBook book2;
-    private List<ComicBook> comicBookList;
+    private ComicBook book3;
+    private List<ComicBook> comicBooks;
     private Publisher publisher1;
 
 
     @BeforeEach
     void setup() {
-        author1 = AuthorFactory.buildAuthor(001, "Lamark", "", "Darwin");
-        author2 = AuthorFactory.buildAuthor(002, "Jacob", "Gedleyihlekisa", "Zuma");
-
-        authors = new ArrayList<>();
-
-        authors.add(author1);
-        authors.add(author2);
+        photo = new byte[0];
 
         publisher1 = PublisherFactory.buildPublisher(34655, "Marvel",2000);
 
 
-        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors, publisher1, 300.00);
-        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,07,17), authors, publisher1,300.00);
-        comicBookList = new ArrayList<>();
+        author1 = AuthorFactory.buildAuthor(001,"Lamark", "", "Darwin");
+        author2 = AuthorFactory.buildAuthor(002, "Jacob", "Gedleyihlekisa", "Zuma");
 
-        comicBookList.add(book1);
-        comicBookList.add(book2);
+        authors = new ArrayList<>();
+        authors.add(author1);
+        authors.add(author2);
 
-        wishList1 = WishListFactory.buildWishList(1,"myWishList1", comicBookList, LocalDate.of(2024, 02, 14), LocalDate.of(2024, 02, 15));
-        wishList2 = WishListFactory.buildWishList(2,"", comicBookList, LocalDate.of(2024, 04, 20), LocalDate.of(2024, 05, 01));
-        wishList3 = WishListFactory.buildWishList(3,"Books I Wish To Buy ", comicBookList, LocalDate.of(2025, 04, 20), LocalDate.of(2024, 05, 01));
+        book1 = ComicBookFactory.bookBuilder("Thor", "Fantasy", "AsGuards Prince son of Zuis",
+                "B01", 299.99, 2.00, 1, authors, publisher1, LocalDate.of(2022, 03, 04), photo);
+        book2 = ComicBookFactory.bookBuilder("Thor", "Fantasy", "AsGuards Prince son of Zuis",
+                "B02", 199.99, 1.80, 1, authors, publisher1, LocalDate.of(2024, 03, 15), photo);
+        book3 = ComicBookFactory.bookBuilder("Thor", "Fantasy", "AsGuards Prince son of Zuis",
+                "B03", 539.99, 3.50, 3, authors, publisher1, LocalDate.of(2021, 05, 30), photo);
+
+        comicBooks=new ArrayList<>();
+        comicBooks.add(book1);
+        comicBooks.add(book2);
+        comicBooks.add(book3);
+
+        wishList1 = WishListFactory.buildWishList(1L,"myWishList1", comicBooks, LocalDate.of(2024, 02, 14), LocalDate.of(2024, 02, 15));
+        wishList2 = WishListFactory.buildWishList(2L,"", comicBooks, LocalDate.of(2024, 04, 20), LocalDate.of(2024, 05, 01));
+        wishList3 = WishListFactory.buildWishList(3L,"Books I Wish To Buy ", comicBooks, LocalDate.of(2025, 04, 20), LocalDate.of(2024, 05, 01));
     }
 
     @Test
@@ -68,7 +76,7 @@ class WishListFactoryTest {
     }
 
     @Test
-    void wishListWithFutureCreationDateMustFail() {
+    void wishListWithFutureCreationDateMustBeNull() {
         assertNull(wishList3);
         System.out.println(wishList3);
     }
