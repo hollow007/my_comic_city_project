@@ -1,34 +1,33 @@
 package za.ac.cput.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.hibernate.annotations.IdGeneratorType;
+import org.hibernate.id.factory.internal.AutoGenerationTypeStrategy;
+import za.ac.cput.factory.ContactFactory;
+import za.ac.cput.factory.NameFactory;
 
 import java.util.Objects;
+import java.util.Random;
+
 @Entity
 public class Admin extends User {
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Id
-    private String employeeId;
-    private String password;
-
+    private Long employeeId;
 
     public Admin() {
         super();
-
     }
 
     public Admin(AdminBuilder builder) {
-        super();
-        this.employeeId = builder.employeeId;
+        this.name = builder.name;
         this.password = builder.password;
     }
 
-    public String getEmployeeId() {
-        return employeeId;
+    @Override
+    public Contact getContact() {
+        return contact;
     }
-    public String getPassword() {
-        return password;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -46,31 +45,41 @@ public class Admin extends User {
     @Override
     public String toString() {
         return "Admin{" +
-                 super.toString()+
-                "employeeId='" + employeeId + '\'' +
-                ", password='" + password + '\'' +
+                "password='" + password + '\'' +
+                ", name=" + name +
                 '}';
     }
 
-
-    public static class AdminBuilder {
-
-        private String employeeId;
-        private String password;
-
-        public AdminBuilder setEmployeeId(String employeeId) {
-            this.employeeId = employeeId;
+    public static class AdminBuilder extends User{
+        public AdminBuilder setFName(String name) {
+            this.name = NameFactory.buildFirstName(name);
             return this;
         }
 
-        public AdminBuilder setPassword(String password) {
+        public AdminBuilder setMName(String name) {
+            this.name = NameFactory.buildMiddleName(name);
+            return this;
+        }
+
+        public AdminBuilder setLName(String name) {
+            this.name=NameFactory.buildlastName(name);
+            return this;
+        }
+
+
+        public AdminBuilder setName(String firstName, String middleName, String lastName){
+            this.name = NameFactory.buildName(firstName, middleName, lastName);
+            return this;
+        }
+
+
+        public AdminBuilder setPassword(String password){
             this.password = password;
             return this;
         }
 
-       public  AdminBuilder copy (Admin admin){
 
-            this.employeeId = admin.employeeId;
+            public  AdminBuilder copy (Admin admin){
             this.password = admin.password;
             return this;
        }

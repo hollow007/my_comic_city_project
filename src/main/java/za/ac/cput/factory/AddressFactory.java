@@ -11,7 +11,8 @@ public class AddressFactory {
     public Address buildAddress (String street, String suburb, String postalCode, String city ){
         if(Helper.isStringNullorEmpty(street) || Helper.isStringNullorEmpty(suburb) ||
                 Helper.isInvalidPostalCode(postalCode) || Helper.isStringNullorEmpty(city))
-        return null;
+
+        throw new IllegalStateException("bad object : Null object");
         return new Address.AddressBuilder().
                 setStreet(street).
                 setSuburb(suburb).

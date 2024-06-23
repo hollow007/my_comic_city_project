@@ -13,13 +13,14 @@ import java.time.LocalTime;
 
 public class ShippingAddressFactory {
 
-    public ShippingAddress buildShippingAddress (LocalTime time, String signature,  String street , String suburb, String postalCode, String city ) {
-        if (Helper.isInvalidTime(time)|| Helper.isStringNullorEmpty(signature) || Helper.isStringNullorEmpty(street) || Helper.isStringNullorEmpty(suburb) ||
+    public static ShippingAddress buildShippingAddress (LocalTime prefferedDeliveryTime,String street , String suburb, String postalCode, String city ) {
+        if (Helper.isInvalidTime(prefferedDeliveryTime)|| Helper.isStringNullorEmpty(street) || Helper.isStringNullorEmpty(suburb) ||
                 Helper.isInvalidPostalCode(postalCode) || Helper.isStringNullorEmpty(city))
-            return null;
+
+           throw  new IllegalStateException("bad Object : null Object");
+
         return  (ShippingAddress) new ShippingAddress.ShippingAddressBuilder().
-                setPreffered_delivery_time(time).
-                setSignature_required(signature).
+                setPreffered_delivery_time(prefferedDeliveryTime).
                 setStreet(street).
                 setSuburb(suburb).
                 setCity(city).
