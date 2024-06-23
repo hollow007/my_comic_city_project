@@ -85,7 +85,7 @@ public class Helper {
         }
         return false;
     }
-    public static boolean isValidInt(int number){
+    public static boolean isInvalidInt(int number){
         if(number<=0){
             return true;
         }
@@ -115,8 +115,8 @@ public class Helper {
     }
 
 
-    public static boolean isObjectNull(Publisher publisher) {
-        if(publisher==null){
+    public static boolean isObjectNull(Object object) {
+        if(object==null){
             return true;
         }
         return false;
