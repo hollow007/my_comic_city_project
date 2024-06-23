@@ -8,20 +8,18 @@ package za.ac.cput.domain;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 
 import java.util.Objects;
 
 @Entity
 @DiscriminatorValue("BillingAddress_type")
-public class BillingAdress extends Address{
+public class BillingAddress extends Address{
 
     private String paymentMethod;
-
-    public BillingAdress(){
+    public BillingAddress(){
     }
 
-    private BillingAdress(BillingAdressBuilder builder){
+    private BillingAddress(BillingAddressBuilder builder){
         super(builder);
         this.paymentMethod = builder.paymentMethod;
 
@@ -39,7 +37,7 @@ public class BillingAdress extends Address{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        BillingAdress that = (BillingAdress) o;
+        BillingAddress that = (BillingAddress) o;
         return Objects.equals(paymentMethod, that.paymentMethod);
     }
 
@@ -57,43 +55,20 @@ public class BillingAdress extends Address{
 
     }
 
-    public static class BillingAdressBuilder extends AddressBuilder{
+    public static class BillingAddressBuilder extends AddressBuilder{
+        public BillingAddressBuilder() {
+            super();
+        }
 
         protected String paymentMethod;
 
-
-        @Override
-        public AddressBuilder setStreet(String street) {
-            this.street = street;
-            return this;
-        }
-
-        @Override
-        public AddressBuilder setSuburb(String suburb) {
-            this.suburb = suburb;
-            return this;
-        }
-
-        @Override
-        public AddressBuilder setCity(String city) {
-            this.city = city;
-            return this;
-        }
-
-        @Override
-        public AddressBuilder setPostalCode(String postalCode) {
-            this.postalCode = postalCode;
-            return this;
-        }
-
-
-        public BillingAdressBuilder setPaymentMethod (String paymentMethod) {
+        public BillingAddressBuilder setPaymentMethod (String paymentMethod) {
             this.paymentMethod = paymentMethod;
             return this;
         }
 
 
-        public BillingAdressBuilder copy (BillingAdress  o){
+        public BillingAddressBuilder copy (BillingAddress  o){
             this.street = o.street;
             this.suburb = o.suburb;
             this.postalCode = o.postalCode;
@@ -103,7 +78,7 @@ public class BillingAdress extends Address{
 
         }
 
-        public BillingAdress build (){return new BillingAdress(this);}
+        public BillingAddress build (){return new BillingAddress(this);}
 
     }
 }

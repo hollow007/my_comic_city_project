@@ -7,20 +7,20 @@ package za.ac.cput.factory;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.Address;
-import za.ac.cput.domain.BillingAdress;
+
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-@SpringBootTest
+
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class BillingAddressFactoryTest {
 
-    BillingAdress address;
+    static Address address;
 
-    @BeforeEach
-    void setUp() {
-         address = new BillingAddressFactory().
+    @BeforeAll
+    static void setUp() {
+         address = BillingAddressFactory.
                 buildBillingAddress("card","34 Batersea Drive", "Kibbler park" , "2091" , "Johannesburg");
 
 
@@ -29,7 +29,6 @@ class BillingAddressFactoryTest {
     @Test
     void a_goodAddress() {
 
-        address = BillingAddressFactory.buildBillingAddress("card","34 Batersea Drive", "Kibbler park" , "2091" , "Johannesburg");
         assertNotNull(address);
         System.out.println(address);
 
@@ -39,7 +38,7 @@ class BillingAddressFactoryTest {
     @Test
     void b_badAddress() {
 
-        address = new BillingAddressFactory().buildBillingAddress("card","34 Batersea Drive", "" , "2091" , "Johannesburg");
+        address = BillingAddressFactory.buildBillingAddress("card","34 Batersea Drive", "" , "2091" , "Johannesburg");
         assertNull(address);
         System.out.println(address);
 

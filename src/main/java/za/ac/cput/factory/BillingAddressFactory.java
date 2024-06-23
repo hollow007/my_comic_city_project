@@ -4,7 +4,9 @@ package za.ac.cput.factory;
 //Student No 222191562
 //GitHubRepository:My_commic_city_project
 
-import za.ac.cput.domain.BillingAdress;
+import za.ac.cput.domain.Address;
+import za.ac.cput.domain.BillingAddress;
+
 import za.ac.cput.util.Helper;
 
 
@@ -12,13 +14,12 @@ import za.ac.cput.util.Helper;
 public class BillingAddressFactory {
 
 
-    public static BillingAdress buildBillingAddress (String paymentMethod,String street , String suburb, String postalCode, String city ) {
+    public static Address buildBillingAddress (String paymentMethod, String street , String suburb, String postalCode, String city ) {
         if (Helper.isStringNullorEmpty(street) || Helper.isStringNullorEmpty(suburb) || Helper.isInvalidPostalCode(postalCode) ||
-                Helper.isStringNullorEmpty(city) || Helper.isStringNullorEmpty(paymentMethod))
-
-            throw new IllegalStateException("bad Object: null Object");
-
-        return (BillingAdress) new BillingAdress.BillingAdressBuilder().
+                Helper.isStringNullorEmpty(city) || Helper.isStringNullorEmpty(paymentMethod)) {
+            return null;
+        }
+        return new BillingAddress.BillingAddressBuilder().
                 setPaymentMethod(paymentMethod).
                 setStreet(street).
                 setSuburb(suburb).

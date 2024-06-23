@@ -36,7 +36,7 @@ class WishListFactoryTest {
     void setup() {
         photo = new byte[0];
 
-        publisher1 = PublisherFactory.buildPublisher(34655, "Marvel",2000);
+        publisher1 = PublisherFactory.buildPublisher(34655L, "Marvel",2000);
 
 
         author1 = AuthorFactory.buildAuthor(001,"Lamark", "", "Darwin");

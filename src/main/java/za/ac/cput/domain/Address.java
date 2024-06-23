@@ -10,7 +10,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "Address_type" , discriminatorType = DiscriminatorType.STRING  )
+@DiscriminatorColumn(name = "Address_type" , discriminatorType = DiscriminatorType.STRING)
 
 @IdClass(AddressId.class)
 public class Address {
