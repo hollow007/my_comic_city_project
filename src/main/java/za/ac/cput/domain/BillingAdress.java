@@ -60,7 +60,6 @@ public class BillingAdress extends Address{
     public static class BillingAdressBuilder extends AddressBuilder{
 
         protected String paymentMethod;
-        protected String invoiceNotes;
 
 
         @Override
@@ -92,12 +91,6 @@ public class BillingAdress extends Address{
             this.paymentMethod = paymentMethod;
             return this;
         }
-
-        public BillingAdressBuilder setInvoiceNotes(String invoiceNotes) {
-            this.invoiceNotes = invoiceNotes;
-            return this;
-        }
-
 
 
         public BillingAdressBuilder copy (BillingAdress  o){
