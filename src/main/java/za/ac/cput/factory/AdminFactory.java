@@ -6,31 +6,37 @@ import za.ac.cput.util.Helper;
 public class AdminFactory {
 
 
+    public static Admin buildAdmin(Long employeeId, String firstName, String middleName, String lastName, String password, Contact adminContact) {
+        if (employeeId <= 0 || Helper.isStringNullorEmpty(firstName) || Helper.isStringNullorEmpty(middleName) || Helper.isStringNullorEmpty(lastName) || Helper.isStringNullorEmpty(password) || Helper.isObjectNull(adminContact)) {
+            return null;
+        }
+        Name name = new Name.NameBuilder().setFirstName(firstName).setMiddleName(middleName).setLastName(lastName).build();
 
-    public static Admin buildAdmin(String firstName, String  middleName,  String lastName, String password){
-
-
-        if(Helper.isStringNullorEmpty(firstName)||Helper.isStringNullorEmpty(lastName)
-                ||Helper.isStringNullorEmpty(middleName)||Helper.isStringNullorEmpty(password))
-              throw new IllegalStateException ("bad object: Object Null");
-        return new Admin.AdminBuilder()
-                .setName(firstName,middleName,lastName)
+        return new Admin.AdminBuilder().setEmployeeId(employeeId)
+                .setContact(adminContact)
                 .setPassword(password)
-                .build();
+                .setName(name)
+                .build()
+                ;
     }
 
 
+    public static Admin buildAdmin(Long employeeId, String firstName, String lastName, String password, Contact contact) {
+        if (employeeId <= 0 || Helper.isStringNullorEmpty(firstName) || Helper.isStringNullorEmpty(lastName) || Helper.isStringNullorEmpty(password) || Helper.isObjectNull(contact)) {
+            return null;
+        }
+        Name name = new Name.NameBuilder().
+                setFirstName(firstName).
+                setLastName(lastName).
+                build();
 
-    public static Admin buildAdmin(String firstName, String lastName, String password){
-
-
-        if(Helper.isStringNullorEmpty(firstName)||Helper.isStringNullorEmpty(password)||Helper.isStringNullorEmpty(lastName))
-            throw new IllegalStateException("bad object: Object Null");
-        return new Admin.AdminBuilder()
-                .setFName(firstName)
-                .setLName(lastName)
+        return new Admin.AdminBuilder().setEmployeeId(employeeId)
+                .setContact(contact)
                 .setPassword(password)
-                .build();
+                .setName(name)
+                .build()
+                ;
+
     }
-    }
+}
 

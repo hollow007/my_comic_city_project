@@ -1,7 +1,7 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
-import za.ac.cput.service.publisherService.PublisherService;
+
 
 import java.util.ArrayList;
 import java.util.List;

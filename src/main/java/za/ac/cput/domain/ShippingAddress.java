@@ -16,7 +16,6 @@ import java.util.Objects;
 @DiscriminatorValue("shippingAddress_type")
 public class ShippingAddress extends Address{
 
-    private static final Address.AddressBuilder AddressBuilder = new AddressBuilder();
     private LocalTime preffered_delivery_time;
 
 
@@ -55,33 +54,13 @@ public class ShippingAddress extends Address{
 
 
     public static class ShippingAddressBuilder extends AddressBuilder{
+
+        public ShippingAddressBuilder() {
+            super();
+        }
+
         protected LocalTime preffered_delivery_time;
 
-
-
-        @Override
-        public ShippingAddressBuilder setStreet(String street) {
-            this.street = street;
-            return this;
-        }
-
-        @Override
-        public ShippingAddressBuilder setSuburb(String suburb) {
-            this.suburb = suburb;
-            return this;
-        }
-
-        @Override
-        public ShippingAddressBuilder setCity(String city) {
-            this.city = city;
-            return this;
-        }
-
-        @Override
-        public ShippingAddressBuilder setPostalCode(String postalCode) {
-            this.postalCode = postalCode;
-            return this;
-        }
 
         public ShippingAddressBuilder setPreffered_delivery_time(LocalTime preffered_delivery_time) {
             this.preffered_delivery_time = preffered_delivery_time;

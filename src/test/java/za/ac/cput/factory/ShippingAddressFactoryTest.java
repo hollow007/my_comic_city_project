@@ -1,25 +1,23 @@
 package za.ac.cput.factory;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
+import za.ac.cput.domain.Address;
 import za.ac.cput.domain.ShippingAddress;
 
 import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
-@SpringBootTest
+
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class ShippingAddressFactoryTest {
 
-    ShippingAddress shippingAddress1;
-    ShippingAddress shippingAddress2;
-    ShippingAddress shippingAddress3;
+    static Address shippingAddress1;
+    static Address shippingAddress2;
+    static Address  shippingAddress3;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setUp() {
 
         shippingAddress1 = ShippingAddressFactory.buildShippingAddress(LocalTime.parse("20:00:00"),"210LoopSteert","Cape Town","8000","Cape Town");
     }

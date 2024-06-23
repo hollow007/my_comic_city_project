@@ -101,7 +101,7 @@ public class Helper {
 
     }
     public static boolean isInvalidTime(LocalTime time){
-    return !time.isAfter(LocalTime.now());
+    return time.isAfter(LocalTime.now());
 
 
     }
