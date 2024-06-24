@@ -125,27 +125,5 @@ public class Helper {
 
     }
 
-    public static boolean isObjectNull(Order order) {
-        if(order==null){
-            return true;
-        }
-        return false;
 
-    }
-
-    public static boolean isObjectNull(ComicBook comicBook) {
-        if(comicBook==null){
-            return true;
-        }
-        return false;
-
-    }
-
-    public static boolean isObjectNull(Customer customer) {
-        if(customer==null){
-            return true;
-        }
-        return false;
-
-    }
 }
