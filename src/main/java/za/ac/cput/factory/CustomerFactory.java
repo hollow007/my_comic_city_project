@@ -1,26 +1,30 @@
 package za.ac.cput.factory;
 
-import za.ac.cput.domain.Cart;
-import za.ac.cput.domain.Contact;
-import za.ac.cput.domain.Customer;
-import za.ac.cput.domain.WishList;
+import za.ac.cput.domain.*;
 import za.ac.cput.util.Helper;
 
+import java.util.List;
+
 public class CustomerFactory {
-    public static Customer buildCustomer(long customerId, String firstName, String lastName, Contact contact, Cart cart, WishList wishList){
+    public static Customer buildCustomer(long customerId, String firstName, String lastName,String middleName, String password, Contact contact){
         if(customerId<=0 || Helper.isStringNullorEmpty(firstName)
-                || Helper.isStringNullorEmpty(lastName) ||contact == null
-                || cart == null || wishList == null){
+                || Helper.isStringNullorEmpty(lastName) || Helper.isStringNullorEmpty(password) ||
+                contact == null
+        ){
+
             return null;
         }
+        Name name = new Name.NameBuilder().setFirstName(firstName)
+                .setLastName(lastName)
+                .setMiddleName(middleName)
+                .build();
         return new Customer.CustomerBuilder()
                 .setCustomerId(customerId)
-                .setFirstName(firstName)
-                .setLastName(lastName)
+                .setName(name)
+                .setPassword(password)
                 .setContact(contact)
-                .setCart(cart)
-                .setWishList(wishList)
                 .build();
 
     }
 }
+
