@@ -12,7 +12,7 @@ public class AuthorFactory {
     public static Author buildAuthor(long authorID, String firstName, String middleName , String lastName){
         Name name;
 
-        if(authorID <= 0 || Helper.isStringNullorEmpty(firstName) || Helper.isStringNullorEmpty(lastName)){
+        if(authorID <= 0 || Helper.isStringNullorEmpty(firstName) ||Helper.isStringNullorEmpty(middleName)|| Helper.isStringNullorEmpty(lastName)){
             return null;
         }
 
@@ -20,8 +20,20 @@ public class AuthorFactory {
                 .setLastName(lastName)
                 .setMiddleName(middleName)
                 .build();
-                // name.getId();
-        //System.out.println(name.getId());
+
+        return new Author.AuthorBuilder().setAuthorID(authorID)
+                .setName(name)
+                .build();
+    }
+    public static Author buildAuthor(long authorID, String firstName , String lastName){
+        Name name;
+        if(authorID <= 0 || Helper.isStringNullorEmpty(firstName) || Helper.isStringNullorEmpty(lastName)){
+            return null;
+        }
+
+        name = new Name.NameBuilder().setFirstName(firstName)
+                .setLastName(lastName)
+                .build();
         return new Author.AuthorBuilder().setAuthorID(authorID)
                 .setName(name)
                 .build();

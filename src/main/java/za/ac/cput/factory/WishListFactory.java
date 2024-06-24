@@ -1,6 +1,7 @@
 package za.ac.cput.factory;
 
 import za.ac.cput.domain.ComicBook;
+import za.ac.cput.domain.Customer;
 import za.ac.cput.domain.WishList;
 import za.ac.cput.util.Helper;
 
@@ -15,14 +16,15 @@ public class WishListFactory {
      * 17/05/2024
      *
      */
-    public static  WishList buildWishList(Long wishListId,String wishListName, List<ComicBook> comicBooks, LocalDate createdDate, LocalDate updatedDate){
-        if(wishListId<=0 || Helper.isStringNullorEmpty(wishListName)|| Helper.isComicBooksListNullOrEmpty(comicBooks) ||
+    public static  WishList buildWishList(Long wishListId, String wishListName, Customer customer, List<ComicBook> comicBooks, LocalDate createdDate, LocalDate updatedDate){
+        if(wishListId<=0 || Helper.isStringNullorEmpty(wishListName)|| Helper.isObjectNull(customer)||Helper.isComicBooksListNullOrEmpty(comicBooks) ||
                 Helper.isAfter(createdDate, LocalDate.now()) ||
                 Helper.isAfter(updatedDate, LocalDate.now())){
     return null;
         }
         return new WishList.Builder().setWishListId(wishListId)
                 .setWishListName(wishListName)
+                .setCustomer(customer)
                 .setComicBooks(comicBooks)
                 .setCreatedDate(createdDate)
                 .setUpdatedDate(updatedDate)
