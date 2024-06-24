@@ -49,7 +49,7 @@ public class Name {
     public String toString() {
         return "Name{" +
 
-                ", firstName='" + firstName + '\'' +
+                "firstName='" + firstName + '\'' +
                 ", middleName='" + middleName + '\'' +
                 ", lastName='" + lastName + '\'' +
 
