@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CustomerFactoryTest {
 
 
-// ;Before running test always check if the shipping address time and change it to before the current time if its after
+// Before running test always check if the shipping address time and change it to before the current time if its after
     private static  Customer customer1;
     private static Customer customer2;
     @BeforeAll
