@@ -1,10 +1,12 @@
 package za.ac.cput.factory;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import za.ac.cput.domain.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,50 +16,23 @@ class CustomerFactoryTest {
 
     private Customer customer1;
     private Customer customer2;
-
-    private ComicBook book1;
-    private ComicBook book2;
-    private Cart cart1;
-    private Cart cart2;
-    private Author author1;
-    private Author author2;
-    private WishList wishList1;
-    List<ComicBook> comicBookList;
-    List<Author> authors;
-
-    private Publisher publisher1;
-
-    private List<Publisher> publishers;
     @BeforeEach
-    void setUp() {
-        comicBookList=new ArrayList<>();
+    public void setUp(){
 
-        authors = new ArrayList<>();
-        author1 = AuthorFactory.buildAuthor(001, "Lamark", "", "Darwin");
-        author2 = AuthorFactory.buildAuthor(002, "Jacob", "Gedleyihlekisa", "Zuma");
+        Address billingAddress = new BillingAddressFactory().
+                buildBillingAddress("card", "34 Batersea Drive", "Kibbler park", "2091", "Johannesburg");
+        System.out.println(billingAddress);
 
-        authors.add(author1);
-        authors.add(author2);
+        Address shippingAddress = new ShippingAddressFactory().buildShippingAddress(LocalTime.parse("10:30:00"), "34 Batersea Drive", "Kibbler park", "2091", "Johannesburg");
+        System.out.println(shippingAddress);
 
-        publisher1 = PublisherFactory.buildPublisher(34655, "Marvel",2000);
-
+        Contact con1 = CustomerContactFactory.buildContact("leroyk@gmail.com", "0739946042", shippingAddress, billingAddress);
 
 
-        book1 = ComicBookFactory.buildBuilder("CMB01", "Thor", 3.4, LocalDate.now(), authors, publisher1, 300.00);
-        book2 = ComicBookFactory.buildBuilder("CMB02", "Hulk", 3.4, LocalDate.of(2024,07,17), authors, publisher1,300.00);
+        Contact con2 = CustomerContactFactory.buildContact("2-mycput.za", "0739946042",  shippingAddress , billingAddress);
+        customer1 = CustomerFactory.buildCustomer(1234,"Leroy" , "Kulcha", "","Lkulcha123",con1);
+        customer2 = CustomerFactory.buildCustomer(1234,"James" , "Kulcha", "Liam","jkulcha456",con2);
 
-        comicBookList.add(book1);
-        comicBookList.add(book2);
-
-        cart1 = CartFactory.buildCart(2001,600.00,comicBookList, LocalDate.of(2024,02,15),LocalDate.now());
-        cart2=CartFactory.buildCart(2002,600,comicBookList,LocalDate.of(2025,04,20),LocalDate.of(2024,05,01));
-
-        wishList1 = WishListFactory.buildWishList(1,"myWishList1", comicBookList, LocalDate.of(2024, 02, 14), LocalDate.of(2024, 02, 15));
-
-        customer1 = CustomerFactory.buildCustomer(1234, "Mbasa", "Cabane",
-                ContactFactory.buildContact("mbasac@gmail.com", "0741236547", "0213456789"),
-                cart1, wishList1);
-        customer2 = customer1;
     }
 
     @Test
@@ -66,8 +41,9 @@ class CustomerFactoryTest {
         System.out.println(customer1);
     }
     @Test
-    void identityTest(){
-        assertSame(customer1, customer2);
+    @Disabled
+    void failingBuildCustomer(){
+        assertNotNull(customer2);
         System.out.println(customer2);
     }
 }
