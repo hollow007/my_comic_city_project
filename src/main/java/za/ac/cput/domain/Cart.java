@@ -17,6 +17,8 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartId;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Customer customer;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "cart_comicbook",
@@ -24,6 +26,7 @@ public class Cart {
             inverseJoinColumns = @JoinColumn(name = "comic_book_id")
     )
     private List<ComicBook> comicBooks;
+
     private LocalDate createdDate;
     private LocalDate updatedDate;
 
@@ -31,6 +34,7 @@ public class Cart {
     }
     protected Cart(Builder builder){
        this.cartId=builder.cartId;
+       this.customer=builder.customer;
        this.comicBooks=builder.comicBooks;
        this.createdDate=builder.createdDate;
        this.updatedDate=builder.updatedDate;
@@ -53,32 +57,38 @@ public class Cart {
         return updatedDate;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Cart cart)) return false;
-        return Objects.equals(cartId, cart.cartId) && Objects.equals(comicBooks, cart.comicBooks) && Objects.equals(createdDate, cart.createdDate) && Objects.equals(updatedDate, cart.updatedDate);
+        return Objects.equals(cartId, cart.cartId) && Objects.equals(customer, cart.customer) && Objects.equals(comicBooks, cart.comicBooks) && Objects.equals(createdDate, cart.createdDate) && Objects.equals(updatedDate, cart.updatedDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cartId, comicBooks, createdDate, updatedDate);
+        return Objects.hash(cartId, customer, comicBooks, createdDate, updatedDate);
     }
 
     @Override
     public String toString() {
         return "Cart{" +
                 "cartId=" + cartId +
+                ", customer=" + customer +
                 ", comicBooks=" + comicBooks +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
                 '}';
     }
+
     public static class Builder{
 
         private Long cartId;
-
-       private  List<ComicBook> comicBooks;
+        private Customer customer;
+        private  List<ComicBook> comicBooks;
         private LocalDate createdDate;
         private LocalDate updatedDate;
 
@@ -88,6 +98,11 @@ public class Cart {
 
         public Builder setCartId(Long cartId) {
             this.cartId = cartId;
+            return this;
+        }
+
+        public Builder setCustomer(Customer customer) {
+            this.customer = customer;
             return this;
         }
 
@@ -107,6 +122,7 @@ public class Cart {
         }
         public Builder copy(Cart cart){
             this.cartId=cart.cartId;
+            this.customer=cart.customer;
             this.comicBooks=cart.comicBooks;
             this.createdDate=cart.createdDate;
             this.updatedDate=cart.updatedDate;

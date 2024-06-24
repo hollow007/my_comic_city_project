@@ -3,6 +3,7 @@ package za.ac.cput.factory;
 import  za.ac.cput.domain.Cart;
 import za.ac.cput.domain.ComicBook;
 
+import za.ac.cput.domain.Customer;
 import za.ac.cput.util.Helper;
 
 import java.time.LocalDate;
@@ -14,8 +15,9 @@ import java.util.List;
  * 17/05/2024
  */
 public class CartFactory {
-    public static Cart buildCart(Long cartId, List<ComicBook> comicBooks, LocalDate createdDate, LocalDate updateDate) {
+    public static Cart buildCart(Long cartId, Customer customer, List<ComicBook> comicBooks, LocalDate createdDate, LocalDate updateDate) {
 if (cartId <= 0 ||
+               Helper.isObjectNull(customer)||
                Helper.isComicBooksListNullOrEmpty(comicBooks) ||
                Helper.isAfter(createdDate, LocalDate.now())||
                Helper.isAfter(updateDate, LocalDate.now())
@@ -26,6 +28,7 @@ if (cartId <= 0 ||
         }
 
         return new Cart.Builder().setCartId(cartId)
+                .setCustomer(customer)
                 .setComicBooks(comicBooks)
                 .setCreatedDate(createdDate)
                 .setUpdatedDate(updateDate)

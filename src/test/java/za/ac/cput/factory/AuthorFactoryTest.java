@@ -14,11 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 class AuthorFactoryTest {
     private Author author1;
     private  Author author2;
+
     private  Author author3;
 
     @BeforeEach
     void setUp() {
-        author1 = AuthorFactory.buildAuthor(001, "Lamark", "", "Darwin");
+        author1 = AuthorFactory.buildAuthor(001, "Lamark", "Darwin");
         author2 = AuthorFactory.buildAuthor(002, "", "Gedleyihlekisa", "Zuma");
         author3 = AuthorFactory.buildAuthor(-1, "", "Negative", "Number");
 

@@ -19,6 +19,8 @@ public class WishList{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long wishListId;
     private String wishListName;
+    @OneToOne(cascade=CascadeType.ALL)
+    private Customer customer;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "wishList_comicbook",
@@ -34,6 +36,7 @@ public class WishList{
     protected WishList(Builder builder){
         this.wishListId=builder.wishListId;
         this.wishListName=builder.wishListName;
+        this.customer=builder.customer;
         this.comicBooks=builder.comicBooks;
         this.createdDate=builder.createdDate;
         this.updatedDate=builder.updatedDate;
@@ -45,6 +48,10 @@ public class WishList{
 
     public String getWishListName() {
         return wishListName;
+    }
+
+    public Customer getCustomer() {
+        return customer;
     }
 
     public List<ComicBook> getComicBooks() {
@@ -63,19 +70,20 @@ public class WishList{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof WishList wishList)) return false;
-        return Objects.equals(wishListId, wishList.wishListId) && Objects.equals(wishListName, wishList.wishListName) && Objects.equals(comicBooks, wishList.comicBooks) && Objects.equals(createdDate, wishList.createdDate) && Objects.equals(updatedDate, wishList.updatedDate);
+        return Objects.equals(wishListId, wishList.wishListId) && Objects.equals(wishListName, wishList.wishListName) && Objects.equals(customer, wishList.customer) && Objects.equals(comicBooks, wishList.comicBooks) && Objects.equals(createdDate, wishList.createdDate) && Objects.equals(updatedDate, wishList.updatedDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(wishListId, wishListName, comicBooks, createdDate, updatedDate);
+        return Objects.hash(wishListId, wishListName, customer, comicBooks, createdDate, updatedDate);
     }
 
     @Override
     public String toString() {
         return "WishList{" +
                 "wishListId=" + wishListId +
-                ", wishlistName='" + wishListName + '\'' +
+                ", wishListName='" + wishListName + '\'' +
+                ", customer=" + customer +
                 ", comicBooks=" + comicBooks +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
@@ -86,6 +94,7 @@ public class WishList{
 
         private Long wishListId;
         private String wishListName;
+        private Customer customer;
         private List<ComicBook> comicBooks;
         private LocalDate createdDate;
         private LocalDate updatedDate;
@@ -100,6 +109,11 @@ public class WishList{
 
         public Builder setWishListName(String wishlistName) {
             this.wishListName = wishlistName;
+            return this;
+        }
+
+        public Builder setCustomer(Customer customer) {
+            this.customer = customer;
             return this;
         }
 
@@ -120,6 +134,7 @@ public class WishList{
         public Builder copy(WishList wishList){
             this.wishListId=wishList.wishListId;
             this.wishListName=wishList.wishListName;
+            this.customer=wishList.customer;
             this.comicBooks=wishList.comicBooks;
             this.createdDate=wishList.createdDate;
             this.updatedDate=wishList.updatedDate;
