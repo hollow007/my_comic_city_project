@@ -44,7 +44,6 @@ public class Publisher {
                 "publisherId=" + publisherId +
                 ", name='" + name + '\'' +
                 ", yearFounded=" + yearFounded +
-                ", comicBooks=" + comicBooks +
                 '}';
     }
 
