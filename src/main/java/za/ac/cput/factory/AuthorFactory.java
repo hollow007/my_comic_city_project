@@ -12,7 +12,7 @@ public class AuthorFactory {
     public static Author buildAuthor(long authorID, String firstName, String middleName , String lastName){
         Name name;
 
-        if(authorID <= 0 || Helper.isStringNullorEmpty(firstName) || Helper.isStringNullorEmpty(lastName)){
+        if(authorID <= 0 || Helper.isStringNullorEmpty(firstName) || Helper.isStringNullorEmpty(middleName) || Helper.isStringNullorEmpty(lastName)){
             return null;
         }
 

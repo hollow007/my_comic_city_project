@@ -5,3 +5,4 @@ import za.ac.cput.domain.WishList;
 
 public interface WishListRepository extends JpaRepository<WishList,Long> {
 }
+
