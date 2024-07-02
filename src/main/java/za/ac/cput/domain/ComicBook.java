@@ -106,8 +106,6 @@ public class ComicBook {
                 ", weight=" + weight +
                 ", releaseDate=" + releaseDate +
                 ", authors=" + authors +
-                ", carts=" + carts +
-                ", wishLists=" + wishLists +
                 ", price=" + price +
                 ", stockQuantity=" + quantity +
                 ", ISBN='" + ISBN + '\'' +
