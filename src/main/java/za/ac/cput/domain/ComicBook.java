@@ -55,7 +55,7 @@ public class ComicBook {
 
     private String ISBN;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 

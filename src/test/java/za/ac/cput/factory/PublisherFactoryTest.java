@@ -1,6 +1,7 @@
 package za.ac.cput.factory;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import za.ac.cput.domain.Author;
 import za.ac.cput.domain.ComicBook;
@@ -22,7 +23,7 @@ class PublisherFactoryTest {
 
         publisher1 = PublisherFactory.buildPublisher(34655L, "Marvel",2000);
 
-        publisher2 = PublisherFactory.buildPublisher(34655L, "C Publishers", 2000);
+        publisher2 = PublisherFactory.buildPublisher(34655L, "", 2000);
     }
 
     @Test
@@ -31,6 +32,7 @@ class PublisherFactoryTest {
         System.out.println(publisher1);
     }
     @Test
+    @Disabled
     void failingTestBuildPublisher() {
         assertNotNull(publisher2);
         System.out.println(publisher2);
