@@ -2,6 +2,7 @@ package za.ac.cput.domain;
 // Mlungisi L. Mbuyazi
 // 221164014
 // https://github.com/Skiet88/comic__city_project
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
@@ -11,10 +12,10 @@ import java.util.Objects;
 @Entity
 @DiscriminatorValue("CustomerContact_type")
 public class CustomerContact extends Contact {
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private BillingAddress billingAddress;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private ShippingAddress shippingAddress;
 
     protected CustomerContact() {

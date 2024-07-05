@@ -17,7 +17,7 @@ class ContactFactoryTest {
     @Test
     void buildContactWithNullAddress() {
         Contact contact2=ContactFactory.buildContact("","0658436358");
-        assertNotNull(contact2);
+        assertNull(contact2);
         System.out.println(contact2);
     }
 }

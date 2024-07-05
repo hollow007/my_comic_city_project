@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @Entity
 public class Review {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewID;
 
     @ManyToOne
@@ -105,6 +106,10 @@ public class Review {
         private String reviewDescription;
         private LocalDate reviewDate;
         private String reviewTitle;
+
+        public ReviewBuilder() {
+
+        }
 
         public ReviewBuilder setReviewID(Long reviewID) {
             this.reviewID = reviewID;
