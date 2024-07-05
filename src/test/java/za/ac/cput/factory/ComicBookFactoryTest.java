@@ -10,6 +10,11 @@ import za.ac.cput.domain.Author;
 import za.ac.cput.domain.ComicBook;
 import za.ac.cput.domain.Publisher;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +35,28 @@ class ComicBookFactoryTest {
     private ComicBook book3;
     byte[] photo;
 
+    static BufferedImage image;
+    static ByteArrayOutputStream out;
+
+
     @BeforeEach
     void setUp() {
-        photo = new byte[0];
+
+        String url = "C:\\Users\\ASUS\\OneDrive - Cape Peninsula University of Technology\\Documents\\3rd-Year\\ADP3\\comic_city_project\\download.jpeg";
+        try {
+
+            image = ImageIO.read(new File(url));
+            out = new ByteArrayOutputStream();
+            ImageIO.write(image, "jpeg", out);
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        photo = out.toByteArray();
+        System.out.println(photo);
+
+
 
         publisher1 = PublisherFactory.buildPublisher(34655L, "Marvel",2000);
 
@@ -46,16 +70,17 @@ class ComicBookFactoryTest {
 
         book1 = ComicBookFactory.bookBuilder("Thor", "Fantasy", "AsGuards Prince son of Zuis",
                 "B01", 299.99, 2.00, 1, authors, publisher1, LocalDate.of(2022, 03, 04), photo);
-        book2 = ComicBookFactory.bookBuilder("Thor", "Fantasy", "AsGuards Prince son of Zuis",
-                "B02", 199.99, 1.80, 1, authors, publisher1, LocalDate.of(2024, 03, 15), photo);
-        book3 = ComicBookFactory.bookBuilder("Thor", "Fantasy", "AsGuards Prince son of Zuis",
-                "B03", 539.99, 3.50, 3, authors, publisher1, LocalDate.of(2021, 05, 30), photo);
+        book2 = ComicBookFactory.bookBuilder("Avatar", "Sci-Fi", "Two Dimension Worls Colliding into one.",
+                "B02", 199.99, 1.80, 1, authors, publisher1, LocalDate.of(2027, 03, 15), photo);
+        book3 = ComicBookFactory.bookBuilder("HALO", "Fantasy", "GALAXY 2000 years from now",
+                "B03", 0, 3.50, 3, authors, publisher1, LocalDate.of(2021, 05, 30), photo);
     }
 
     @Test
     void buildBuilder() {
-        assertNotNull(book1);
         System.out.println(book1);
+        assertNotNull(book1);
+
 
     }
 

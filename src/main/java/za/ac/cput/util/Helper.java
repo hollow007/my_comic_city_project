@@ -2,7 +2,7 @@ package za.ac.cput.util;
 
 import za.ac.cput.domain.ComicBook;
 import za.ac.cput.domain.Customer;
-import za.ac.cput.domain.Order;
+
 import za.ac.cput.domain.Publisher;
 
 import java.time.LocalDate;
@@ -75,12 +75,7 @@ public class Helper {
         return date.isAfter(referenceDate);
     }
 
-    public static boolean isComicBooksListNullOrEmpty(List<ComicBook>comicBooks){
-        if(comicBooks==null|| comicBooks.isEmpty()){
-            return true;
-        }
-        return false;
-    }
+
     public static boolean isValidPrice(double price){
         if(price<0){
             return true;
