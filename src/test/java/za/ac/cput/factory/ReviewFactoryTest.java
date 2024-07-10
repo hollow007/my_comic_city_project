@@ -50,8 +50,8 @@ class ReviewFactoryTest {
         customer = CustomerFactory.buildCustomer(1234,"Leroy" , "Kulcha", "Sane","Lkulcha123",con1);
 
 
-        author1 = AuthorFactory.buildAuthor(001,"Lamark", "", "Darwin");
-        author2 = AuthorFactory.buildAuthor(002, "Jacob", "Gedleyihlekisa", "Zuma");
+        author1 = AuthorFactory.buildAuthor(001L,"Lamark", "", "Darwin");
+        author2 = AuthorFactory.buildAuthor(002L, "Jacob", "Gedleyihlekisa", "Zuma");
         authors = new ArrayList<>();
         authors.add(author1);
         authors.add(author2);

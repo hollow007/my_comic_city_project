@@ -7,7 +7,7 @@ import za.ac.cput.service.IService;
 import java.util.List;
 
 
-@Service
+
 
 public interface IContactService extends IService<Contact, String> {
     List<Contact> getAll();

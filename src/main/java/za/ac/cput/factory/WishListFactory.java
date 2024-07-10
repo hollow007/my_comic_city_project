@@ -17,7 +17,7 @@ public class WishListFactory {
      *
      */
     public static  WishList buildWishList(Long wishListId, String wishListName, Customer customer, List<ComicBook> comicBooks, LocalDate createdDate, LocalDate updatedDate){
-        if(wishListId<=0 || Helper.isStringNullorEmpty(wishListName)|| Helper.isObjectNull(customer)||Helper.isComicBooksListNullOrEmpty(comicBooks) ||
+        if(wishListId<=0 || Helper.isStringNullorEmpty(wishListName)|| Helper.isObjectNull(customer)||Helper.isListNullorEmpty(comicBooks) ||
                 Helper.isAfter(createdDate, LocalDate.now()) ||
                 Helper.isAfter(updatedDate, LocalDate.now())){
     return null;

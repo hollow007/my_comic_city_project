@@ -58,8 +58,8 @@ class WishListFactoryTest {
         publisher1 = PublisherFactory.buildPublisher(34655L, "Marvel", 2000);
 
 
-        author1 = AuthorFactory.buildAuthor(001, "Lamark", "Darwin");
-        author2 = AuthorFactory.buildAuthor(002, "Jacob", "Gedleyihlekisa", "Zuma");
+        author1 = AuthorFactory.buildAuthor(001L, "Lamark", "Darwin");
+        author2 = AuthorFactory.buildAuthor(002L, "Jacob", "Gedleyihlekisa", "Zuma");
 
         authors = new ArrayList<>();
         authors.add(author1);

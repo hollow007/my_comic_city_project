@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.ac.cput.domain.ComicBook;
 
+import za.ac.cput.repository.AuthorRepository;
 import za.ac.cput.repository.ComicBookRepository;
+import za.ac.cput.service.authorService.AuthorService;
 
 import java.util.List;
 @Service
@@ -12,8 +14,10 @@ public class ComicBookService implements IComicBookService{
     @Autowired
     private ComicBookRepository repo;
 
+
     @Override
     public ComicBook create(ComicBook comicBook) {
+
         return repo.save(comicBook);
     }
 

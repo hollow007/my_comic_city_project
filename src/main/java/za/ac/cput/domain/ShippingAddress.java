@@ -34,9 +34,8 @@ public class ShippingAddress extends Address{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof ShippingAddress that)) return false;
         if (!super.equals(o)) return false;
-        ShippingAddress that = (ShippingAddress) o;
         return Objects.equals(preffered_delivery_time, that.preffered_delivery_time);
     }
 
@@ -48,8 +47,13 @@ public class ShippingAddress extends Address{
     @Override
     public String toString() {
         return "ShippingAddress{" +
-                "preffered_delivery_time='" + preffered_delivery_time + '\'' +
-                '}'+ super.toString();
+                "preffered_delivery_time=" + preffered_delivery_time +
+                ", id=" + id +
+                ", street='" + street + '\'' +
+                ", suburb='" + suburb + '\'' +
+                ", city='" + city + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                '}';
     }
 
 

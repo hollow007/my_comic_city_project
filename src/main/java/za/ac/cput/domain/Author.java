@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long authorID;
+    private Long authorID;
      @Embedded
     private Name name;
 

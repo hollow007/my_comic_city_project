@@ -1,4 +1,4 @@
-package za.ac.cput.Service;
+package za.ac.cput.service.wishListService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,14 +10,13 @@ import java.util.List;
 @Service
 public class WishListService implements IWishListService {
     private WishListRepository wishListRepository;
-
     @Autowired
     public WishListService(WishListRepository wishListRepository) {
         this.wishListRepository = wishListRepository;
     }
 
     @Override
-    public WishList save(WishList wishList) {
+    public WishList create(WishList wishList) {
      return wishListRepository.save(wishList);
     }
 
@@ -32,8 +31,9 @@ public class WishListService implements IWishListService {
     }
 
     @Override
-    public void delete(Long wishListId) {
+    public boolean delete(Long wishListId) {
         wishListRepository.deleteById(wishListId);
+        return !wishListRepository.existsById(wishListId);
     }
 
     @Override
