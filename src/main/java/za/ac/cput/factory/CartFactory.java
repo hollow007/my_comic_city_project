@@ -18,7 +18,7 @@ public class CartFactory {
     public static Cart buildCart(Long cartId, Customer customer, List<ComicBook> comicBooks, LocalDate createdDate, LocalDate updateDate) {
 if (cartId <= 0 ||
                Helper.isObjectNull(customer)||
-               Helper.isComicBooksListNullOrEmpty(comicBooks) ||
+               Helper.isListNullorEmpty(comicBooks) ||
                Helper.isAfter(createdDate, LocalDate.now())||
                Helper.isAfter(updateDate, LocalDate.now())
         )

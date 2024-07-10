@@ -23,11 +23,11 @@ class AuthorServiceTest {
     void setUp() {
         System.out.println("=============================SET-UP====================================");
 
-        author1 = AuthorFactory.buildAuthor(001, "Lamark", "Principle", "Darwin");
+        author1 = AuthorFactory.buildAuthor(001L, "Lamark", "Principle", "Darwin");
         System.out.println(author1);
-        author2 = AuthorFactory.buildAuthor(002, "Jacob", "Gedleyihlekisa", "Zuma");
+        author2 = AuthorFactory.buildAuthor(002L, "Jacob", "Gedleyihlekisa", "Zuma");
         System.out.println(author2);
-        author3 = AuthorFactory.buildAuthor(003, "Brown",  "Chris");
+        author3 = AuthorFactory.buildAuthor(003L, "Brown",  "Chris");
         System.out.println(author3);
     }
 

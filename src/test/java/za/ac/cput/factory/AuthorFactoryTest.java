@@ -19,9 +19,9 @@ class AuthorFactoryTest {
 
     @BeforeEach
     void setUp() {
-        author1 = AuthorFactory.buildAuthor(001, "Lamark", "Darwin");
-        author2 = AuthorFactory.buildAuthor(002, "", "Gedleyihlekisa", "Zuma");
-        author3 = AuthorFactory.buildAuthor(-1, "", "Negative", "Number");
+        author1 = AuthorFactory.buildAuthor(001L, "Lamark", "Darwin");
+        author2 = AuthorFactory.buildAuthor(002L, "", "Gedleyihlekisa", "Zuma");
+        author3 = AuthorFactory.buildAuthor(-1L, "", "Negative", "Number");
 
     }
 

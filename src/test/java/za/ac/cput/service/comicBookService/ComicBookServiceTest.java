@@ -55,7 +55,7 @@ class ComicBookServiceTest {
     @BeforeEach
     void setUp() {
         System.out.println("=============================SET-UP====================================");
-        String url = "C:\\Users\\ASUS\\OneDrive - Cape Peninsula University of Technology\\Documents\\3rd-Year\\ADP3\\comic_city_project\\download.jpeg";
+        String url = "download.jpeg";
         try {
 
             image = ImageIO.read(new File(url));
@@ -71,9 +71,9 @@ class ComicBookServiceTest {
 
 
 
-        author1 = AuthorFactory.buildAuthor(001, "Lamark", "Principle", "Darwin");
+        author1 = AuthorFactory.buildAuthor(001L, "Lamark", "Principle", "Darwin");
         authorService.create(author1);
-        author2 = AuthorFactory.buildAuthor(002, "Jacob", "Gedleyihlekisa", "Zuma");
+        author2 = AuthorFactory.buildAuthor(002L, "Jacob", "Gedleyihlekisa", "Zuma");
         authorService.create(author2);
         authors = new ArrayList<>();
         authors.add(author1);

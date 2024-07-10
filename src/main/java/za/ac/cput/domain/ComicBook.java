@@ -35,7 +35,7 @@ public class ComicBook {
 
     private LocalDate releaseDate;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
             name = "comic_book_author",
             joinColumns = @JoinColumn(name = "comic_book_id"),
@@ -97,6 +97,10 @@ public class ComicBook {
     public Publisher getPublisher() { return publisher; }
     public String getGenre() { return genre; }
 
+    public byte[] getPhoto() {
+        return photo;
+    }
+
     @Override
     public String toString() {
         return "ComicBook{" +
@@ -107,24 +111,24 @@ public class ComicBook {
                 ", releaseDate=" + releaseDate +
                 ", authors=" + authors +
                 ", price=" + price +
-                ", stockQuantity=" + quantity +
+                ", quantity=" + quantity +
                 ", ISBN='" + ISBN + '\'' +
                 ", publisher=" + publisher +
                 ", genre='" + genre + '\'' +
+                ", photo=" + Arrays.toString(photo) +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ComicBook comicBook = (ComicBook) o;
-        return Double.compare(weight, comicBook.weight) == 0 && Double.compare(price, comicBook.price) == 0 && quantity == comicBook.quantity && Objects.equals(SKU, comicBook.SKU) && Objects.equals(name, comicBook.name) && Objects.equals(description, comicBook.description) && Objects.equals(releaseDate, comicBook.releaseDate) && Objects.equals(authors, comicBook.authors) && Objects.equals(carts, comicBook.carts) && Objects.equals(wishLists, comicBook.wishLists) && Objects.equals(ISBN, comicBook.ISBN) && Objects.equals(publisher, comicBook.publisher) && Objects.equals(genre, comicBook.genre) && Arrays.equals(photo, comicBook.photo);
+        if (!(o instanceof ComicBook comicBook)) return false;
+        return Double.compare(weight, comicBook.weight) == 0 && Double.compare(price, comicBook.price) == 0 && quantity == comicBook.quantity && Objects.equals(SKU, comicBook.SKU) && Objects.equals(name, comicBook.name) && Objects.equals(description, comicBook.description) && Objects.equals(releaseDate, comicBook.releaseDate) && Objects.equals(authors, comicBook.authors) && Objects.equals(ISBN, comicBook.ISBN) && Objects.equals(publisher, comicBook.publisher) && Objects.equals(genre, comicBook.genre) && Arrays.equals(photo, comicBook.photo);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(SKU, name, description, weight, releaseDate, authors, carts, wishLists, price, quantity, ISBN, publisher, genre);
+        int result = Objects.hash(SKU, name, description, weight, releaseDate, authors, price, quantity, ISBN, publisher, genre);
         result = 31 * result + Arrays.hashCode(photo);
         return result;
     }

@@ -31,13 +31,11 @@ public class BillingAddress extends Address{
     }
 
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof BillingAddress that)) return false;
         if (!super.equals(o)) return false;
-        BillingAddress that = (BillingAddress) o;
         return Objects.equals(paymentMethod, that.paymentMethod);
     }
 
@@ -48,11 +46,14 @@ public class BillingAddress extends Address{
 
     @Override
     public String toString() {
-        return "BillingAdress{" +
+        return "BillingAddress{" +
                 "paymentMethod='" + paymentMethod + '\'' +
-                "Street='" + super.toString()+ '\'' +
+                ", id=" + id +
+                ", street='" + street + '\'' +
+                ", suburb='" + suburb + '\'' +
+                ", city='" + city + '\'' +
+                ", postalCode='" + postalCode + '\'' +
                 '}';
-
     }
 
     public static class BillingAddressBuilder extends AddressBuilder{

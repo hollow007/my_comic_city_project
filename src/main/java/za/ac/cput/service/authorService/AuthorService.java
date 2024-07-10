@@ -30,7 +30,6 @@ public class AuthorService implements IAuthorService{
     @Override
     public boolean delete(Long l) {
        repo.deleteById(l);
-
        return !repo.existsById(l);
     }
 

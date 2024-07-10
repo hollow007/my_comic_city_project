@@ -8,27 +8,35 @@ package za.ac.cput.domain;
 import jakarta.persistence.*;
 
 import java.util.Objects;
+
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "Address_type" , discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name = "Address_type", discriminatorType = DiscriminatorType.STRING)
 
-@IdClass(AddressId.class)
+
 public class Address {
     @Id
-   protected String street;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+    protected String street;
     protected String suburb;
     protected String city;
-    @Id
+
     protected String postalCode;
 
     public Address() {
     }
 
     Address(AddressBuilder builder) {
+        this.id=builder.id;
         this.street = builder.street;
         this.suburb = builder.suburb;
         this.city = builder.city;
         this.postalCode = builder.postalCode;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getStreet() {
@@ -50,32 +58,37 @@ public class Address {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Address address = (Address) o;
-        return Objects.equals(street, address.street) && Objects.equals(suburb, address.suburb) && Objects.equals(city, address.city) && Objects.equals(postalCode, address.postalCode);
+        if (!(o instanceof Address address)) return false;
+        return Objects.equals(id, address.id) && Objects.equals(street, address.street) && Objects.equals(suburb, address.suburb) && Objects.equals(city, address.city) && Objects.equals(postalCode, address.postalCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(street, suburb, city, postalCode);
+        return Objects.hash(id, street, suburb, city, postalCode);
     }
 
     @Override
     public String toString() {
         return "Address{" +
-                "street='" + street + '\'' +
+                "id=" + id +
+                ", street='" + street + '\'' +
                 ", suburb='" + suburb + '\'' +
                 ", city='" + city + '\'' +
                 ", postalCode='" + postalCode + '\'' +
                 '}';
     }
 
-    public static class AddressBuilder{
-
+    public static class AddressBuilder {
+        protected Long id;
         protected String street;
         protected String suburb;
         protected String city;
         protected String postalCode;
+
+        public AddressBuilder setId(Long id) {
+            this.id = id;
+            return this;
+        }
 
         public AddressBuilder setStreet(String street) {
             this.street = street;
@@ -97,7 +110,8 @@ public class Address {
             return this;
         }
 
-        AddressBuilder copy (Address adress){
+        AddressBuilder copy(Address adress) {
+            this.id= adress.id;
             this.street = adress.street;
             this.suburb = adress.suburb;
             this.city = adress.suburb;
@@ -105,6 +119,8 @@ public class Address {
             return this;
         }
 
-        public Address build (){ return new Address(this);}
+        public Address build() {
+            return new Address(this);
+        }
     }
 }

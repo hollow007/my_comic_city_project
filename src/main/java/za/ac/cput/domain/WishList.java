@@ -19,9 +19,9 @@ public class WishList{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long wishListId;
     private String wishListName;
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private Customer customer;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
             name = "wishList_comicbook",
             joinColumns = @JoinColumn(name = "wishList_id"),
