@@ -40,4 +40,7 @@ public class WishListService implements IWishListService {
     public List<WishList> getall() {
         return wishListRepository.findAll();
     }
+    public int calculateQuantity(Long wishListId){
+        return wishListRepository.numberOfBooksOnThisWishList(wishListId);
+    }
 }

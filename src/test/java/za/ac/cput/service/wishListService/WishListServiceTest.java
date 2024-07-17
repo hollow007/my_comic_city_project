@@ -18,8 +18,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
@@ -240,5 +239,12 @@ class WishListServiceTest {
         List<WishList>wishLists=wishListService.getall();
         assertNotNull(wishLists);
         System.out.println(wishLists);
+    }
+
+    @Test
+    void quantityTest() {
+        int quantity=wishListService.calculateQuantity(2L);
+        assertEquals(quantity,wishList2.getComicBooks().size());
+        System.out.println("Test Passed:\n"+"Quantity:"+quantity+" matches:"+wishList2.getComicBooks().size());
     }
 }
