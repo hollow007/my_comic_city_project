@@ -48,7 +48,7 @@ public class CustomerOrderFactoryTest {
                 LocalDate.of(2024,4,30),
                 photo
         );
-//        System.out.println(comicBook1);hyl
+//        System.out.println(comicBook1);
 
         ComicBook comicBook2 = ComicBookFactory.bookBuilder(
                 "Hulk",
