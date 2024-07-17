@@ -18,8 +18,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
@@ -236,5 +235,24 @@ class CartServiceTest {
         List<Cart>carts=cartService.getall();
         assertNotNull(carts);
         System.out.println(carts);
+    }
+
+    @Test
+    void quantityTest() {
+        int quantity=cartService.quantity(2L);
+        assertEquals(2,cart2.getComicBooks().size());
+        System.out.println("Number of Books on the cart:"+quantity);
+    }
+
+    @Test
+    void totalPriceTest() {
+        double sum=cartService.getCartTotalPrice(2L);
+        double sum2=0;
+        for(ComicBook comicBook:cart2.getComicBooks()){
+            sum2+=comicBook.getPrice();
+        }
+        assertEquals(sum,sum2);
+        System.out.println("Test Passed:TotalPrices match :\nprice1:R"+sum+"\nprice2:R"+sum2);
+
     }
 }
