@@ -3,6 +3,7 @@ package za.ac.cput.service.cartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.ac.cput.domain.Cart;
+import za.ac.cput.domain.ComicBook;
 import za.ac.cput.domain.Customer;
 import za.ac.cput.repository.CartRepository;
 import za.ac.cput.repository.ComicBookRepository;
@@ -16,7 +17,7 @@ public class CartService implements ICartService {
 
 
     @Autowired
-    public CartService(CartRepository cartRepository,CustomerRepository customerRepository,ComicBookRepository comicBookRepository) {
+    public CartService(CartRepository cartRepository, CustomerRepository customerRepository, ComicBookRepository comicBookRepository) {
         this.cartRepository = cartRepository;
 
     }
@@ -39,12 +40,18 @@ public class CartService implements ICartService {
     @Override
     public boolean delete(Long cartId) {
         cartRepository.deleteById(cartId);
-
         return !cartRepository.existsById(cartId);
     }
 
     @Override
     public List<Cart> getall() {
         return cartRepository.findAll();
+    }
+
+    public double getCartTotalPrice(Long cartId){
+        return cartRepository.calculateCartTotalPrice(cartId);
+    }
+    public int quantity(Long cartId){
+        return cartRepository.numberOfBooksOnThisCart(cartId);
     }
 }
