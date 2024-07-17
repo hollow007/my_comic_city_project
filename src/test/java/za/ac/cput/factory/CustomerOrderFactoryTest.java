@@ -63,7 +63,7 @@ public class CustomerOrderFactoryTest {
                 LocalDate.now(),
                 photo
         );
-//        System.out.println(comicBook2);
+//        System.out.println(comicBook2);;
 
         customerOrder1 = CustomerOrderFactory.buildCustomerOrder("ORD001", LocalDate.now(), Arrays.asList(comicBook1, comicBook2), 650.00);
         customerOrder2 = CustomerOrderFactory.buildCustomerOrder("ORD002", LocalDate.of(2024, 7, 17), Arrays.asList(comicBook1, comicBook2), 650.00);
