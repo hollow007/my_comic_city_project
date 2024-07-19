@@ -18,7 +18,12 @@ public class ComicBookService implements IComicBookService{
     @Override
     public ComicBook create(ComicBook comicBook) {
 
-        return repo.save(comicBook);
+        System.out.println("Creating ComicBook: " + comicBook);
+
+        ComicBook savedComicBook = repo.save(comicBook);
+
+        System.out.println("Saved ComicBook: " + savedComicBook);
+        return savedComicBook;
     }
 
     @Override
