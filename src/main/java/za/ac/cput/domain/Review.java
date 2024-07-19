@@ -146,6 +146,17 @@ public class Review {
             return this;
         }
 
+        public ReviewBuilder copy(Review review){
+            this.reviewID = review.reviewID;
+            this.customer = review.customer;
+            this.comicBook = review.comicBook;
+            this.reviewRating = review.reviewRating;
+            this.reviewDescription = review.reviewDescription;
+            this.reviewDate = review.reviewDate;
+            this.reviewTitle = review.reviewTitle;
+            return this;
+        }
+
         public Review build() {
             return new Review(this);
         }

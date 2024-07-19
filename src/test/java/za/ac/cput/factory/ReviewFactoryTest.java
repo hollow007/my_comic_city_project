@@ -19,14 +19,9 @@ class ReviewFactoryTest {
 
     private Customer customer;
     private ComicBook comicBook;
-
     private Review review1;
     private Review review2;
     private Review review3;
-
-    private Contact contact;
-    private Cart cart;
-    private WishList wishlist;
     private Publisher publisher;
     private List<Author> authors;
     private Author author1;
