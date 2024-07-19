@@ -12,12 +12,12 @@ import java.util.Objects;
 @Entity
 public class Author {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long authorID;
      @Embedded
     private Name name;
 
-    @ManyToMany(mappedBy = "authors", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "authors", fetch = FetchType.EAGER)
     private List<ComicBook> comicBooks ;
 
     protected Author() {

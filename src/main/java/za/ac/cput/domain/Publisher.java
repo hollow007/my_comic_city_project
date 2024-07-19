@@ -15,7 +15,8 @@ public class Publisher {
     private int yearFounded;
 
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
-    private List<ComicBook> comicBooks;
+     private List<ComicBook> comicBooks;
+
     protected Publisher(){}
 
 
@@ -23,7 +24,7 @@ public class Publisher {
         this.publisherId = builder.publisherId;
         this.name = builder.name;
         this.yearFounded = builder.yearFounded;
-        this.comicBooks = builder.comicBooks;
+
     }
 
     public Long getPublisherId() {
@@ -34,9 +35,6 @@ public class Publisher {
 
     public int getYearFounded(){return yearFounded;}
 
-    public List<ComicBook> getComicBooks() {
-        return comicBooks;
-    }
 
     @Override
     public String toString() {
@@ -52,7 +50,7 @@ public class Publisher {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Publisher publisher = (Publisher) o;
-        return publisherId == publisher.publisherId && yearFounded == publisher.yearFounded && Objects.equals(name, publisher.name) && Objects.equals(comicBooks, publisher.comicBooks);
+        return yearFounded == publisher.yearFounded && Objects.equals(publisherId, publisher.publisherId) && Objects.equals(name, publisher.name) && Objects.equals(comicBooks, publisher.comicBooks);
     }
 
     @Override
@@ -92,7 +90,7 @@ public class Publisher {
             this.publisherId = p.publisherId;
             this.name = p.name;
             this.yearFounded = p.yearFounded;
-            this.comicBooks = p.comicBooks;
+
             return this;
         }
 
