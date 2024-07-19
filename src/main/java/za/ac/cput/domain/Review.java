@@ -2,7 +2,10 @@ package za.ac.cput.domain;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 /* Review.java
    Author: Cavan Ramone Swartz (221055835)
    Date: 18 June 2024
@@ -106,17 +109,6 @@ public class Review {
 
         public ReviewBuilder() {
 
-        }
-
-        public ReviewBuilder copy(Review e) {
-            this.reviewID = e.reviewID;
-            this.customer = e.customer;
-            this.comicBook = e.comicBook;
-            this.reviewRating = e.reviewRating;
-            this.reviewDescription = e.reviewDescription;
-            this.reviewDate = e.reviewDate;
-            this.reviewTitle = e.reviewTitle;
-            return this;
         }
 
         public ReviewBuilder setReviewID(Long reviewID) {

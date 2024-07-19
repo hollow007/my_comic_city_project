@@ -67,10 +67,6 @@ public class Invoice {
         private LocalDateTime dateTimeGenerated;
         private Order order;
 
-        public InvoiceBuilder(){
-
-        }
-
         public InvoiceBuilder setInvoiceId(Long invoiceId){
             this.invoiceId = invoiceId;
             return this;
