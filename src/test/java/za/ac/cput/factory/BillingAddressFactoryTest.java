@@ -21,7 +21,7 @@ class BillingAddressFactoryTest {
     @BeforeAll
     static void setUp() {
          address = BillingAddressFactory.
-                buildBillingAddress("card","34 Batersea Drive", "Kibbler park" , "2091" , "Johannesburg");
+                buildBillingAddress(1l, "card","34 Batersea Drive", "Kibbler park" , "2091" , "Johannesburg");
 
 
     }
@@ -38,7 +38,7 @@ class BillingAddressFactoryTest {
     @Test
     void b_badAddress() {
 
-        address = BillingAddressFactory.buildBillingAddress("card","34 Batersea Drive", "" , "2091" , "Johannesburg");
+        address = BillingAddressFactory.buildBillingAddress(1l, "card","34 Batersea Drive", "" , "2091" , "Johannesburg");
         assertNull(address);
         System.out.println(address);
 

@@ -15,7 +15,10 @@ import java.util.Objects;
 
 
 public class Address {
+
+    //@GeneratedValue(strategy = GenerationType.SEQUENCE) // made a change to the generationType please see >> https://www.baeldung.com/jpa-get-auto-generated-id
     @Id
+    @Column(name="System_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     protected String street;
@@ -110,12 +113,12 @@ public class Address {
             return this;
         }
 
-        AddressBuilder copy(Address adress) {
-            this.id= adress.id;
-            this.street = adress.street;
-            this.suburb = adress.suburb;
-            this.city = adress.suburb;
-            this.postalCode = adress.postalCode;
+        public AddressBuilder copy(Address address) {
+            this.id= address.id;
+            this.street = address.street;
+            this.suburb = address.suburb;
+            this.city = address.suburb;
+            this.postalCode = address.postalCode;
             return this;
         }
 

@@ -11,16 +11,16 @@ import za.ac.cput.util.Helper;
 import java.time.LocalTime;
 
 
-
 public class ShippingAddressFactory {
 
-    public static Address buildShippingAddress (LocalTime prefferedDeliveryTime, String street , String suburb, String postalCode, String city ) {
-        if (Helper.isInvalidTime(prefferedDeliveryTime)|| Helper.isStringNullorEmpty(street) || Helper.isStringNullorEmpty(suburb) ||
+    public static Address buildShippingAddress (Long shippingaddressId, LocalTime prefferedDeliveryTime, String street , String suburb, String postalCode, String city ) {
+        if (shippingaddressId < 0 || Helper.isInvalidTime(prefferedDeliveryTime)|| Helper.isStringNullorEmpty(street) || Helper.isStringNullorEmpty(suburb) ||
                 Helper.isInvalidPostalCode(postalCode) || Helper.isStringNullorEmpty(city))
 
        return null;
 
-        return  new ShippingAddress.ShippingAddressBuilder().
+        return new ShippingAddress.ShippingAddressBuilder().
+                setShippingAdressid(shippingaddressId).
                 setPreffered_delivery_time(prefferedDeliveryTime).
                 setStreet(street).
                 setSuburb(suburb).
