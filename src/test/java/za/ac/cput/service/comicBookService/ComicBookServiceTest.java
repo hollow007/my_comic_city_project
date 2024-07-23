@@ -72,9 +72,9 @@ class ComicBookServiceTest {
 
 
         author1 = AuthorFactory.buildAuthor(001L, "Lamark", "Principle", "Darwin");
-        authorService.create(author1);
+        //authorService.create(author1);
         author2 = AuthorFactory.buildAuthor(002L, "Jacob", "Gedleyihlekisa", "Zuma");
-        authorService.create(author2);
+       // authorService.create(author2);
         authors = new ArrayList<>();
         authors.add(author1);
         //authors.add(author2);
@@ -116,7 +116,7 @@ class ComicBookServiceTest {
     @Order(2)
     void read() {
         System.out.println("=============================READ====================================");
-        ComicBook readBook = comicBookService.read(book1.getSKU());
+        ComicBook readBook = comicBookService.read(1L);
         assertNotNull(readBook);
         System.out.println(readBook);
 
@@ -125,7 +125,7 @@ class ComicBookServiceTest {
 
         try {
             BufferedImage bufferedImage1=ImageIO.read(inputStream);
-            ImageIO.write(bufferedImage1,"jpeg", new File("C:\\Users\\ASUS\\OneDrive - Cape Peninsula University of Technology\\Documents\\3rd-Year\\ADP3\\comic_city_project\\output.jpeg"));
+            ImageIO.write(bufferedImage1,"jpeg", new File("output.jpeg"));
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -154,7 +154,7 @@ class ComicBookServiceTest {
 
     void delete() {
         System.out.println("=============================DELETE====================================");
-        boolean isDeleted = comicBookService.delete(book3.getSKU());
+        boolean isDeleted = comicBookService.delete(3L);
         assertEquals(true, isDeleted);
         System.out.println("Successfully deleted book: " + book3.getName());
     }

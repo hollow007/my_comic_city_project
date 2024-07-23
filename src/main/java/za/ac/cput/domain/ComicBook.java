@@ -7,6 +7,7 @@ package za.ac.cput.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.action.internal.OrphanRemovalAction;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -30,7 +31,7 @@ public class ComicBook {
     private LocalDate releaseDate;
 
     //@ManyToMany(fetch = FetchType.EAGER,cascade = { CascadeType.REMOVE })
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(
             name = "comic_book_author",
             joinColumns = @JoinColumn(name = "comic_book_id"),
@@ -50,8 +51,7 @@ public class ComicBook {
 
     @JsonProperty("isbn")
     private String ISBN;
-
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 

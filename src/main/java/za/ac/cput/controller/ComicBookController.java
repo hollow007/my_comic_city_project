@@ -41,7 +41,7 @@ public class ComicBookController {
     }
 
     @DeleteMapping("/delete/{sku}")
-    public boolean delete(@PathVariable Long sku) {
+    public boolean delete(@PathVariable("sku") Long sku) {
         return comicBookService.delete(sku);
     }
 

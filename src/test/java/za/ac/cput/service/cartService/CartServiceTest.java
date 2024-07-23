@@ -26,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class CartServiceTest {
     @Autowired
     private CartService cartService;
-
     private static Cart cart1;
     private static Cart cart2;
     private static Cart cart3;
