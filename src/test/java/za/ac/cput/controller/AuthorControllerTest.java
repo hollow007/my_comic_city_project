@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AuthorControllerTest {
-    private final String BASE_URL = "http://localhost:8080/comiccitydb/author";
+    private final String BASE_URL = "http://localhost:8080/comiccity/author";
     @Autowired
     private TestRestTemplate restTemplate;
 
