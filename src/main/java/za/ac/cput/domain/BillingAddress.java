@@ -12,16 +12,19 @@ import jakarta.persistence.Entity;
 import java.util.Objects;
 
 @Entity
-@DiscriminatorValue("BillingAddress_type")
 public class BillingAddress extends Address{
 
     private String paymentMethod;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id
+
     public BillingAddress(){
     }
 
     private BillingAddress(BillingAddressBuilder builder){
         super(builder);
         this.paymentMethod = builder.paymentMethod;
+        this.id = builder.id;
 
     }
 
@@ -30,18 +33,21 @@ public class BillingAddress extends Address{
         return paymentMethod;
     }
 
+    public Long getId(){
+        return id;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BillingAddress that)) return false;
         if (!super.equals(o)) return false;
-        return Objects.equals(paymentMethod, that.paymentMethod);
+        return Objects.equals(paymentMethod, that.paymentMethod) && Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), paymentMethod);
+        return Objects.hash(super.hashCode(), paymentMethod , id);
     }
 
     @Override
@@ -62,19 +68,19 @@ public class BillingAddress extends Address{
         }
 
         protected String paymentMethod;
-
+ 
         public BillingAddressBuilder setPaymentMethod (String paymentMethod) {
             this.paymentMethod = paymentMethod;
             return this;
         }
 
 
-        public BillingAddressBuilder copy (BillingAddress  o){
-            this.street = o.street;
-            this.suburb = o.suburb;
-            this.postalCode = o.postalCode;
-            this.city = o.city;
-            this.paymentMethod = o.paymentMethod;
+        public BillingAddressBuilder copy (BillingAddress  billingAddress){
+            this.street = billingAddress.street;
+            this.suburb = billingAddress.suburb;
+            this.postalCode = billingAddress.postalCode;
+            this.city = billingAddress.city;
+            this.paymentMethod = billingAddress.paymentMethod;
             return this;
 
         }
