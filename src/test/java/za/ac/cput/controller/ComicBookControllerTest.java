@@ -30,15 +30,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ComicBookControllerTest {
-    private final String BASE_URL = "http://localhost:8080/comiccitydb/comic_book";
+    private final String BASE_URL = "http://localhost:8080/comiccity/comic_book";
 
     @Autowired
     private ComicBookService comicBookService;
-    @Autowired
-    private AuthorService authorService;
 
-    @Autowired
-    private PublisherService publisherService;
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -102,9 +98,6 @@ class ComicBookControllerTest {
     @Test
     @Order(1)
     void b_create() {
-        authorService.create(author2);
-        authorService.create(author1);
-        publisherService.create(publisher1);
 
         String url = BASE_URL + "/create";
         System.out.println(savedBook1);
@@ -135,7 +128,7 @@ class ComicBookControllerTest {
     }
 
     @Test
-    @Order(3)
+    @Order(2)
     void c_read() {
         System.out.println(savedBook1);
         String url = BASE_URL + "/read/" + savedBook1.getSKU();
@@ -172,14 +165,19 @@ class ComicBookControllerTest {
 
         assertNotNull(response.getBody());
         assertEquals(response.getBody().getSKU(), savedBook2.getSKU());
+        System.out.println(response.getBody());
 
     }
 
     @Test
-    @Disabled
     @Order(4)
     void e_delete() {
-        String url = BASE_URL + "/delete/" + book3.getSKU();
+        String url = BASE_URL + "/delete/" + savedBook3.getSKU();
+        System.out.println("Book");
+        System.out.println(savedBook3);
+        System.out.println("===========================");
+        System.out.println("Url");
+        System.out.println(url);
 
         testRestTemplate.delete(url);
 

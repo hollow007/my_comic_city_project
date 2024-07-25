@@ -242,6 +242,7 @@ class WishListServiceTest {
     }
 
     @Test
+    @Order(6)
     void quantityTest() {
         int quantity=wishListService.calculateQuantity(2L);
         assertEquals(quantity,wishList2.getComicBooks().size());
