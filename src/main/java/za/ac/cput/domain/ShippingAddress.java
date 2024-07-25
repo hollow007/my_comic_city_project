@@ -13,10 +13,10 @@ import java.time.LocalTime;
 import java.util.Objects;
 
 @Entity
-@DiscriminatorValue("shippingAddress_type")
 public class ShippingAddress extends Address{
 
     private LocalTime preffered_delivery_time;
+    private id;
 
 
     public ShippingAddress() {}
@@ -24,10 +24,15 @@ public class ShippingAddress extends Address{
     private ShippingAddress(ShippingAddressBuilder builder)  {
         super(builder);
         this.preffered_delivery_time = builder.preffered_delivery_time;
+        this.id = builder.id;
     }
 
     public LocalTime getPreffered_delivery_time() {
         return preffered_delivery_time;
+    }
+
+    public Id getId(){
+        return id;
     }
 
 
@@ -36,12 +41,12 @@ public class ShippingAddress extends Address{
         if (this == o) return true;
         if (!(o instanceof ShippingAddress that)) return false;
         if (!super.equals(o)) return false;
-        return Objects.equals(preffered_delivery_time, that.preffered_delivery_time);
+        return Objects.equals(preffered_delivery_time, that.preffered_delivery_time) Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), preffered_delivery_time);
+        return Objects.hash(super.hashCode(), preffered_delivery_time, id);
     }
 
     @Override
@@ -72,12 +77,12 @@ public class ShippingAddress extends Address{
         }
 
 
-        public ShippingAddressBuilder copy (ShippingAddress o){
-            this.street = o.street;
-            this.suburb = o.suburb;
-            this.postalCode = o.postalCode;
-            this.city = o.city;
-            this.preffered_delivery_time = o.preffered_delivery_time;
+        public ShippingAddressBuilder copy (ShippingAddress builder){
+            this.street = builder.street;
+            this.suburb = builder.suburb;
+            this.postalCode = builder.postalCode;
+            this.city = builder.city;
+            this.preffered_delivery_time = builder.preffered_delivery_time;
             return this;
 
         }
