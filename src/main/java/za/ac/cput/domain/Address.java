@@ -16,7 +16,13 @@ import java.util.Objects;
 
 
 public class Address {
+<<<<<<< HEAD
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+=======
     
+>>>>>>> release/0.0.0
     protected String street;
     protected String suburb;
     protected String city;
@@ -98,11 +104,20 @@ public class Address {
             return this;
         }
 
+<<<<<<< HEAD
+        AddressBuilder copy(Address adress) {
+            this.id= adress.id;
+            this.street = adress.street;
+            this.suburb = adress.suburb;
+            this.city = adress.suburb;
+            this.postalCode = adress.postalCode;
+=======
         public AddressBuilder copy(Address address) {
             this.street = address.street;
             this.suburb = address.suburb;
             this.city = address.suburb;
             this.postalCode = address.postalCode;
+>>>>>>> release/0.0.0
             return this;
         }
 
