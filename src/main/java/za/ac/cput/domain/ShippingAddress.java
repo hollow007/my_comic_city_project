@@ -8,13 +8,14 @@ package za.ac.cput.domain;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
+
 import java.time.LocalTime;
 import java.util.Objects;
 
 @Entity
 @DiscriminatorValue("shippingAddress_type")
 public class ShippingAddress extends Address{
-    private Long shippingAdressid ;
+
     private LocalTime preffered_delivery_time;
 
 
@@ -22,35 +23,32 @@ public class ShippingAddress extends Address{
 
     private ShippingAddress(ShippingAddressBuilder builder)  {
         super(builder);
-        this.shippingAdressid = builder.shippingAdressid;
         this.preffered_delivery_time = builder.preffered_delivery_time;
     }
 
     public LocalTime getPreffered_delivery_time() {
         return preffered_delivery_time;
     }
-    public Long getShippingAdressid(){return shippingAdressid;}
 
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof ShippingAddress that)) return false;
         if (!super.equals(o)) return false;
-        ShippingAddress that = (ShippingAddress) o;
-        return Objects.equals(shippingAdressid, that.shippingAdressid) && Objects.equals(preffered_delivery_time, that.preffered_delivery_time);
+        return Objects.equals(preffered_delivery_time, that.preffered_delivery_time);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), shippingAdressid, preffered_delivery_time);
+        return Objects.hash(super.hashCode(), preffered_delivery_time);
     }
 
     @Override
     public String toString() {
         return "ShippingAddress{" +
-                ", shippingAddressid= " + shippingAdressid +
                 "preffered_delivery_time=" + preffered_delivery_time +
+                ", id=" + id +
                 ", street='" + street + '\'' +
                 ", suburb='" + suburb + '\'' +
                 ", city='" + city + '\'' +
@@ -66,7 +64,6 @@ public class ShippingAddress extends Address{
         }
 
         protected LocalTime preffered_delivery_time;
-        protected Long shippingAdressid;
 
 
         public ShippingAddressBuilder setPreffered_delivery_time(LocalTime preffered_delivery_time) {
@@ -74,13 +71,8 @@ public class ShippingAddress extends Address{
             return this;
         }
 
-        public ShippingAddressBuilder setShippingAdressid(Long shippingAdressid) {
-            this.shippingAdressid = shippingAdressid;
-            return this;
-        }
 
         public ShippingAddressBuilder copy (ShippingAddress o){
-            this.shippingAdressid = o.shippingAdressid;
             this.street = o.street;
             this.suburb = o.suburb;
             this.postalCode = o.postalCode;

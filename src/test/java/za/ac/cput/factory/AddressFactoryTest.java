@@ -21,12 +21,12 @@ class AddressFactoryTest {
 
     @BeforeAll
     static void setUp() {
-         address1 = AddressFactory.buildAddress(1l, "34 baterseaDrive", "Kiblerpark", "2091", "Johannesburg");
+         address1 = AddressFactory.buildAddress("34 baterseaDrive", "Kiblerpark", "2091", "Johannesburg");
     }
 
     @Test
     void a_buildAddress() {
-        address2 = AddressFactory.buildAddress(2l, "34 baterseaDrive", "kibblerpark", "2091", "Johannesburg");
+        address2 = AddressFactory.buildAddress("34 baterseaDrive", "kibblerpark", "2091", "Johannesburg");
         assertNotNull(address2);
         System.out.println(address2);
 
@@ -34,7 +34,7 @@ class AddressFactoryTest {
 
     @Test
     void b_nullAddress() {
-        Address address3 = AddressFactory.buildAddress(3l, "34 baterseaDrive", "", "2091", "Johannesburg");
+        Address address3 = AddressFactory.buildAddress("34 baterseaDrive", "", "2091", "Johannesburg");
         assertNull(address3);
         System.out.println(address3);
 
