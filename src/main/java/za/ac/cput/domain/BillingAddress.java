@@ -6,26 +6,26 @@
 
 package za.ac.cput.domain;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
 @Entity
 public class BillingAddress extends Address{
 
-    private String paymentMethod;
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id
+    private Long id;
+    private String paymentMethod;
 
     public BillingAddress(){
+        super();
     }
 
     private BillingAddress(BillingAddressBuilder builder){
         super(builder);
         this.paymentMethod = builder.paymentMethod;
-        this.id = builder.id;
-
     }
 
 
@@ -60,6 +60,10 @@ public class BillingAddress extends Address{
                 ", city='" + city + '\'' +
                 ", postalCode='" + postalCode + '\'' +
                 '}';
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public static class BillingAddressBuilder extends AddressBuilder{

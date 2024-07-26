@@ -7,6 +7,8 @@ package za.ac.cput.domain;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
 
 import java.time.LocalTime;
@@ -16,22 +18,22 @@ import java.util.Objects;
 public class ShippingAddress extends Address{
 
     private LocalTime preffered_delivery_time;
-    private id;
-
+    @Id
+    @GeneratedValue
+    private Long id;
 
     public ShippingAddress() {}
 
     private ShippingAddress(ShippingAddressBuilder builder)  {
         super(builder);
         this.preffered_delivery_time = builder.preffered_delivery_time;
-        this.id = builder.id;
     }
 
     public LocalTime getPreffered_delivery_time() {
         return preffered_delivery_time;
     }
 
-    public Id getId(){
+    public Long getId(){
         return id;
     }
 
@@ -41,7 +43,7 @@ public class ShippingAddress extends Address{
         if (this == o) return true;
         if (!(o instanceof ShippingAddress that)) return false;
         if (!super.equals(o)) return false;
-        return Objects.equals(preffered_delivery_time, that.preffered_delivery_time) Objects.equals(id, that.id);
+        return Objects.equals(preffered_delivery_time, that.preffered_delivery_time) && Objects.equals(id, that.id);
     }
 
     @Override
@@ -59,6 +61,10 @@ public class ShippingAddress extends Address{
                 ", city='" + city + '\'' +
                 ", postalCode='" + postalCode + '\'' +
                 '}';
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 

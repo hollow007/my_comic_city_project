@@ -7,6 +7,7 @@ package za.ac.cput.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Deprecated
 public class AddressId implements Serializable {
 
     private String postalCode ;
