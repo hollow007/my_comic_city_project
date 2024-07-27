@@ -9,9 +9,9 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 
-// What have  i done ,  I have changed the adress class  and made it into  a Pojo
+// What have  I done ,  I have changed the adress class  and made it into  a Pojo
 // The Billing Address and shipping Address will then Inherit from this class excluding the ID
-// I ahd to change the address back into an Entity because Address contact maps it
+// I changed to change the address back into an Entity because Address contact maps it
 
 
 

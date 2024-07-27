@@ -1,0 +1,65 @@
+package za.ac.cput.service.addressService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import za.ac.cput.domain.Address;
+import za.ac.cput.domain.BillingAddress;
+import za.ac.cput.domain.ShippingAddress;
+import za.ac.cput.repository.AddressRepository;
+
+import java.util.List;
+@Service
+public class AddressService  implements IAddressService{
+
+    private AddressRepository addressRepository;
+
+    @Autowired
+    AddressService (AddressRepository addressRepository){
+        this.addressRepository = addressRepository;
+    }
+
+    @Override
+    public Address create(Address address) {
+        if(address == null)
+            throw new IllegalArgumentException("address cannot be null");
+        return addressRepository.save(address);
+    }
+
+    @Override
+    public Address read(Long aLong) {
+        if (aLong<0L )
+            throw new IllegalArgumentException("id cannot be negative or zero");
+        return addressRepository.findById(aLong).orElse(null);
+    }
+
+    @Override
+    public Address update(Address address) {
+        if (address == null)
+            throw new IllegalArgumentException("address cannot be null");
+        return addressRepository.save(address);
+    }
+
+    @Override
+    public boolean delete(Long aLong) {
+        if (aLong<0L)
+            throw new IllegalArgumentException("id cannot be negative or zero");
+        addressRepository.deleteById(aLong);
+        return addressRepository.existsById(aLong);
+    }
+
+
+    @Override
+    public List<BillingAddress> getallBillingAddress() {
+        return List.of();
+    }
+
+    @Override
+    public List<ShippingAddress> getallShippingAddress() {
+        return List.of();
+    }
+
+    @Override
+    public List<Address> getall() {
+        return addressRepository.findAll();
+    }
+}
