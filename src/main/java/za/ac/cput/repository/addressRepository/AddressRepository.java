@@ -1,4 +1,4 @@
-package za.ac.cput.repository;
+package za.ac.cput.repository.addressRepository;
 
 //Author : FarananiJoshua Mokwebo 
 //StudentNumber : 222191562
@@ -13,3 +13,4 @@ import za.ac.cput.domain.Address;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
 }
+
