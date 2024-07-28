@@ -12,9 +12,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class ShippingAddressFactoryTest {
 
-    static ShippingAddress shippingAddress1;
-    static ShippingAddress shippingAddress2;
-    static ShippingAddress  shippingAddress3;
+    static Address shippingAddress1;
+    static Address shippingAddress2;
+    static Address  shippingAddress3;
 
     @BeforeAll
     static void setUp() {

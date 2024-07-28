@@ -12,10 +12,12 @@ import java.util.Objects;
 // What have  I done ,  I have changed the adress class  and made it into  a Pojo
 // The Billing Address and shipping Address will then Inherit from this class excluding the ID
 // I changed to change the address back into an Entity because Address contact maps it
+// I have made the address class to use Joined Table. This will make the Childreen Inherit the primary key as a foreign key
 
 
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Address {
 
     @Id
@@ -37,6 +39,8 @@ public class Address {
         this.postalCode = builder.postalCode;
     }
 
+
+    public  Long getId(){return id;}
 
     public String getStreet() {
         return street;
