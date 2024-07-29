@@ -27,7 +27,7 @@ public class ShippingAddressService implements IShippingAddressService {
     public ShippingAddress read(Long aLong) {
         if (aLong == null)
             throw new IllegalArgumentException("aLong cannot be null");
-        return shippingAddressRepository.getReferenceById(aLong);
+        return shippingAddressRepository.findById(aLong).orElse(null);
     }
 
     @Override

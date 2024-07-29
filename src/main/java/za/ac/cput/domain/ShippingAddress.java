@@ -53,7 +53,7 @@ public class ShippingAddress extends Address{
                 '}';
     }
 
-    public static class ShippingAddressBuilder extends AddressBuilder{
+    public static class ShippingAddressBuilder extends AddressBuilder<ShippingAddressBuilder>{
 
         public ShippingAddressBuilder() {
             super();
@@ -64,7 +64,7 @@ public class ShippingAddress extends Address{
 
         public ShippingAddressBuilder setPreffered_delivery_time(LocalTime preffered_delivery_time) {
             this.preffered_delivery_time = preffered_delivery_time;
-            return this;
+            return self();
         }
 
 
@@ -78,6 +78,11 @@ public class ShippingAddress extends Address{
 
         }
 
+        @Override
+        protected ShippingAddressBuilder self(){
+            return this;
+        }
+        @Override
         public ShippingAddress build (){return new ShippingAddress(this);}
 
     }
