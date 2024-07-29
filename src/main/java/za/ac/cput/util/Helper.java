@@ -98,7 +98,10 @@ public class Helper {
 
     }
     public static boolean isInvalidTime(LocalTime time){
-    return time.isAfter(LocalTime.now());
+        if(time.isAfter(LocalTime.now()))
+            return true;
+        throw new IllegalArgumentException("Invalid time: Time must be after LocalTime.now");
+
 
 
     }

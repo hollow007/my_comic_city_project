@@ -4,40 +4,42 @@ package za.ac.cput.domain;
 //Student No 222191562
 //GitHubRepository:My_commic_city_project
 
-
 import jakarta.persistence.*;
 
 import java.util.Objects;
 
+// What have  I done ,  I have changed the address class  and made it into  a Pojo
+// The Billing Address and shipping Address will then Inherit from this class excluding the ID
+// I changed to change the address back into an Entity because Address contact maps it
+// I have made the address class to use Joined Table. This will make the Children Inherit the primary key as a foreign key
+
+
+
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "Address_type", discriminatorType = DiscriminatorType.STRING)
-
-
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Address {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
+
     protected String street;
     protected String suburb;
     protected String city;
-
     protected String postalCode;
 
     public Address() {
     }
 
-    Address(AddressBuilder builder) {
-        this.id=builder.id;
+    Address(AddressBuilder<?> builder) {
         this.street = builder.street;
         this.suburb = builder.suburb;
         this.city = builder.city;
         this.postalCode = builder.postalCode;
     }
 
-    public Long getId() {
-        return id;
-    }
+
+    public  Long getId(){return id;}
 
     public String getStreet() {
         return street;
@@ -59,18 +61,17 @@ public class Address {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Address address)) return false;
-        return Objects.equals(id, address.id) && Objects.equals(street, address.street) && Objects.equals(suburb, address.suburb) && Objects.equals(city, address.city) && Objects.equals(postalCode, address.postalCode);
+        return Objects.equals(street, address.street) && Objects.equals(suburb, address.suburb) && Objects.equals(city, address.city) && Objects.equals(postalCode, address.postalCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, street, suburb, city, postalCode);
+        return Objects.hash(street, suburb, city, postalCode);
     }
 
     @Override
     public String toString() {
         return "Address{" +
-                "id=" + id +
                 ", street='" + street + '\'' +
                 ", suburb='" + suburb + '\'' +
                 ", city='" + city + '\'' +
@@ -78,49 +79,43 @@ public class Address {
                 '}';
     }
 
-    public static class AddressBuilder {
-        protected Long id;
+    public static abstract class AddressBuilder<T extends AddressBuilder<T>>{
         protected String street;
         protected String suburb;
         protected String city;
         protected String postalCode;
 
-        public AddressBuilder setId(Long id) {
-            this.id = id;
-            return this;
-        }
-
-        public AddressBuilder setStreet(String street) {
+    
+        public T setStreet(String street) {
             this.street = street;
-            return this;
+            return self();
         }
 
-        public AddressBuilder setSuburb(String suburb) {
+        public T setSuburb(String suburb) {
             this.suburb = suburb;
-            return this;
+            return self();
         }
 
-        public AddressBuilder setCity(String city) {
+        public T setCity(String city) {
             this.city = city;
-            return this;
+            return self();
         }
 
-        public AddressBuilder setPostalCode(String postalCode) {
+        public T setPostalCode(String postalCode) {
             this.postalCode = postalCode;
-            return this;
+            return self();
         }
 
-        AddressBuilder copy(Address adress) {
-            this.id= adress.id;
-            this.street = adress.street;
-            this.suburb = adress.suburb;
-            this.city = adress.suburb;
-            this.postalCode = adress.postalCode;
-            return this;
+        public T copy(Address address) {
+            this.street = address.street;
+            this.suburb = address.suburb;
+            this.city = address.suburb;
+            this.postalCode = address.postalCode;
+            return self();
         }
 
-        public Address build() {
-            return new Address(this);
-        }
+        protected abstract T self();
+
+        public abstract Address build();
     }
 }

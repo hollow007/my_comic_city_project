@@ -1,3 +1,4 @@
+
 package za.ac.cput.factory;
 
 //Joshua Mokwebo
@@ -10,7 +11,7 @@ import za.ac.cput.domain.Address;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-
+@Deprecated
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class AddressFactoryTest {
 

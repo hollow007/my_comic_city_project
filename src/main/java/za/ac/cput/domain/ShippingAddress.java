@@ -5,19 +5,17 @@
 
 package za.ac.cput.domain;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 
 import java.time.LocalTime;
 import java.util.Objects;
 
 @Entity
-@DiscriminatorValue("shippingAddress_type")
+@PrimaryKeyJoinColumn(name ="ShippingAddress ID")
 public class ShippingAddress extends Address{
 
     private LocalTime preffered_delivery_time;
-
 
     public ShippingAddress() {}
 
@@ -30,12 +28,12 @@ public class ShippingAddress extends Address{
         return preffered_delivery_time;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ShippingAddress that)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
+        ShippingAddress that = (ShippingAddress) o;
         return Objects.equals(preffered_delivery_time, that.preffered_delivery_time);
     }
 
@@ -48,7 +46,6 @@ public class ShippingAddress extends Address{
     public String toString() {
         return "ShippingAddress{" +
                 "preffered_delivery_time=" + preffered_delivery_time +
-                ", id=" + id +
                 ", street='" + street + '\'' +
                 ", suburb='" + suburb + '\'' +
                 ", city='" + city + '\'' +
@@ -56,8 +53,7 @@ public class ShippingAddress extends Address{
                 '}';
     }
 
-
-    public static class ShippingAddressBuilder extends AddressBuilder{
+    public static class ShippingAddressBuilder extends AddressBuilder<ShippingAddressBuilder>{
 
         public ShippingAddressBuilder() {
             super();
@@ -68,20 +64,25 @@ public class ShippingAddress extends Address{
 
         public ShippingAddressBuilder setPreffered_delivery_time(LocalTime preffered_delivery_time) {
             this.preffered_delivery_time = preffered_delivery_time;
-            return this;
+            return self();
         }
 
 
-        public ShippingAddressBuilder copy (ShippingAddress o){
-            this.street = o.street;
-            this.suburb = o.suburb;
-            this.postalCode = o.postalCode;
-            this.city = o.city;
-            this.preffered_delivery_time = o.preffered_delivery_time;
+        public ShippingAddressBuilder copy (ShippingAddress builder){
+            this.street = builder.street;
+            this.suburb = builder.suburb;
+            this.postalCode = builder.postalCode;
+            this.city = builder.city;
+            this.preffered_delivery_time = builder.preffered_delivery_time;
             return this;
 
         }
 
+        @Override
+        protected ShippingAddressBuilder self(){
+            return this;
+        }
+        @Override
         public ShippingAddress build (){return new ShippingAddress(this);}
 
     }

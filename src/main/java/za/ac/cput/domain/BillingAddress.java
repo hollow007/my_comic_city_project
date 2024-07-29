@@ -3,28 +3,28 @@
 //Student No 222191562
 //GitHubRepository:My_commic_city_projec
 
+// After implementing The inheritance strategy , this subclass will not need us to define a primary key , we will inherit it
 
 package za.ac.cput.domain;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
 @Entity
-@DiscriminatorValue("BillingAddress_type")
+@PrimaryKeyJoinColumn(name = "BillingAddressID")
 public class BillingAddress extends Address{
 
     private String paymentMethod;
+
     public BillingAddress(){
+        super();
     }
 
     private BillingAddress(BillingAddressBuilder builder){
         super(builder);
         this.paymentMethod = builder.paymentMethod;
-
     }
-
 
     public String getPaymentMethod() {
         return paymentMethod;
@@ -34,8 +34,9 @@ public class BillingAddress extends Address{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof BillingAddress that)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
+        BillingAddress that = (BillingAddress) o;
         return Objects.equals(paymentMethod, that.paymentMethod);
     }
 
@@ -48,7 +49,6 @@ public class BillingAddress extends Address{
     public String toString() {
         return "BillingAddress{" +
                 "paymentMethod='" + paymentMethod + '\'' +
-                ", id=" + id +
                 ", street='" + street + '\'' +
                 ", suburb='" + suburb + '\'' +
                 ", city='" + city + '\'' +
@@ -56,29 +56,33 @@ public class BillingAddress extends Address{
                 '}';
     }
 
-    public static class BillingAddressBuilder extends AddressBuilder{
-        public BillingAddressBuilder() {
-            super();
-        }
+
+    public static class BillingAddressBuilder extends Address.AddressBuilder<BillingAddressBuilder>{
 
         protected String paymentMethod;
 
+//        public BillingAddressBuilder() {
+//        }
+ 
         public BillingAddressBuilder setPaymentMethod (String paymentMethod) {
             this.paymentMethod = paymentMethod;
-            return this;
+            return self();
         }
 
-
-        public BillingAddressBuilder copy (BillingAddress  o){
-            this.street = o.street;
-            this.suburb = o.suburb;
-            this.postalCode = o.postalCode;
-            this.city = o.city;
-            this.paymentMethod = o.paymentMethod;
+        public BillingAddressBuilder copy (BillingAddress  billingAddress){
+            this.street = billingAddress.street;
+            this.suburb = billingAddress.suburb;
+            this.postalCode = billingAddress.postalCode;
+            this.city = billingAddress.city;
+            this.paymentMethod = billingAddress.paymentMethod;
             return this;
 
         }
-
+        @Override
+        protected BillingAddressBuilder self(){
+            return this;
+        }
+        @Override
         public BillingAddress build (){return new BillingAddress(this);}
 
     }
