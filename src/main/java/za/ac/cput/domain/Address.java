@@ -31,7 +31,7 @@ public class Address {
     public Address() {
     }
 
-    Address(AddressBuilder builder) {
+    Address(AddressBuilder<?> builder) {
         this.street = builder.street;
         this.suburb = builder.suburb;
         this.city = builder.city;
@@ -79,43 +79,43 @@ public class Address {
                 '}';
     }
 
-    public static class AddressBuilder {
+    public static abstract class AddressBuilder<T extends AddressBuilder<T>>{
         protected String street;
         protected String suburb;
         protected String city;
         protected String postalCode;
 
     
-        public AddressBuilder setStreet(String street) {
+        public T setStreet(String street) {
             this.street = street;
-            return this;
+            return self();
         }
 
-        public AddressBuilder setSuburb(String suburb) {
+        public T setSuburb(String suburb) {
             this.suburb = suburb;
-            return this;
+            return self();
         }
 
-        public AddressBuilder setCity(String city) {
+        public T setCity(String city) {
             this.city = city;
-            return this;
+            return self();
         }
 
-        public AddressBuilder setPostalCode(String postalCode) {
+        public T setPostalCode(String postalCode) {
             this.postalCode = postalCode;
-            return this;
+            return self();
         }
 
-        public AddressBuilder copy(Address address) {
+        public T copy(Address address) {
             this.street = address.street;
             this.suburb = address.suburb;
             this.city = address.suburb;
             this.postalCode = address.postalCode;
-            return this;
+            return self();
         }
 
-        public Address build() {
-            return new Address(this);
-        }
+        protected abstract T self();
+
+        public abstract Address build();
     }
 }

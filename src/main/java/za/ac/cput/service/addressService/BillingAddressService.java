@@ -14,6 +14,9 @@ import java.util.List;
 public class BillingAddressService implements IBillingAddressService {
 
     private BillingAddressRepository billingAddressRepository;
+    private BillingAddress billingAddress = new BillingAddress();
+
+
 
     @Autowired
     public BillingAddressService(BillingAddressRepository billingAddressRepository) {
@@ -31,10 +34,10 @@ public class BillingAddressService implements IBillingAddressService {
     }
 
     @Override
-    public BillingAddress read(Long aLong) {
-        if(aLong < 0L || aLong == null)
+    public BillingAddress read(Long aLong ) {
+        if(aLong == null || aLong < 0L)
             throw new IllegalArgumentException("billingAddress cannot be negative or null");
-        return billingAddressRepository.getReferenceById(aLong);
+        return billingAddressRepository.findById(aLong).orElse(null);
     }
 
     @Override

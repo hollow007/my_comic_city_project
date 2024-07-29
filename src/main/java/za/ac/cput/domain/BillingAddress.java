@@ -57,18 +57,17 @@ public class BillingAddress extends Address{
     }
 
 
-    public static class BillingAddressBuilder extends AddressBuilder{
-        public BillingAddressBuilder() {
-            super();
-        }
+    public static class BillingAddressBuilder extends Address.AddressBuilder<BillingAddressBuilder>{
 
         protected String paymentMethod;
+
+//        public BillingAddressBuilder() {
+//        }
  
         public BillingAddressBuilder setPaymentMethod (String paymentMethod) {
             this.paymentMethod = paymentMethod;
-            return this;
+            return self();
         }
-
 
         public BillingAddressBuilder copy (BillingAddress  billingAddress){
             this.street = billingAddress.street;
@@ -79,7 +78,11 @@ public class BillingAddress extends Address{
             return this;
 
         }
-
+        @Override
+        protected BillingAddressBuilder self(){
+            return this;
+        }
+        @Override
         public BillingAddress build (){return new BillingAddress(this);}
 
     }

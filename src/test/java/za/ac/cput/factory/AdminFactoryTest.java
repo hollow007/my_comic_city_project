@@ -5,6 +5,8 @@ import za.ac.cput.domain.Address;
 import za.ac.cput.domain.Admin;
 import za.ac.cput.domain.Contact;
 
+import java.time.LocalTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -22,11 +24,11 @@ class AdminFactoryTest {
 
     @BeforeAll
     static void setUp() {
-        adminAddress1 = AddressFactory.buildAddress("106 Gasela", "Guguletu", "7750", "Cape Town");
+        adminAddress1 = ShippingAddressFactory.buildShippingAddress(LocalTime.of(16,00,00),"106 Gasela", "Guguletu", "7750", "Cape Town");
         adminContact1 = AdminContactFactory.buildContact("mphumzimbula@gmail.com", "0658436358", adminAddress1);
         admin1 = AdminFactory.buildAdmin(1L, "Mpumzi", "Mbula", "20Mphmbu16!", adminContact1);
 
-        adminAddress2 = AddressFactory.buildAddress("7 Galatasaray", "Woodstock", "8001", "Cape Town");
+        adminAddress2 = BillingAddressFactory.buildBillingAddress("Cash","7 Galatasaray", "Woodstock", "8001", "Cape Town");
         adminContact2 = AdminContactFactory.buildContact("mlungisiMbuyazi@gmail.com", "0835800055", adminAddress2);
         admin2 = AdminFactory.buildAdmin(2L, "Mlungisi", "", "Mbuyazi", "20Mluyazi16!", adminContact2);
     }

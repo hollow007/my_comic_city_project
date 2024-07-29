@@ -14,7 +14,7 @@ import java.time.LocalTime;
 
 public class ShippingAddressFactory {
 
-    public static Address buildShippingAddress (LocalTime preferredDeliveryTime, String street , String suburb, String postalCode, String city ) {
+    public static ShippingAddress buildShippingAddress (LocalTime preferredDeliveryTime, String street , String suburb, String postalCode, String city ) {
         if (!Helper.isInvalidTime(preferredDeliveryTime)|| Helper.isStringNullorEmpty(street) || Helper.isStringNullorEmpty(suburb) ||
                 Helper.isInvalidPostalCode(postalCode) || Helper.isStringNullorEmpty(city))
 
@@ -24,8 +24,8 @@ public class ShippingAddressFactory {
                 setPreffered_delivery_time(preferredDeliveryTime).
                 setStreet(street).
                 setSuburb(suburb).
-                setCity(city).
                 setPostalCode(postalCode).
+                setCity(city).
                 build();
 
     }
