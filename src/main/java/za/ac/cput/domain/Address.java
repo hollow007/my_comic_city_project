@@ -4,15 +4,14 @@ package za.ac.cput.domain;
 //Student No 222191562
 //GitHubRepository:My_commic_city_project
 
-
 import jakarta.persistence.*;
 
 import java.util.Objects;
 
-// What have  I done ,  I have changed the adress class  and made it into  a Pojo
+// What have  I done ,  I have changed the address class  and made it into  a Pojo
 // The Billing Address and shipping Address will then Inherit from this class excluding the ID
 // I changed to change the address back into an Entity because Address contact maps it
-// I have made the address class to use Joined Table. This will make the Childreen Inherit the primary key as a foreign key
+// I have made the address class to use Joined Table. This will make the Children Inherit the primary key as a foreign key
 
 
 

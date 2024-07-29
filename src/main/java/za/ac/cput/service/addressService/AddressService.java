@@ -1,3 +1,7 @@
+//Joshua Mokwebo
+//Student No 222191562
+//GitHubRepository:My_commic_city_project
+
 package za.ac.cput.service.addressService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,27 +20,18 @@ import java.util.Optional;
 public class AddressService  implements IAddressService{
 
     private AddressRepository addressRepository;
-    private BillingAddressRepository billingAddressRepository;
-    private ShippingAddressRepository shippingAddressRepository;
 
     @Autowired
-    AddressService (AddressRepository addressRepository , ShippingAddressRepository shippingAddressRepository , BillingAddressRepository billingAddressRepository){
+    AddressService (AddressRepository addressRepository){
         this.addressRepository = addressRepository;
-        this.shippingAddressRepository = shippingAddressRepository;
-        this.billingAddressRepository = billingAddressRepository;
     }
 
     @Override
     public Address create(Address address) {
         if(address == null)
             throw new IllegalArgumentException("address cannot be null");
-        else if(address instanceof BillingAddress){
-            return billingAddressRepository.save((BillingAddress) address);
-        }else if(address instanceof ShippingAddress){
-            return shippingAddressRepository.save((ShippingAddress) address);
-
-    }
         return addressRepository.save(address);}
+
 
     @Override
     public Address read(Long aLong) {
@@ -49,11 +44,6 @@ public class AddressService  implements IAddressService{
     public Address update(Address address) {
         if (address == null)
             throw new IllegalArgumentException("address cannot be null");
-        else if (address instanceof BillingAddress) {
-            return billingAddressRepository.save((BillingAddress) address);
-        } else if (address instanceof ShippingAddress) {
-            return shippingAddressRepository.save((ShippingAddress) address);
-        }
         return addressRepository.save(address);
     }
 
@@ -63,17 +53,6 @@ public class AddressService  implements IAddressService{
             throw new IllegalArgumentException("id cannot be negative or zero");
         addressRepository.deleteById(aLong);
         return addressRepository.existsById(aLong);
-    }
-
-
-    @Override
-    public List<BillingAddress> getallBillingAddress() {
-        return List.of();
-    }
-
-    @Override
-    public List<ShippingAddress> getallShippingAddress() {
-        return List.of();
     }
 
     @Override

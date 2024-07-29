@@ -1,3 +1,7 @@
+//Joshua Mokwebo
+//Student No 222191562
+//GitHubRepository:My_commic_city_project
+
 package za.ac.cput.service.addressService;
 
 import org.springframework.stereotype.Service;
@@ -11,8 +15,6 @@ import java.util.Optional;
 
 @Service
 public interface IAddressService extends IService<Address, Long> {
-    List<BillingAddress> getallBillingAddress();
-    List<ShippingAddress> getallShippingAddress();
     List<Address>getall();
 
 }

@@ -24,18 +24,21 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class AddressServiceTest {
 
-    Address shippingAddress_in;
-    Address shippingAddress_out;
     Address billingAddress_in;
     Address billingAddress_out;
     Address billingAddress_updated;
+
+    Address shippingAddress_in;
+    Address shippingAddress_out;
     Address shippingAddress_updated;
 
     @Autowired
     private EntityManager entityManagerger;
 
-    Address address;
-
+    @Autowired
+    BillingAddressService billingAddressService;
+    @Autowired
+    ShippingAddressService shippingAddressService;
     @Autowired
     AddressService addressService;
 
@@ -46,31 +49,20 @@ class AddressServiceTest {
 
     }
 
+    // Billing Address Tests
+
     @Test
-    @Transactional
-    @Rollback(false)
-    void a_create() {
-        shippingAddress_out = addressService.create(shippingAddress_in);
-        //entityManagerger.persist(shippingAddress_in);
-       // entityManagerger.flush();
-        assertNotNull(shippingAddress_out.getId());
-
-        System.out.println("========== Created Shipping Address=========");
-        System.out.println(shippingAddress_out);
-
+    void a_createBillingAddress() {
         billingAddress_out = addressService.create(billingAddress_in);
-        //entityManagerger.persist(billingAddress_in);
-        //entityManagerger.flush();
         assertNotNull(billingAddress_out.getId());
         System.out.println("===========Created Billing Address========");
         System.out.println(billingAddress_out);
     }
 
     @Test
-    void b_read() {
-        //billingAddress_out = entityManagerger.find(BillingAddress.class, billingAddress_in.getId());
-        Address billingAddress3 = addressService.read(shippingAddress_in.getId());
-        assertNotNull(billingAddress3);
+    void b_readBillingAddress() {
+        billingAddress_out = addressService.read(billingAddress_in.getId());
+        assertNotNull(billingAddress_out);
         System.out.println("===========Billing Address from Database========");
 
        Long billingId_in = billingAddress_in.getId();
@@ -79,46 +71,20 @@ class AddressServiceTest {
        assertEquals(billingId_in,billingId_out);
        System.out.println("The address are the same");
 
-
-
-        shippingAddress_out = addressService.read(shippingAddress_out.getId());
-        assertNotNull(shippingAddress_out);
-        System.out.println("===========Shipping Address from Database========");
-        System.out.println(shippingAddress_out + "ID: " + shippingAddress_in.getId());
-
-        Long shippingId_in = shippingAddress_in.getId();
-        Long shippingId_out = shippingAddress_in.getId();
-
-        assertEquals(shippingId_in,shippingId_out);
-        System.out.println("The address are the same");
-
-
     }
 
     @Test
-    void update() {
-        shippingAddress_updated= new ShippingAddress.ShippingAddressBuilder().copy(shippingAddress_in).setCity("Los Angeles").build();
-        addressService.update(shippingAddress_updated);
-        assertNotEquals(shippingAddress_updated,shippingAddress_in);
-        System.out.println("===========Updated Shipping Address ========");
-        System.out.println(shippingAddress_updated);
-
+    void updateBillingAddress() {
         billingAddress_updated = new BillingAddress.BillingAddressBuilder().copy(billingAddress_in).setPostalCode("7000").build();
         addressService.update(billingAddress_updated);
         assertEquals(billingAddress_updated,billingAddress_in);
         System.out.println("===========Updated Billing Address ========");
         System.out.println(billingAddress_updated);
 
-
     }
 
     @Test
-    void delete() {
-        addressService.delete(shippingAddress_in.getId());
-        shippingAddress_out = addressService.read(shippingAddress_in.getId());
-        assertNull(shippingAddress_out);
-        System.out.println("The  Shipping address has been deleted");
-
+    void deleteBillingAddress() {
         addressService.delete(billingAddress_in.getId());
         billingAddress_out = addressService.read(billingAddress_in.getId());
         assertNull(billingAddress_out);
@@ -132,5 +98,55 @@ class AddressServiceTest {
         assertTrue(addressList.size() > 0);
         System.out.println(addressList);
     }
+
+    // Shipping Address Tests
+
+    @Test
+    void createShippingAddress() {
+        shippingAddress_out = addressService.create(shippingAddress_in);
+        assertNotNull(shippingAddress_out.getId());
+
+        System.out.println("========== Created Shipping Address=========");
+        System.out.println(shippingAddress_out);
+    }
+
+    @Test
+    void readShippingAddress() {
+
+        shippingAddress_out = shippingAddressService.read(shippingAddress_out.getId());
+        assertNotNull(shippingAddress_out);
+        System.out.println("===========Shipping Address from Database========");
+        System.out.println(shippingAddress_out + "ID: " + shippingAddress_in.getId());
+
+        Long shippingId_in = shippingAddress_in.getId();
+        Long shippingId_out = shippingAddress_in.getId();
+
+        assertEquals(shippingId_in,shippingId_out);
+        System.out.println("The address are the same");
+    }
+
+    @Test
+    void updateShippingAddress() {
+        shippingAddress_updated= new ShippingAddress.ShippingAddressBuilder().copy(shippingAddress_in).setCity("Los Angeles").build();
+        addressService.update(shippingAddress_updated);
+        assertNotEquals(shippingAddress_updated,shippingAddress_in);
+        System.out.println("===========Updated Shipping Address ========");
+        System.out.println(shippingAddress_updated);
+    }
+
+    @Test
+    void deleteShippingAddress() {
+        addressService.delete(shippingAddress_in.getId());
+        shippingAddress_out = shippingAddressService.read(shippingAddress_in.getId());
+        assertNull(shippingAddress_out);
+        System.out.println("The  Shipping address has been deleted");
+    }
+
+
+
+
+
+
+
 }
 
