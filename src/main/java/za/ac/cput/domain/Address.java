@@ -4,25 +4,25 @@ package za.ac.cput.domain;
 //Student No 222191562
 //GitHubRepository:My_commic_city_project
 
-
 import jakarta.persistence.*;
 
 import java.util.Objects;
 
-// What have  i done ,  I have changed the adress class  and made it into  a Pojo
-// The Billing Address and shipping Address will then Inherit from this class excluding the ID 
+// What have  I done ,  I have changed the address class  and made it into  a Pojo
+// The Billing Address and shipping Address will then Inherit from this class excluding the ID
+// I changed to change the address back into an Entity because Address contact maps it
+// I have made the address class to use Joined Table. This will make the Children Inherit the primary key as a foreign key
 
 
 
-
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Address {
-<<<<<<< HEAD
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-=======
-    
->>>>>>> release/0.0.0
+
     protected String street;
     protected String suburb;
     protected String city;
@@ -38,6 +38,8 @@ public class Address {
         this.postalCode = builder.postalCode;
     }
 
+
+    public  Long getId(){return id;}
 
     public String getStreet() {
         return street;
@@ -104,20 +106,11 @@ public class Address {
             return this;
         }
 
-<<<<<<< HEAD
-        AddressBuilder copy(Address adress) {
-            this.id= adress.id;
-            this.street = adress.street;
-            this.suburb = adress.suburb;
-            this.city = adress.suburb;
-            this.postalCode = adress.postalCode;
-=======
         public AddressBuilder copy(Address address) {
             this.street = address.street;
             this.suburb = address.suburb;
             this.city = address.suburb;
             this.postalCode = address.postalCode;
->>>>>>> release/0.0.0
             return this;
         }
 

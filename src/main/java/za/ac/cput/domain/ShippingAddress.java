@@ -5,62 +5,53 @@
 
 package za.ac.cput.domain;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 
 import java.time.LocalTime;
 import java.util.Objects;
 
 @Entity
+@PrimaryKeyJoinColumn(name ="ShippingAddress ID")
 public class ShippingAddress extends Address{
 
     private LocalTime preffered_delivery_time;
-    private id;
-
 
     public ShippingAddress() {}
 
     private ShippingAddress(ShippingAddressBuilder builder)  {
         super(builder);
         this.preffered_delivery_time = builder.preffered_delivery_time;
-        this.id = builder.id;
     }
 
     public LocalTime getPreffered_delivery_time() {
         return preffered_delivery_time;
     }
 
-    public Id getId(){
-        return id;
-    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ShippingAddress that)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        return Objects.equals(preffered_delivery_time, that.preffered_delivery_time) Objects.equals(id, that.id);
+        ShippingAddress that = (ShippingAddress) o;
+        return Objects.equals(preffered_delivery_time, that.preffered_delivery_time);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), preffered_delivery_time, id);
+        return Objects.hash(super.hashCode(), preffered_delivery_time);
     }
 
     @Override
     public String toString() {
         return "ShippingAddress{" +
                 "preffered_delivery_time=" + preffered_delivery_time +
-                ", id=" + id +
                 ", street='" + street + '\'' +
                 ", suburb='" + suburb + '\'' +
                 ", city='" + city + '\'' +
                 ", postalCode='" + postalCode + '\'' +
                 '}';
     }
-
 
     public static class ShippingAddressBuilder extends AddressBuilder{
 

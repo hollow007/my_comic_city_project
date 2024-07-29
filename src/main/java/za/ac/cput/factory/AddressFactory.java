@@ -1,4 +1,4 @@
-@Deprecated
+
 package za.ac.cput.factory;
 
 //Joshua Mokwebo
@@ -7,6 +7,7 @@ package za.ac.cput.factory;
 
 import za.ac.cput.domain.Address;
 import za.ac.cput.util.Helper;
+
 
 public class AddressFactory {
     public static Address buildAddress (String street, String suburb, String postalCode, String city ){

@@ -16,11 +16,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class BillingAddressFactoryTest {
 
-    static Address address;
+    static Address billingAddress;
 
     @BeforeAll
     static void setUp() {
-         address = BillingAddressFactory.
+         billingAddress = BillingAddressFactory.
                 buildBillingAddress("card","34 Batersea Drive", "Kibbler park" , "2091" , "Johannesburg");
 
 
@@ -29,8 +29,8 @@ class BillingAddressFactoryTest {
     @Test
     void a_goodAddress() {
 
-        assertNotNull(address);
-        System.out.println(address);
+        assertNotNull(billingAddress);
+        System.out.println(billingAddress);
 
 
     }
@@ -38,9 +38,9 @@ class BillingAddressFactoryTest {
     @Test
     void b_badAddress() {
 
-        address = BillingAddressFactory.buildBillingAddress("card","34 Batersea Drive", "" , "2091" , "Johannesburg");
-        assertNull(address);
-        System.out.println(address);
+        billingAddress = BillingAddressFactory.buildBillingAddress("card","34 Batersea Drive", "" , "2091" , "Johannesburg");
+        assertNull(billingAddress);
+        System.out.println(billingAddress);
 
 
     }

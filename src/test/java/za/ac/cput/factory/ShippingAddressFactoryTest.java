@@ -12,9 +12,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class ShippingAddressFactoryTest {
 
-    static ShippingAddress shippingAddress1;
-    static ShippingAddress shippingAddress2;
-    static ShippingAddress  shippingAddress3;
+    static Address shippingAddress1;
+    static Address shippingAddress2;
+    static Address  shippingAddress3;
 
     @BeforeAll
     static void setUp() {
@@ -25,7 +25,7 @@ class ShippingAddressFactoryTest {
     @Test
     void a_goodShippingAddress() {
 
-        shippingAddress2 = ShippingAddressFactory.buildShippingAddress(LocalTime.parse("18:00:00"),"210LoopSteert","Cape Town","8000","Cape Town");
+        shippingAddress2 = ShippingAddressFactory.buildShippingAddress(LocalTime.parse("02:00:00"),"210LoopSteert","Cape Town","8000","Cape Town");
         assertNotNull(shippingAddress2);
         System.out.println(shippingAddress2);
     }

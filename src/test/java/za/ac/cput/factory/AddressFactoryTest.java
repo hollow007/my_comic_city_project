@@ -1,4 +1,3 @@
-@Deprecated
 
 package za.ac.cput.factory;
 
