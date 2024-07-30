@@ -13,25 +13,26 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class Helper {
-    public static boolean isStringNullorEmpty(String string){
-        if(string.isEmpty() || string == null){
+    public static boolean isStringNullorEmpty(String string) {
+        if (string.isEmpty() || string == null) {
             return true;
         }
         return false;
     }
-    public static boolean isListNullorEmpty(List list){
-        if(list.isEmpty() || list == null){
+
+    public static boolean isListNullorEmpty(List list) {
+        if (list.isEmpty() || list == null) {
             return true;
         }
-        return  false;
+        return false;
     }
 
-    public static boolean isNumber10Digits(String number){
+    public static boolean isNumber10Digits(String number) {
         if (number.length() != 10) {
             return true;
         }
 
-        for(int i = 0; i < number.length(); i++) {
+        for (int i = 0; i < number.length(); i++) {
             if (!Character.isDigit(number.charAt(i))) {
                 return true;
             }
@@ -42,11 +43,11 @@ public class Helper {
     public static boolean isEmailValid(String emailAddress) {
         String regex = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
                 + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-        boolean isMatching =  Pattern.compile(regex)
+        boolean isMatching = Pattern.compile(regex)
                 .matcher(emailAddress)
                 .matches();
 
-        if(!isMatching){
+        if (!isMatching) {
             return true;
         }
 
@@ -64,9 +65,10 @@ public class Helper {
             return true;
         }
 
-        return  false;
+        return false;
 
     }
+
     public static boolean isNotInPast(LocalDate date) {
         return !date.isBefore(LocalDate.now());
     }
@@ -76,38 +78,36 @@ public class Helper {
     }
 
 
-    public static boolean isValidPrice(double price){
-        if(price<0){
-            return true;
-        }
-        return false;
-    }
-    public static boolean isInvalidInt(int number){
-        if(number<=0){
+    public static boolean isValidPrice(double price) {
+        if (price < 0) {
             return true;
         }
         return false;
     }
 
-    public static boolean isInvalidPostalCode(String postalCode){
-        int postalCodeAsInt=Integer.parseInt(postalCode);
-        if(postalCodeAsInt<0001||postalCodeAsInt>9999){
+    public static boolean isInvalidInt(int number) {
+        if (number <= 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isInvalidPostalCode(String postalCode) {
+        int postalCodeAsInt = Integer.parseInt(postalCode);
+        if (postalCodeAsInt < 0001 || postalCodeAsInt > 9999) {
             return true;
         }
         return false;
 
     }
-    public static boolean isInvalidTime(LocalTime time){
-        if(time.isAfter(LocalTime.now()))
-            return true;
-        throw new IllegalArgumentException("Invalid time: Time must be after LocalTime.now");
 
-
-
+    public static boolean isInvalidTime(LocalTime time) {
+        boolean isInvalidTime = time.isAfter(time);
+        return isInvalidTime;
     }
 
     public static boolean isArrayNullOrEmpty(byte[] photo) {
-        if(photo==null){
+        if (photo == null) {
             return true;
         }
         return false;
@@ -116,7 +116,7 @@ public class Helper {
 
 
     public static boolean isObjectNull(Object object) {
-        if(object==null){
+        if (object == null) {
             return true;
         }
         return false;

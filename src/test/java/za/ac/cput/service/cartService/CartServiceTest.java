@@ -130,20 +130,20 @@ class CartServiceTest {
         billingAddress1 = BillingAddressFactory.buildBillingAddress("card", "34 Batersea Drive", "Kibbler park", "2091", "Johannesburg");
         System.out.println(billingAddress1);
 
-        shippingAddress1 = ShippingAddressFactory.buildShippingAddress(LocalTime.of(9, 52), "34 Batersea Drive", "Kibbler park", "2091", "Johannesburg");
+        shippingAddress1 = ShippingAddressFactory.buildShippingAddress(LocalTime.of(2, 52), "34 Batersea Drive", "Kibbler park", "2091", "Johannesburg");
         System.out.println(shippingAddress1);
 
 
         billingAddress2 = BillingAddressFactory.buildBillingAddress("card", "5 Mpetsheni Cresent", "Khayelitsha", "7784", "Cape Town");
         System.out.println(billingAddress2);
 
-        shippingAddress2 = ShippingAddressFactory.buildShippingAddress(LocalTime.of(6, 30), "5 Mpetsheni Cresen", "Khayelitsha", "7784", "Cape Town");
+        shippingAddress2 = ShippingAddressFactory.buildShippingAddress(LocalTime.of(1, 30), "5 Mpetsheni Cresen", "Khayelitsha", "7784", "Cape Town");
         System.out.println(shippingAddress2);
 
         billingAddress3 = BillingAddressFactory.buildBillingAddress("card", "Ny 121 No 28", "Guguletu", "7750", "Cape Town");
         System.out.println(billingAddress3);
 
-        shippingAddress3 = ShippingAddressFactory.buildShippingAddress(LocalTime.of(5, 37), "Ny 121 No 28", "Guguletu", "7750", "Cape Town");
+        shippingAddress3 = ShippingAddressFactory.buildShippingAddress(LocalTime.of(1, 37), "Ny 121 No 28", "Guguletu", "7750", "Cape Town");
         System.out.println(shippingAddress3);
 
 
@@ -237,6 +237,7 @@ class CartServiceTest {
     }
 
     @Test
+    @Order(6)
     void quantityTest() {
         int quantity=cartService.quantity(2L);
         assertEquals(2,cart2.getComicBooks().size());
@@ -244,6 +245,7 @@ class CartServiceTest {
     }
 
     @Test
+    @Order(7)
     void totalPriceTest() {
         double sum=cartService.getCartTotalPrice(2L);
         double sum2=0;
