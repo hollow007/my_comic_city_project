@@ -3,7 +3,6 @@ package za.ac.cput.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 /* Invoice.java
    Author: Cavan Ramone Swartz (221055835)
@@ -17,7 +16,7 @@ public class Invoice {
     private Long invoiceId;
     private LocalDateTime dateTimeGenerated;
     @OneToOne
-    private Order order;
+    private CustomerOrder customerOrder;
 
     protected Invoice() {
     }
@@ -25,7 +24,7 @@ public class Invoice {
     private Invoice(InvoiceBuilder e) {
         this.invoiceId = e.invoiceId;
         this.dateTimeGenerated = e.dateTimeGenerated;
-        this.order = e.order;
+        this.customerOrder = e.customerOrder;
     }
 
     public Long getInvoiceId() {
@@ -36,8 +35,8 @@ public class Invoice {
         return dateTimeGenerated;
     }
 
-    public Order getOrder() {
-        return order;
+    public CustomerOrder getOrder() {
+        return customerOrder;
     }
 
     @Override
@@ -45,12 +44,12 @@ public class Invoice {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Invoice invoice = (Invoice) o;
-        return Objects.equals(invoiceId, invoice.invoiceId) && Objects.equals(dateTimeGenerated, invoice.dateTimeGenerated) && Objects.equals(order, invoice.order);
+        return Objects.equals(invoiceId, invoice.invoiceId) && Objects.equals(dateTimeGenerated, invoice.dateTimeGenerated) && Objects.equals(customerOrder, invoice.customerOrder);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(invoiceId, dateTimeGenerated, order);
+        return Objects.hash(invoiceId, dateTimeGenerated, customerOrder);
     }
 
     @Override
@@ -58,14 +57,14 @@ public class Invoice {
         return "Invoice{" +
                 "invoiceId=" + invoiceId +
                 ", dateTimeGenerated=" + dateTimeGenerated +
-                ", orders=" + order +
+                ", orders=" + customerOrder +
                 '}';
     }
 
     public static class InvoiceBuilder {
         private Long invoiceId;
         private LocalDateTime dateTimeGenerated;
-        private Order order;
+        private CustomerOrder customerOrder;
 
         public InvoiceBuilder setInvoiceId(Long invoiceId){
             this.invoiceId = invoiceId;
@@ -77,15 +76,15 @@ public class Invoice {
             return this;
         }
 
-        public InvoiceBuilder setOrder(Order order) {
-            this.order = order;
+        public InvoiceBuilder setOrder(CustomerOrder customerOrder) {
+            this.customerOrder = customerOrder;
             return this;
         }
 
         public InvoiceBuilder copy(Invoice e) {
             this.invoiceId = e.invoiceId;
             this.dateTimeGenerated = e.dateTimeGenerated;
-            this.order = e.order;
+            this.customerOrder = e.customerOrder;
             return this;
         }
 
