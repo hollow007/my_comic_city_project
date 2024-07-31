@@ -1,10 +1,8 @@
-package za.ac.cput.service;
-
-public interface IService<T, ID> {
-
-    T create(T t);
-    T read(ID id);
-    T update(T t);
-    boolean delete(ID id);
+package za.ac.cput.Service;
+public interface IService <T,ID>{
+T save(T t);
+T read(ID id);
+T update(T t);
+void delete(ID id);
 
 }
