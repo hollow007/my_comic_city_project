@@ -1,7 +1,6 @@
 package za.ac.cput.controller;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -23,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestMethodOrder(MethodOrderer.class)
 class CustomerControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
@@ -34,20 +34,8 @@ class CustomerControllerTest {
 
     private Customer customer1;
     private Customer customer2;
-    private ComicBook book1;
-    private ComicBook book2;
-    private Cart cart1;
-    private Cart cart2;
-    private Author author1;
-    private Author author2;
-    private WishList wishList1;
-    private WishList wishList2;
-    List<ComicBook> comicBookList;
-    List<Author> authors;
-    private Publisher publisher1;
 
-    private List<Publisher> publishers;
-    private final String base_url = "http://localhost:8080/comiccitydb/Customer";
+    private final String base_url = "http://localhost:8080/comiccity/Customer";
     @BeforeEach
     void setUp() {
 
@@ -62,11 +50,12 @@ class CustomerControllerTest {
 
         Contact con2 = CustomerContactFactory.buildContact("2-mycput.za", "0739946042", shippingAddress, billingAddress);
 
-        customer1 = CustomerFactory.buildCustomer(1234, "Leroy", "Kulcha", "Liam", "Lkulcha123", con1);
-        customer2 = CustomerFactory.buildCustomer(4567, "James", "Kulcha", "", "jkulcha456", con2);
+        customer1 = CustomerFactory.buildCustomer(1L, "Leroy", "Kulcha", "Liam", "Lkulcha123", con1);
+        customer2 = CustomerFactory.buildCustomer(2L, "James", "Kulcha", "", "jkulcha456", con2);
     }
 
     @Test
+    @Order(1)
     void create() {
         String url = base_url + "/create";
         ResponseEntity<Customer> postResponse = restTemplate.postForEntity(url, customer1, Customer.class);
@@ -80,6 +69,7 @@ class CustomerControllerTest {
     }
 
     @Test
+    @Order(2)
     void read() {
         String url = base_url + "/read/" + customer1.getCustomerId();
         System.out.println("URL: " + url);
@@ -89,6 +79,7 @@ class CustomerControllerTest {
     }
 
     @Test
+    @Order(3)
     void update() {
         String url = base_url + "/update";
         Customer updateCustomer = new Customer.CustomerBuilder().copy(customer1)
@@ -104,6 +95,7 @@ class CustomerControllerTest {
     }
 
     @Test
+    @Order(4)
     void delete() {
         String url = base_url + "/delete/" + Long.valueOf(customer1.getCustomerId());
         System.out.println("URL: " + url);
@@ -112,6 +104,7 @@ class CustomerControllerTest {
     }
 
     @Test
+    @Order(5)
     void getall() {
         String url = base_url + "/getall";
         HttpHeaders headers = new HttpHeaders();

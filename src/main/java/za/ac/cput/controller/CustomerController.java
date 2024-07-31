@@ -8,7 +8,6 @@ import za.ac.cput.service.customerService.CustomerService;
 import java.util.List;
 
 @RestController
-
 @RequestMapping("/Customer")
 public class CustomerController {
     @Autowired
