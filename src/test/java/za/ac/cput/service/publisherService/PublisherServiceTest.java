@@ -18,13 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class PublisherServiceTest {
     @Autowired
     private PublisherService service;
-    private Publisher publisher1;
-    private Publisher publisher2;
-    private Publisher publisher3;
-    @BeforeEach
-    void setUp() {
-        publisher1 = PublisherFactory.buildPublisher(67954L, "Kat Publishers", 2010);
-        publisher2 = PublisherFactory.buildPublisher(87949L, "Nathan Publishers", 2007);
+    static private Publisher publisher1;
+    static private Publisher publisher2;
+    static private Publisher publisher3;
+    @BeforeAll
+    static void setUp() {
+        publisher1 = PublisherFactory.buildPublisher(1L, "Kat Publishers", 2010);
+        publisher2 = PublisherFactory.buildPublisher(2L, "Nathan Publishers", 2007);
         publisher3 = publisher1;
     }
 
@@ -45,7 +45,7 @@ class PublisherServiceTest {
     @Order(2)
     void read() {
         System.out.println("===========================READ========================================");
-        Publisher readPublisher = service.read(Long.valueOf(67954));
+        Publisher readPublisher = service.read(publisher2.getPublisherId());
         assertNotNull(readPublisher);
         System.out.println(readPublisher);
     }
@@ -66,10 +66,10 @@ class PublisherServiceTest {
 
     @Test
     @Order(4)
-    @Disabled
     void delete() {
         System.out.println("===========================DELETE========================================");
-        service.delete(Long.valueOf(publisher1.getPublisherId()));
+        boolean isDeleted = service.delete(Long.valueOf(publisher1.getPublisherId()));
+        assertEquals(true, isDeleted);
         System.out.println("Publisher no: " + publisher1.getPublisherId() + " deleted");
     }
 
