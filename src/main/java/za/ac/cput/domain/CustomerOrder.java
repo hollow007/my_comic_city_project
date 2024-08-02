@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Order {
+public class CustomerOrder {
     @Id
     private String orderId;
     private LocalDate orderDate;
@@ -23,18 +23,25 @@ public class Order {
     private List<ComicBook> comicBooks;
     private double totalAmount;
 
+    private Long customer;
 
 
-    protected Order() {
+
+    protected CustomerOrder() {
     }
 
-    private Order(OrderBuilder builder) {
+    private CustomerOrder(CustomerOrderBuilder builder) {
         this.orderId = builder.orderId;
         this.orderDate = builder.orderDate;
 
         this.comicBooks = builder.comicBooks;
         this.totalAmount = builder.totalAmount;
+        this.customer = builder.customer;
 
+    }
+
+    public Long getCustomer() {
+        return customer;
     }
 
     public String getOrderId() {
@@ -54,85 +61,84 @@ public class Order {
         return totalAmount;
     }
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Double.compare(order.totalAmount, totalAmount) == 0 &&
-                Objects.equals(orderId, order.orderId) &&
-                Objects.equals(orderDate, order.orderDate) &&
-
-                Objects.equals(comicBooks, order.comicBooks) ;
+        CustomerOrder that = (CustomerOrder) o;
+        return Double.compare(totalAmount, that.totalAmount) == 0 && Objects.equals(orderId, that.orderId) && Objects.equals(orderDate, that.orderDate) && Objects.equals(comicBooks, that.comicBooks) && Objects.equals(customer, that.customer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderId, orderDate, comicBooks, totalAmount);
+        return Objects.hash(orderId, orderDate, comicBooks, totalAmount, customer);
     }
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "CustomerOrder{" +
                 "orderId='" + orderId + '\'' +
                 ", orderDate=" + orderDate +
-
                 ", comicBooks=" + comicBooks +
                 ", totalAmount=" + totalAmount +
-
+                ", customer=" + customer +
                 '}';
     }
 
-    public static class OrderBuilder {
+    public static class CustomerOrderBuilder {
         private String orderId;
         private LocalDate orderDate;
 
         private List<ComicBook> comicBooks;
         private double totalAmount;
+        private Long customer;
 
 
-        public OrderBuilder() {
+        public CustomerOrderBuilder() {
         }
 
-        public OrderBuilder setOrderId(String orderId) {
+        public CustomerOrderBuilder setCustomer(Long customer) {
+            this.customer = customer;
+            return this;
+        }
+
+        public CustomerOrderBuilder setOrderId(String orderId) {
             this.orderId = orderId;
             return this;
         }
 
-        public OrderBuilder setOrderDate(LocalDate orderDate) {
+        public CustomerOrderBuilder setOrderDate(LocalDate orderDate) {
             this.orderDate = orderDate;
             return this;
         }
 
 
 
-        public OrderBuilder setComicBooks(List<ComicBook> comicBooks) {
+        public CustomerOrderBuilder setComicBooks(List<ComicBook> comicBooks) {
             this.comicBooks = comicBooks;
             return this;
         }
 
-        public OrderBuilder setTotalAmount(double totalAmount) {
+        public CustomerOrderBuilder setTotalAmount(double totalAmount) {
             this.totalAmount = totalAmount;
             return this;
         }
 
 
 
-        public OrderBuilder copy(Order order) {
-            this.orderId = order.orderId;
-            this.orderDate = order.orderDate;
+        public CustomerOrderBuilder copy(CustomerOrder customerOrder) {
+            this.orderId = customerOrder.orderId;
+            this.orderDate = customerOrder.orderDate;
 
-            this.comicBooks = order.comicBooks;
-            this.totalAmount = order.totalAmount;
+            this.comicBooks = customerOrder.comicBooks;
+            this.totalAmount = customerOrder.totalAmount;
 
 
             return this;
         }
 
-        public Order build() {
-            return new Order(this);
+        public CustomerOrder build() {
+            return new CustomerOrder(this);
         }
     }
 }

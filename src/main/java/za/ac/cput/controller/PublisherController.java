@@ -15,7 +15,6 @@ public class PublisherController {
 
     @PostMapping("/create")
     public Publisher create(@RequestBody Publisher publisher){
-
         return service.create(publisher);
     }
 

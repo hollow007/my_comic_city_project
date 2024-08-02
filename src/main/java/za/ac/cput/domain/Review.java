@@ -72,6 +72,11 @@ public class Review {
         return reviewTitle;
     }
 
+    public Review setComicBook(ComicBook comicBook) {
+        this.comicBook = comicBook;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -143,6 +148,17 @@ public class Review {
 
         public ReviewBuilder setReviewTitle(String reviewTitle) {
             this.reviewTitle = reviewTitle;
+            return this;
+        }
+
+        public ReviewBuilder copy(Review review){
+            this.reviewID = review.reviewID;
+            this.customer = review.customer;
+            this.comicBook = review.comicBook;
+            this.reviewRating = review.reviewRating;
+            this.reviewDescription = review.reviewDescription;
+            this.reviewDate = review.reviewDate;
+            this.reviewTitle = review.reviewTitle;
             return this;
         }
 
