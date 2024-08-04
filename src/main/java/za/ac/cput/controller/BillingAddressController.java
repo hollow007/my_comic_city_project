@@ -6,15 +6,11 @@ import za.ac.cput.domain.BillingAddress;
 import za.ac.cput.service.addressService.BillingAddressService;
 
 @RestController
-
+@RequestMapping("/billing_address")
 public class BillingAddressController {
 
     @Autowired
     private BillingAddressService billingAddressService;
-
-    @RequestMapping("/billing_address")
-    public void entry(){
-        System.out.println("Hello There , welcome to the billing address controller");}
 
     @PostMapping("/create")
     public BillingAddress createBillingAddressService(@RequestBody BillingAddress billingAddress) {
@@ -22,16 +18,16 @@ public class BillingAddressController {
         return billingAddressService.create(billingAddress);
     }
 
-    @GetMapping("/{id}")
-    public BillingAddress getBillingAddressService(@PathVariable Long id) {
+    @GetMapping("/read/{id}")
+    public BillingAddress readBillingAddressService(@PathVariable Long id) {
 
-       BillingAddress read_billingAddres = billingAddressService.read(id);
-        System.out.println(read_billingAddres);
-       return read_billingAddres;
+       BillingAddress read_billingAddress = billingAddressService.read(id);
+        System.out.println(read_billingAddress);
+       return read_billingAddress;
 
     }
 
-    @PutMapping("/{payment_method}")
+    @PutMapping("/update/{payment_method}")
     public BillingAddress updateBillingAddressService(@PathVariable String payment_method, @RequestBody BillingAddress billingAddress) {
 
         billingAddress = new BillingAddress.BillingAddressBuilder().copy(billingAddress).setPaymentMethod(payment_method).build();
@@ -39,7 +35,7 @@ public class BillingAddressController {
 
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteBillingAddressService(@PathVariable Long id) {
         billingAddressService.delete(id);
     }
