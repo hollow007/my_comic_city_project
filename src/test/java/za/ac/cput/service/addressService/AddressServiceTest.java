@@ -53,11 +53,9 @@ class AddressServiceTest {
     // Billing Address Tests
 
     @Test
-    @Transactional
-    @Rollback(false)
     void a_createBillingAddress() {
         billingAddress_out = billingAddressService.create(billingAddress_in);
-        entityManagerger.flush();
+        //entityManagerger.flush();
         assertNotNull(billingAddress_out);
         billingAddressId = billingAddress_out.getId();
         System.out.println("===========Created Billing Address========");
@@ -65,11 +63,9 @@ class AddressServiceTest {
     }
 
     @Test
-    @Transactional
-    @Rollback(false)
     void b_readBillingAddress() {
 
-        billingAddress_out = entityManagerger.find(BillingAddress.class, 2L);
+        billingAddress_out = billingAddressService.read(2L);
         System.out.println("===========Billing Address from Database========");
         System.out.println("BillingAddress_out" + billingAddress_out);
 
