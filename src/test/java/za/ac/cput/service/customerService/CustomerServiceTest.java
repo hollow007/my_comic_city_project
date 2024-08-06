@@ -34,13 +34,19 @@ class CustomerServiceTest {
         Address shippingAddress = ShippingAddressFactory.buildShippingAddress(LocalTime.of(9, 52), "33 sea Drive", "Kibbler park 2", "2092", "Johannesburg");
         System.out.println(shippingAddress);
 
+        Address billingAddress2 = BillingAddressFactory.buildBillingAddress("card", "34 sea Drive", "Kibb park 2", "2092", "Johannesburg");
+        System.out.println(billingAddress);
+
+        Address shippingAddress2 = ShippingAddressFactory.buildShippingAddress(LocalTime.of(9, 52), "33 sea Drive 2", "Kibbler park 2", "2092", "Johannesburg");
+        System.out.println(shippingAddress);
+
         Contact con1 = CustomerContactFactory.buildContact("leroy@gmail.com", "0739946042", shippingAddress, billingAddress);
         System.out.println(con1);
 
-        Contact con2 = CustomerContactFactory.buildContact("2-mycput.za", "0739946042", shippingAddress, billingAddress);
+        Contact con2 = CustomerContactFactory.buildContact("jimmy@gmail.com", "0739946042", shippingAddress2, billingAddress2);
 
-        customer1 = CustomerFactory.buildCustomer(1234, "Leroy", "Kulcha", "Liam", "Lkulcha123", con1);
-        customer2 = CustomerFactory.buildCustomer(4567, "James", "Kulcha", "", "jkulcha456", con2);
+        customer1 = CustomerFactory.buildCustomer(1L, "Leroy", "Kulcha", "Liam", "Lkulcha123", con1);
+        customer2 = CustomerFactory.buildCustomer(2L, "James", "Kulcha", "Jimmy", "jkulcha456", con2);
     }
 
 
@@ -53,9 +59,9 @@ class CustomerServiceTest {
     assertNotNull(savedCustomer);
     System.out.println(savedCustomer);
 
-//    Customer savedCustomer2 = service.create(customer2);
-//    assertNotNull(savedCustomer2);
-//    System.out.println(savedCustomer2);
+    Customer savedCustomer2 = service.create(customer2);
+    assertNotNull(savedCustomer2);
+    System.out.println(savedCustomer2);
 
 
     }
@@ -64,7 +70,7 @@ class CustomerServiceTest {
     @Order(2)
     void read() {
         System.out.println("===========================READ========================================");
-        Customer readCustomer = service.read(Long.valueOf(1234));
+        Customer readCustomer = service.read(customer2.getCustomerId());
         assertNotNull(readCustomer);
         System.out.println(readCustomer);
     }
@@ -85,8 +91,8 @@ class CustomerServiceTest {
     @Test
     @Order(4)
     void delete(){
-//        boolean isDeleted = service.delete(Long.valueOf(customer1.getCustomerId()));
-//        assertTrue(isDeleted);
+        boolean isDeleted = service.delete(Long.valueOf(customer1.getCustomerId()));
+        assertTrue(isDeleted);
         System.out.println("Customer no " + customer1.getCustomerId() + " deleted");
     }
     @Test

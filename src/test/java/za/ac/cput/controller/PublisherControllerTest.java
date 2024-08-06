@@ -32,33 +32,32 @@ class PublisherControllerTest {
 
     @BeforeEach
     void setUp() {
-        publisher1 = PublisherFactory.buildPublisher(67954L, "Kat Publishers", 2010);
-        publisher2 = PublisherFactory.buildPublisher(87949L, "Nathan Publishers", 2007);
+        publisher1 = PublisherFactory.buildPublisher(1L, "Kat Publishers", 2010);
+        publisher2 = PublisherFactory.buildPublisher(2L, "Nathan Publishers", 2007);
         // publisherService.create(publisher3);
     }
 
     @Test
     void a_create() {
         String url = base_url + "/create";
-        ResponseEntity<Publisher> postResponse = restTemplate.postForEntity(url, publisher3, Publisher.class);
+        ResponseEntity<Publisher> postResponse = restTemplate.postForEntity(url, publisher1, Publisher.class);
         assertNotNull(postResponse);
         assertNotNull(postResponse.getBody());
 
         System.out.println("PstR body: " + postResponse);
         Publisher savedPublisher = postResponse.getBody();
-        System.out.println(publisher3.getPublisherId());
         System.out.println(savedPublisher.getPublisherId());
-        assertEquals(publisher3.getPublisherId(), savedPublisher.getPublisherId());
+        assertEquals(publisher1.getPublisherId(), savedPublisher.getPublisherId());
         System.out.println("Saved data: " + savedPublisher);
     }
 
     @Test
     void b_read() {
-        String url = base_url + "/read/" + 87949L;
+        String url = base_url + "/read/" + publisher1.getPublisherId();
         System.out.println("URL: " + url);
         ResponseEntity<Publisher> response = restTemplate.getForEntity(url, Publisher.class);
         System.out.println("Response: " + response);
-        assertEquals( response.getBody().getPublisherId(), publisher3.getPublisherId());
+        assertEquals( response.getBody().getPublisherId(), publisher1.getPublisherId());
     }
 
     @Test
@@ -78,7 +77,7 @@ class PublisherControllerTest {
 
     @Test
     void d_delete() {
-        String url = base_url + "/delete/" + Long.valueOf(3456);
+        String url = base_url + "/delete/" + publisher1.getPublisherId();
         System.out.println("URL: " + url);
         restTemplate.delete(url);
         System.out.println("Success: deleted publisher");

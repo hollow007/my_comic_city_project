@@ -25,6 +25,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -104,6 +105,7 @@ class ComicBookControllerTest {
 
         //Saving book 1
         ResponseEntity<ComicBook> response1 = testRestTemplate.postForEntity(url, book1, ComicBook.class);
+        assertThat(response1.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertNotNull(response1);
         assertNotNull(response1.getBody());
         savedBook1 = response1.getBody();
