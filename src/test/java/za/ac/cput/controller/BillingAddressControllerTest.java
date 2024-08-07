@@ -1,4 +1,5 @@
 /*Joshua Mokwebo
+Student Number : 222191562
 GitHUB Usersname : Fullfy_J
  */
 
@@ -39,11 +40,6 @@ public class BillingAddressControllerTest {
     private TestRestTemplate restTemplate;
     private final String base_url = "http://localhost:8080/comiccity/billing_address";
     private static BillingAddress billingAddress;
-    private static BillingAddress billingAddress2;
-
-    private static Long billingAddresid;
-    @Autowired
-    private  ObjectMapper objectMapper = new ObjectMapper();
 
 
 
@@ -56,10 +52,10 @@ public class BillingAddressControllerTest {
 
     @Test
     void a_welome() throws Exception{
-        String url = base_url +"/welome";
+        String url = base_url +"/Welcome";
         ResponseEntity<String> response = restTemplate.getForEntity(url,String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo("Hello There");
+        assertThat(response.getBody()).isEqualTo("Hello There ! Welcome to the Billing Address Service");
         System.out.println(response.getBody());
     }
 
@@ -80,9 +76,9 @@ public class BillingAddressControllerTest {
     @Test
     void c_readBillingAddressService() {
         String url = base_url + "/read/"+ billingAddress.getId() ;
-        System.out.println("billingAddresid: "+ billingAddress.getId());
+        //System.out.println("billingAddresid: "+ billingAddress.getId());
         ResponseEntity<BillingAddress> response = restTemplate.getForEntity(url,BillingAddress.class);
-        //assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         System.out.println("retrieved address: "+response.getBody());
 
     }
@@ -90,12 +86,13 @@ public class BillingAddressControllerTest {
 
     @Test
     void d_updateBillingAddressService() {
-        billingAddress= new BillingAddress.BillingAddressBuilder().copy(billingAddress).setPaymentMethod("on delivary").build();
         String url = base_url + "/update";
+        billingAddress= new BillingAddress.BillingAddressBuilder().copy(billingAddress).setPaymentMethod("on delivary").build();
 
         ResponseEntity<BillingAddress> response = restTemplate.postForEntity(url,billingAddress,BillingAddress.class);
         assertNotNull(response);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
         billingAddress = response.getBody();
         System.out.println(billingAddress);
 

@@ -13,21 +13,21 @@ import java.util.List;
 @RequestMapping("/billing_address")
 public class BillingAddressController {
 
-
-    @Autowired
     private BillingAddressService billingAddressService;
+    BillingAddressController(BillingAddressService billingAddressService){this.billingAddressService = billingAddressService;}
 
-    @GetMapping("/welome")
-    public String a_welome(){
-        return "Hello There";
+
+    @GetMapping("/Welcome")
+    public String welome(){
+        return "Hello There ! Welcome to the Billing Address Service";
     }
 
     @PostMapping("/create")
-    public BillingAddress b_createBillingAddressService(@RequestBody BillingAddress billingAddress) {
+    public BillingAddress createBillingAddressService(@RequestBody BillingAddress billingAddress) {
         System.out.println("creating Billing Address ...");
         BillingAddress savedBillingAddress =  billingAddressService.create(billingAddress) ;
         System.out.println(savedBillingAddress);
-        return billingAddress;
+        return savedBillingAddress;
     }
 
     @GetMapping("/read/{id}")
@@ -40,19 +40,17 @@ public class BillingAddressController {
     }
 
     @PostMapping ("/update")
-    public BillingAddress d_updateBillingAddressService(@RequestBody BillingAddress billingAddress) {
+    public BillingAddress updateBillingAddressService(@RequestBody BillingAddress billingAddress) {
         return billingAddressService.update(billingAddress);
 
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean e_deleteBillingAddressService(@PathVariable Long id) {
+    public boolean deleteBillingAddressService(@PathVariable Long id) {
         return billingAddressService.delete(id);
     }
 
-
     @GetMapping("/getall")
-
-    public List<BillingAddress> f_getall(){return billingAddressService.getallBillingAddress();}
+    public List<BillingAddress> getall(){return billingAddressService.getallBillingAddress();}
 
 }
