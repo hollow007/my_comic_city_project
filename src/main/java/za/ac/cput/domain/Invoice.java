@@ -39,6 +39,11 @@ public class Invoice {
         return customerOrder;
     }
 
+    public Invoice setOrder(CustomerOrder customerOrder) {
+        this.customerOrder = customerOrder;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -60,6 +65,7 @@ public class Invoice {
                 ", orders=" + customerOrder +
                 '}';
     }
+
 
     public static class InvoiceBuilder {
         private Long invoiceId;
