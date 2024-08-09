@@ -95,7 +95,8 @@ public class Helper {
     public static boolean isInvalidPostalCode(String postalCode) {
         int postalCodeAsInt = Integer.parseInt(postalCode);
         if (postalCodeAsInt < 0001 || postalCodeAsInt > 9999) {
-            return true;
+            throw new IllegalArgumentException("postalCode is invalid");
+            //return true;
         }
         return false;
 
