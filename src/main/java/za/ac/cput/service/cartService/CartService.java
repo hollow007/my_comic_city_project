@@ -14,11 +14,12 @@ import java.util.List;
 @Service
 public class CartService implements ICartService {
     private CartRepository cartRepository;
-
+private ComicBookRepository comicBookRepository;
 
     @Autowired
     public CartService(CartRepository cartRepository, CustomerRepository customerRepository, ComicBookRepository comicBookRepository) {
         this.cartRepository = cartRepository;
+        this.comicBookRepository=comicBookRepository;
 
     }
 
@@ -34,6 +35,8 @@ public class CartService implements ICartService {
 
     @Override
     public Cart update(Cart cart) {
+        System.out.println(cart);
+        comicBookRepository.saveAll(cart.getComicBooks());
         return cartRepository.save(cart);
     }
 

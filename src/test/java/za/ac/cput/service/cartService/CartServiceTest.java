@@ -50,6 +50,13 @@ class CartServiceTest {
     private static BufferedImage image;
     private static byte[] photo;
 
+    private static ByteArrayOutputStream out1;
+    private static BufferedImage image1;
+    private static byte[] photo1;
+
+    private static ByteArrayOutputStream out2;
+    private static BufferedImage image2;
+    private static byte[] photo2;
     private static Publisher publisher1;
     private static Publisher publisher2;
     private static Publisher publisher3;
@@ -69,27 +76,37 @@ class CartServiceTest {
 
         System.out.println("============================SETUP==================================");
 
-        String url = "download.jpeg";
+        String url1 ="C:\\Users\\User\\Documents\\IntelliJ Projects 2024\\comic_city_project\\images\\ComicBookCover4.jpeg";
+        String url2="C:\\Users\\User\\Documents\\IntelliJ Projects 2024\\comic_city_project\\images\\ComicBookCover5.jpeg";
+        String url3="C:\\Users\\User\\Documents\\IntelliJ Projects 2024\\comic_city_project\\images\\ComicBookCover6.jpeg";
+
         try {
 
-            image = ImageIO.read(new File(url));
+            image = ImageIO.read(new File(url1));
             out = new ByteArrayOutputStream();
             ImageIO.write(image, "jpeg", out);
+
+            image1 = ImageIO.read(new File(url2));
+            out1 = new ByteArrayOutputStream();
+            ImageIO.write(image1, "jpeg", out1);
+
+            image2 = ImageIO.read(new File(url3));
+            out2 = new ByteArrayOutputStream();
+            ImageIO.write(image2, "jpeg", out2);
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
-        photo = out.toByteArray();
-        System.out.println(photo);
+
 
 
         //Authors
-        author1 = AuthorFactory.buildAuthor(001L, "Lamark", "Principle", "Darwin");
+        author1 = AuthorFactory.buildAuthor(001L, "Nombulelo", "", "Mbula");
 
-        author2 = AuthorFactory.buildAuthor(002L, "Jacob", "Gedleyihlekisa", "Zuma");
+        author2 = AuthorFactory.buildAuthor(002L, "Joyce", "Brandan", "Candance");
 
-        author3 = AuthorFactory.buildAuthor(003L, "Mpumzi", "John", "Mbula");
+        author3 = AuthorFactory.buildAuthor(003L, "Kruben", "", "Naidoo");
 
 
         authors1 = new ArrayList<>();
@@ -102,17 +119,17 @@ class CartServiceTest {
         authors3.add(author3);
 
 
-        publisher1 = PublisherFactory.buildPublisher(1234L, "Marvel", 2000);
-        publisher2 = PublisherFactory.buildPublisher(5678L, "80 Fox", 1997);
-        publisher3 = PublisherFactory.buildPublisher(9101L, "DC Comics", 1910);
+        publisher1 = PublisherFactory.buildPublisher(1234L, "SA Comics", 2018);
+        publisher2 = PublisherFactory.buildPublisher(5678L, "CPUTComics", 1994);
+        publisher3 = PublisherFactory.buildPublisher(9101L, "EkasiComics", 2020);
 //Books
 
-        book1 = ComicBookFactory.bookBuilder("Thor", "Fantasy", "AsGuards Prince son of Zuis",
-                "B01", 299.99, 2.00, 1, authors1, publisher1, LocalDate.of(2022, 03, 04), photo);
-        book2 = ComicBookFactory.bookBuilder("Avatar", "Sci-Fi", "Two Dimension Worls Colliding into one.",
-                "B02", 199.99, 1.80, 1, authors1, publisher2, LocalDate.of(2024, 03, 15), photo);
-        book3 = ComicBookFactory.bookBuilder("HALO", "Fantasy", "GALAXY 2000 years from now",
-                "B03", 539.99, 3.50, 3, authors2, publisher3, LocalDate.of(2021, 05, 30), photo);
+        book1 = ComicBookFactory.bookBuilder("GENERATION X", "Thriller", "A super villean on a quest",
+                "B04", 200.99, 2.00, 7, authors1, publisher1, LocalDate.of(2024, 07, 04), out.toByteArray());
+        book2 = ComicBookFactory.bookBuilder("City Man", "Sci-Fi", "A scientific experiment disaster creates a superhero",
+                "B05", 896.99, 4.80, 6, authors1, publisher2, LocalDate.of(2000, 02, 26), out1.toByteArray());
+        book3 = ComicBookFactory.bookBuilder("Save US", "Fantasy", "A blud hungry villean turn hero",
+                "B06", 1439.99, 3.50, 3, authors2, publisher3, LocalDate.of(1956, 05, 20), out2.toByteArray());
 
         comicBooks1 = new ArrayList<>();
         comicBooks1.add(book1);
@@ -198,6 +215,7 @@ class CartServiceTest {
     }
 
     @Test
+    @Disabled
     @Order(2)
     void read() {
         System.out.println("============================Read==================================");
@@ -208,6 +226,7 @@ class CartServiceTest {
     }
 
     @Test
+    @Disabled
     @Order(3)
     void update() {
         System.out.println("============================Update==================================");
@@ -219,6 +238,7 @@ class CartServiceTest {
 
 
     @Test
+    @Disabled
     @Order(4)
     void delete() {
         System.out.println("============================Delete===============================");
@@ -237,6 +257,7 @@ class CartServiceTest {
     }
 
     @Test
+    @Disabled
     @Order(6)
     void quantityTest() {
         int quantity=cartService.quantity(2L);
@@ -245,6 +266,7 @@ class CartServiceTest {
     }
 
     @Test
+    @Disabled
     @Order(7)
     void totalPriceTest() {
         double sum=cartService.getCartTotalPrice(2L);

@@ -31,7 +31,7 @@ public class ComicBook {
     private LocalDate releaseDate;
 
     //@ManyToMany(fetch = FetchType.EAGER,cascade = { CascadeType.REMOVE })
-    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(
             name = "comic_book_author",
             joinColumns = @JoinColumn(name = "comic_book_id"),
