@@ -105,7 +105,7 @@ class CartControllerTest {
     @Test
     @Order(2)
     void read() {
-        String url = BASE_URL + "/read/" + cart1.getCartId();
+        String url = BASE_URL + "/read/" + 2;
         ResponseEntity<Cart> response = restTemplate.getForEntity(url, Cart.class);
         assertEquals(response.getBody().getCartId(), cart1.getCartId());
         System.out.println("Read: " + response.getBody());
@@ -172,4 +172,34 @@ class CartControllerTest {
         System.out.println(response);
         System.out.println(response.getBody());
     }
+
+    @Test
+    @Order(7)
+    void addToCartApi() {
+
+        String url=BASE_URL+"/"+2+"/addComicBook/"+8;
+        ResponseEntity<Cart> postResponse = restTemplate.postForEntity(url, cart1, Cart.class);
+        assertNotNull(postResponse);
+        assertNotNull(postResponse.getBody());
+        System.out.println(postResponse.getBody());
+        Cart cartWithNewBook = postResponse.getBody();
+        assertEquals(cartWithNewBook.getCartId(), postResponse.getBody().getCartId());
+        //assertEquals(2,cartWithNewBook.getComicBooks().size());
+        System.out.println("Saved data:" + cartWithNewBook);
+    }
+    @Test
+    @Order(8)
+    void removeFromCartApi() {
+
+        String url=BASE_URL+"/"+2+"/removeComicBook/"+10;
+        ResponseEntity<Cart> postResponse = restTemplate.postForEntity(url, cart1, Cart.class);
+        assertNotNull(postResponse);
+        assertNotNull(postResponse.getBody());
+        System.out.println(postResponse.getBody());
+        Cart cartWithNewBook = postResponse.getBody();
+        assertEquals(cartWithNewBook.getCartId(), postResponse.getBody().getCartId());
+        assertEquals(1,cartWithNewBook.getComicBooks().size());
+        System.out.println("Saved data:" + cartWithNewBook);
+    }
+
 }

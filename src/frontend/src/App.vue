@@ -2,8 +2,8 @@
   <div id="app">
     <NavBar />
     <HeroSection />
-    <ProductGrid title="New Arrivals" :comics="newArrivals" />
-    <ProductGrid title="Hot Picks" :comics="hotPicks" />
+    <ProductGrid title="New Arrivals" :comics="newArrivals" :wishlist="wishlist" @add-to-cart="addToCart"  @toggle-wishlist="toggleWishlist" />
+    <ProductGrid title="Hot Picks" :comics="hotPicks" :wishlist="wishlist" @add-to-cart="addToCart"  @toggle-wishlist="toggleWishlist" />
     <FooterSection />
   </div>
 </template>
@@ -14,6 +14,8 @@ import HeroSection from './components/HeroSection.vue';
 import ProductGrid from './components/ProductGrid.vue';
 import FooterSection from './components/FooterSection.vue';
 import { getAllComicBooks } from './services/comicBookService';
+import {  addBookToCart } from './services/cartService';
+import {addBookToWishList} from "@/services/wishlistService";
 
 export default {
   name: 'App',
@@ -27,6 +29,8 @@ export default {
     return {
       newArrivals: [],
       hotPicks: [],
+      wishlist:[],
+      cartId: '2', // Replace with the actual cart ID
       loading: true,
       error: null,
     };
@@ -40,20 +44,37 @@ export default {
         const response = await getAllComicBooks();
         const allComics = response.data;
 
-        // Assuming 'newArrivals' and 'hotPicks' are simply the first and second halves of the comics array
-        this.newArrivals = allComics.slice(0, 5); // First 5 comics for newArrivals
-        this.hotPicks = allComics.slice(5, 10); // Next 5 comics for hotPicks
+        // Split comics between new arrivals and hot picks
+        this.newArrivals = allComics.slice(0, 5);
+        this.hotPicks = allComics.slice(5, 10);
 
         this.loading = false;
       } catch (error) {
         this.error = 'Failed to load comic books.';
         this.loading = false;
       }
+    },
+    async addToCart(sku) {
+      try {
+        await addBookToCart(this.cartId, sku); // Send the correct SKU to the API
+        alert('Comic added to cart!');
+      } catch (error) {
+        alert('Failed to add comic to cart.');
+      }
+    },
+    async toggleWishlist(sku) {
+      try {
+        // Call wishlist service to toggle the comic in the wishlist
+        const updatedWishlist = await addBookToWishList(1, sku); // Adjust as per your service
+        this.wishlist = updatedWishlist.comicBooks; // Update the local wishlist
+        alert('Comic added to WishList!');
+      } catch (error) {
+        alert('Failed to update wishlist.');
+      }
     }
   }
 };
 </script>
-
 
 <style>
 /* General styles, global settings */

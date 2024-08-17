@@ -1,7 +1,13 @@
 <template>
   <div class="comic-card">
     <img :src="comicImage" alt="Comic Cover" class="comic-image" />
-    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0xMiAyMS41OTNjLTUuNjMtNS41MzktMTEtMTAuMjk3LTExLTE0LjQwMiAwLTMuNzkxIDMuMDY4LTUuMTkxIDUuMjgxLTUuMTkxIDEuMzEyIDAgNC4xNTEuNTAxIDUuNzE5IDQuNDU3IDEuNTktMy45NjggNC40NjQtNC40NDcgNS43MjYtNC40NDcgMi41NCAwIDUuMjc0IDEuNjIxIDUuMjc0IDUuMTgxIDAgNC4wNjktNS4xMzYgOC42MjUtMTEgMTQuNDAybTUuNzI2LTIwLjU4M2MtMi4yMDMgMC00LjQ0NiAxLjA0Mi01LjcyNiAzLjIzOC0xLjI4NS0yLjIwNi0zLjUyMi0zLjI0OC01LjcxOS0zLjI0OC0zLjE4MyAwLTYuMjgxIDIuMTg3LTYuMjgxIDYuMTkxIDAgNC42NjEgNS41NzEgOS40MjkgMTIgMTUuODA5IDYuNDMtNi4zOCAxMi0xMS4xNDggMTItMTUuODA5IDAtNC4wMTEtMy4wOTUtNi4xODEtNi4yNzQtNi4xODEiLz48L3N2Zz4=" class="heart-icon">
+    <div
+        class="heart-icon"
+        :class="{ 'active': isFavorite }"
+        @click="toggleWishlist"
+    >
+      <font-awesome-icon icon="heart" />
+    </div>
     <div class="comic-info">
       <div class="title-price">
         <h3 class="book-title">{{ comic.name }}</h3>
@@ -11,9 +17,7 @@
       <div class="star-rating">
         <span v-for="n in 5" :key="n" class="star">★</span>
       </div>
-
-
-      <button class="add-btn">
+      <button class="add-btn" @click="handleAddToCart">
         + Add <font-awesome-icon icon="shopping-cart" class="icon" />
       </button>
     </div>
@@ -21,38 +25,53 @@
 </template>
 
 <script>
-
 export default {
   name: 'ComicCard',
-  props: ['comic'],
+  props: {
+    comic: Object,
+    wishlist: {
+      type: Array,
+      default: () => []  // Ensure default is an empty array
+    }
+  },
   computed: {
     comicImage() {
-      if (this.comic.photo) {
-
-        return `data:image/jpeg;base64,${this.comic.photo}`;
-      }
-      return 'https://via.placeholder.com/150'; // Fallback image
+      return this.comic.photo
+          ? `data:image/jpeg;base64,${this.comic.photo}`
+          : 'https://via.placeholder.com/150';
     },
     authorsList() {
-      // Create a formatted list of author initials and last names
-      return this.comic.authors.map(author => {
-        const { firstName, lastName } = author.name;
-        const initial = firstName.charAt(0).toUpperCase();
-        return `${initial}. ${lastName}`;
-      }).join(', ');
+      return this.comic.authors
+          .map((author) => {
+            const initial = author.name.firstName.charAt(0).toUpperCase();
+            return `${initial}. ${author.name.lastName}`;
+          })
+          .join(', ');
+    },
+    isFavorite() {
+      if (!Array.isArray(this.wishlist)) {
+        return false;
+      }
+      const isInWishlist = this.wishlist.some((item) => item.sku === this.comic.sku);
+      console.log(`Comic SKU: ${this.comic.sku} - Is in Wishlist: ${isInWishlist}`);
+      return isInWishlist;
     }
   },
   methods: {
     formatPrice(price) {
-      // Format the price as a string with the currency symbol
       return `R${price.toFixed(2)}`;
+    },
+    handleAddToCart() {
+      this.$emit('add-to-cart', this.comic.sku); // Emit the comic SKU (or ID)
+    },
+    toggleWishlist() {
+      this.$emit('toggle-wishlist', this.comic.sku); // Emit the comic SKU for wishlist toggle
     }
   }
 };
 </script>
-
 <style scoped>
-/* Your styles remain the same */
+/* Your existing styles */
 .comic-card {
   position: relative;
   border: 1px solid #ddd;
@@ -84,20 +103,22 @@ export default {
   position: absolute;
   top: 8px;
   right: 8px;
-  font-size: 24px;
-  color: black; /* Set the icon color to black */
+  font-size: 30px;
+  color: rgba(0, 0, 0, 0.38); /* Default icon color */
   background-color: white; /* Transparent background */
- /* Black border */
   border-radius: 50%; /* Circular border */
-  padding: 4px; /* Adjust padding for the border */
+  padding: 4px; /* Padding for the border */
   box-sizing: content-box;
   cursor: pointer;
-  margin-left: 20px;
+}
+
+
+.heart-icon.active {
+  color: red; /* Red color for active state */
 }
 
 .heart-icon:hover {
-  border-color: blue; /* Optional: Change border color on hover */
-  color: blue;
+  color: red;
 }
 
 .comic-info {
@@ -150,8 +171,8 @@ export default {
   padding: 12px 20px;
   cursor: pointer;
   border-radius: 6px;
-  height :40px;
-  width:168px;
+  height: 40px;
+  width: 168px;
   font-size: 1.1rem;
   font-weight: bold;
   transition: background-color 0.3s ease;

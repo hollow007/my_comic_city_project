@@ -21,3 +21,9 @@ export const deleteCart = (cartId) => {
 export const getall = () => {
     return axios.get(`${API_URL}/getall`);
 };
+export const removeBookFromCart = (cartId, sku) => {
+    return axios.post(`${API_URL}/${cartId}/removeComicBook/${sku}`);
+};
+export const addBookToCart = (cartId, sku) => {
+    return axios.post(`${API_URL}/${cartId}/addComicBook/${sku}`);
+};

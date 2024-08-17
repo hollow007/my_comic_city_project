@@ -19,7 +19,7 @@
     </div>
     <div class="cart-footer">
       <div>
-        <p class="text-sm">Total: R{{ cartTotal }}</p>
+        <p class="text-sm">Total: {{ formatPrice(cartTotal) }}</p>
         <p class="text-sm">Items: {{ cartItems.length }}</p>
       </div>
       <div class="cart-footer-actions">
@@ -27,13 +27,17 @@
         <button class="checkout">Checkout</button>
       </div>
     </div>
+    <Notification v-if="notification.message" :message="notification.message" />
   </div>
 </template>
 
 <script>
-import {getCart, updateCart} from "@/services/cartService";
+import { getCart, removeBookFromCart } from "@/services/cartService";
+import Notification from "@/components/NotificationComponent.vue";
+
 export default {
   name: 'CartSummary',
+  components: { Notification },
   props: {
     cartId: {
       type: String,
@@ -44,16 +48,23 @@ export default {
     return {
       cartItems: [],
       cartTotal: 0,
+      notification: {
+        message: '',
+        duration: 3000
+      }
     };
   },
   async mounted() {
+    await this.fetchCart();
+  },
+  methods: {
+    async fetchCart() {
       try {
         const response = await getCart(2);
         const cartData = response.data;
 
         this.cartItems = cartData.comicBooks;
-        this.cart = cartData;
-        this.cartTotal = this.cartItems.reduce((total, item) => total + item.price, 0);
+        this.cartTotal = this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
         // Emit the cart item count to the parent component
         this.$emit('update-cart-count', this.cartItems.length);
@@ -64,25 +75,23 @@ export default {
     async removeItem(sku) {
       const isConfirmed = confirm('Are you sure you want to remove this item from the cart?');
       if (isConfirmed) {
-        const itemIndex = this.cartItems.findIndex(item => item.sku === sku);
-        if (itemIndex > -1) {
-          this.cartItems.splice(itemIndex, 1);
-          this.cartTotal = this.cartItems.reduce((total, item) => total + item.price, 0);
-          this.cart.comicBooks = this.cartItems;
-          this.cart.updatedDate = new Date().toISOString().split('T')[0];
-
-          try {
-            await updateCart(this.cart);
-            this.$emit('update-cart-count', this.cartItems.length); // Emit updated cart count
-          } catch (error) {
-            console.error('Error updating cart:', error);
-          }
+        try {
+          await removeBookFromCart(2, sku);
+          this.cartTotal=0
+          await this.fetchCart(); // Refresh the cart list
+          this.notification.message = 'Item removed successfully';
+        } catch (error) {
+          console.error('Error removing item from cart:', error);
         }
       }
     },
     getPhotoUrl(photo) {
       return `data:image/jpeg;base64,${photo}`;
     },
+    formatPrice(price) {
+      // Format the price as a string with the currency symbol
+      return `R${price.toFixed(2)}`;
+    }
   }
 };
 </script>
