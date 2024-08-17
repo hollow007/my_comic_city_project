@@ -1,6 +1,7 @@
 package za.ac.cput.service.cartService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import za.ac.cput.domain.Cart;
 import za.ac.cput.domain.ComicBook;
@@ -57,4 +58,5 @@ private ComicBookRepository comicBookRepository;
     public int quantity(Long cartId){
         return cartRepository.numberOfBooksOnThisCart(cartId);
     }
+
 }

@@ -14,15 +14,22 @@
         <font-awesome-icon icon="search" class="icon1" />
       </label>
 
+      <!-- Cart Icon Wrapper -->
       <div class="relative cart-icon-wrapper" @mouseenter="showCart" @mouseleave="hideCart">
         <font-awesome-icon icon="shopping-cart" class="icon cart-icon" />
-        <!-- Cart Badge, always visible with a default value of 0 -->
         <div class="cart-badge">{{ cartItemCount }}</div>
         <CartSummary v-if="isCartVisible" @update-cart-count="updateCartCount" />
       </div>
 
+      <!-- Wishlist Icon Wrapper -->
+      <div class="relative wishlist-icon-wrapper" @mouseenter="showWishlist" @mouseleave="hideWishlist">
+
+        <font-awesome-icon icon="heart" class="icon wishlist-icon" />
+        <div class="cart-badge">{{ wishListItemCount }}</div>
+        <WishlistSummary v-if="isWishlistVisible" @update-wishList-count="updateWishListCount" :wishListId="wishListId" />
+      </div>
+
       <font-awesome-icon icon="user" class="icon" />
-      <font-awesome-icon icon="heart" class="icon" />
       <font-awesome-icon icon="sun" class="icon" @click="toggleTheme" />
     </div>
   </nav>
@@ -30,16 +37,21 @@
 
 <script>
 import CartSummary from './CartSummary.vue';
+import WishlistSummary from './WishlistSummary.vue';
 
 export default {
   name: 'NavBar',
   components: {
     CartSummary,
+    WishlistSummary
   },
   data() {
     return {
       isCartVisible: false,
+      isWishlistVisible: false,
       cartItemCount: 0, // Initialize with a default value of 0
+      wishListItemCount:0,
+      wishListId: '1', // Replace with actual user ID
     };
   },
   methods: {
@@ -49,8 +61,19 @@ export default {
     hideCart() {
       this.isCartVisible = false;
     },
+    showWishlist() {
+      console.log('Wishlist hovered');
+      this.isWishlistVisible = true;
+    },
+    hideWishlist() {
+      console.log('Wishlist hover exited');
+      this.isWishlistVisible = false;
+    },
     updateCartCount(count) {
       this.cartItemCount = count; // Update cart item count
+    },
+    updateWishListCount(count) {
+      this.wishListItemCount = count; // Update cart item count
     },
     toggleTheme() {
       // Handle theme toggle logic here
@@ -120,11 +143,6 @@ input[type="search"]:focus {
   color: black;
 }
 
-/* Cart Icon Wrapper */
-.cart-icon-wrapper {
-  position: relative;
-}
-
 /* Icon Styles */
 .icon1 {
   color: #333;
@@ -165,6 +183,12 @@ input[type="search"]:focus + .icon1 {
   justify-content: center;
   font-size: 12px;
   font-weight: bold;
+}
+
+/* Cart & Wishlist Icon Wrappers */
+.cart-icon-wrapper,
+.wishlist-icon-wrapper {
+  position: relative;
 }
 
 /* Mobile responsiveness */

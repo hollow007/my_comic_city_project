@@ -2,7 +2,12 @@
   <div class="product-grid">
     <h2>{{ title }}</h2>
     <div class="grid">
-      <ComicCard v-for="comic in comics" :key="comic.id" :comic="comic" />
+      <ComicCard
+          v-for="comic in comics"
+          :key="comic.id"
+          :comic="comic"
+          :wishlist="wishlist"
+          @add-to-cart="handleAddToCart"  @toggle-wishlist="handleToggleWishlist"/>
     </div>
   </div>
 </template>
@@ -12,13 +17,24 @@ import ComicCard from './ComicCard.vue';
 
 export default {
   name: 'ProductGrid',
-  props: ['title', 'comics'],
   components: {
-    ComicCard,
+    ComicCard
   },
+  props: {
+    title: String,
+    comics: Array,
+    wishlist:Array
+  },
+  methods: {
+    handleAddToCart(sku) {
+      this.$emit('add-to-cart', sku); // Emit the SKU to the parent component
+    },
+    handleToggleWishlist(sku) {
+      this.$emit('toggle-wishlist', sku);
+    }
+  }
 };
 </script>
-
 <style scoped>
 .product-grid {
   margin: 20px;

@@ -153,4 +153,32 @@ class WishListControllerTest {
         System.out.println(response);
         System.out.println(response.getBody());
     }
+    @Test
+    @Order(7)
+    void addToWishListApi() {
+
+        String url=BASE_URL+"/"+wishList1.getWishListId()+"/addComicBook/"+8;
+        ResponseEntity<WishList> postResponse = testRestTemplate.postForEntity(url, wishList1, WishList.class);
+        assertNotNull(postResponse);
+        assertNotNull(postResponse.getBody());
+        System.out.println(postResponse.getBody());
+        WishList wishListWithNewBook = postResponse.getBody();
+        assertEquals(wishListWithNewBook.getWishListId(), postResponse.getBody().getWishListId());
+        //assertEquals(2,cartWithNewBook.getComicBooks().size());
+        System.out.println("Saved data:" + wishListWithNewBook);
+    }
+    @Test
+    @Order(8)
+    void removeFromWishListApi() {
+
+        String url=BASE_URL+"/"+wishList1.getWishListId()+"/removeComicBook/"+14;
+        ResponseEntity<WishList> postResponse = testRestTemplate.postForEntity(url, wishList1, WishList.class);
+        assertNotNull(postResponse);
+        assertNotNull(postResponse.getBody());
+        System.out.println(postResponse.getBody());
+        WishList wishListWithNewBook = postResponse.getBody();
+        assertEquals(wishListWithNewBook.getWishListId(), postResponse.getBody().getWishListId());
+       // assertEquals(1,wishListWithNewBook.getComicBooks().size());
+        System.out.println("Saved data:" + wishListWithNewBook);
+    }
 }
