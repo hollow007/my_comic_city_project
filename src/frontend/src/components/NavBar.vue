@@ -53,10 +53,11 @@
     <!-- Bottom Section -->
     <div class="bottom-section">
       <ul class="bottom-nav-links">
-        <li><a href="#">Home <font-awesome-icon icon="faChevronUp" class="icon arrow-icon" /></a></li>
+        <router-link to="/"><li><a href="#">Home <font-awesome-icon icon="faChevronUp" class="icon arrow-icon" /></a></li></router-link>
         <li><a href="#">Link 1 <font-awesome-icon icon="faChevronUp" class="icon arrow-icon" /></a></li>
         <li><a href="#">Link 2 <font-awesome-icon icon="faChevronUp" class="icon arrow-icon" /></a></li>
         <li><a href="#">Link 3 <font-awesome-icon icon="faChevronUp" class="icon arrow-icon" /></a></li>
+        <router-link to="/viewItem">view_item</router-link>
       </ul>
     </div>
     <hr class="section-divider" />
@@ -66,6 +67,7 @@
 <script>
 import CartSummary from './CartSummary.vue';
 import WishlistSummary from './WishlistSummary.vue';
+
 
 
 export default {

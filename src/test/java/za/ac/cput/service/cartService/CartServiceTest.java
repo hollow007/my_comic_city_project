@@ -215,7 +215,7 @@ class CartServiceTest {
     }
 
     @Test
-    @Disabled
+    //@Disabled
     @Order(2)
     void read() {
         System.out.println("============================Read==================================");
@@ -226,7 +226,7 @@ class CartServiceTest {
     }
 
     @Test
-    @Disabled
+    //@Disabled
     @Order(3)
     void update() {
         System.out.println("============================Update==================================");
@@ -238,7 +238,7 @@ class CartServiceTest {
 
 
     @Test
-    @Disabled
+    //@Disabled
     @Order(4)
     void delete() {
         System.out.println("============================Delete===============================");
@@ -248,7 +248,7 @@ class CartServiceTest {
     }
 
     @Test
-    @Order(5)
+    //@Order(5)
     void getall() {
         System.out.println("=============================GetALL==============================");
         List<Cart>carts=cartService.getall();
@@ -266,7 +266,7 @@ class CartServiceTest {
     }
 
     @Test
-    @Disabled
+    //@Disabled
     @Order(7)
     void totalPriceTest() {
         double sum=cartService.getCartTotalPrice(2L);

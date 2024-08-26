@@ -15,6 +15,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "axios": "^1.7.3",
     "core-js": "^3.8.3",
+    "lines-and-columns": "^2.0.4",
     "vue": "^3.2.13",
     "vue-router": "^4.4.3"
   },
