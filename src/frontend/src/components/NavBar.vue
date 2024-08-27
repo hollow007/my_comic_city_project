@@ -19,7 +19,9 @@
     <!-- Middle Section -->
     <div class="middle-section">
       <div class="logo">
+        <router-link to='/'>
         <img :src="require('@/assets/Designer.png')" alt="Comicity Logo" />
+        </router-link>
       </div>
 
       <div class="icon-container">
@@ -57,7 +59,7 @@
         <li><a href="#">Link 1 <font-awesome-icon icon="faChevronUp" class="icon arrow-icon" /></a></li>
         <li><a href="#">Link 2 <font-awesome-icon icon="faChevronUp" class="icon arrow-icon" /></a></li>
         <li><a href="#">Link 3 <font-awesome-icon icon="faChevronUp" class="icon arrow-icon" /></a></li>
-        <router-link to="/viewItem">view_item</router-link>
+<!--        <router-link to="/viewItem">view_item</router-link>-->
       </ul>
     </div>
     <hr class="section-divider" />

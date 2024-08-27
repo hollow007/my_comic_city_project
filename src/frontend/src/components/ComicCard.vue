@@ -1,25 +1,32 @@
 <template>
   <div class="comic-card">
-    <img :src="comicImage" alt="Comic Cover" class="comic-image" />
+    <router-link to="/viewItem">
+      <img :src="comicImage" alt="Comic Cover" class="comic-image"/>
+    </router-link>
     <div
         class="heart-icon"
         :class="{ 'active': isFavorite }"
         @click="toggleWishlist"
     >
-      <font-awesome-icon icon="heart" />
+      <font-awesome-icon icon="heart"/>
     </div>
     <div class="comic-info">
       <div class="title-price">
-        <h3 class="book-title">{{ comic.name }}</h3>
+        <router-link to="/viewItem"  class="no-underline">
+          <h3 class="book-title">{{ comic.name }}</h3>
+        </router-link>
         <p class="price">{{ formatPrice(comic.price) }}</p>
       </div>
       <p class="author">{{ authorsList }}</p>
       <div class="star-rating">
         <span v-for="n in 5" :key="n" class="star">★</span>
       </div>
+
       <button class="add-btn" @click="handleAddToCart">
-        + Add <font-awesome-icon icon="shopping-cart" class="icon" />
+        + Add
+        <font-awesome-icon icon="shopping-cart" class="icon"/>
       </button>
+
     </div>
   </div>
 </template>
@@ -138,7 +145,8 @@ export default {
   font-weight: bold;
   margin: 0;
   flex: 1 1 auto;
-  word-wrap: break-word;
+  flex-grow: 1; /* Allow title to take available space */
+  white-space: nowrap; /* Prevent title from wrapping */
   max-width: 70%;
 }
 
@@ -153,7 +161,10 @@ export default {
   font-size: 14px;
   margin: 8px 0;
 }
-
+.no-underline {
+  text-decoration: none;
+  color: inherit;
+}
 .star-rating {
   font-size: 16px;
   color: #af751c;
