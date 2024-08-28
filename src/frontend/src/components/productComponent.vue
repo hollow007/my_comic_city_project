@@ -12,29 +12,14 @@
           <h2>{{ productComponent.name }}</h2>
           <p><strong>Price:</strong>R{{ productComponent.price }}</p>
           <p>{{ productComponent.description }}</p>
-          <div class="add-to-wishList">
-            <img
-                src="@/assets/favourate2png.png"
-                alt="Image of heart"
-                @mouseover="onHover"
-                @mouseleave="onLeave"
-                @click="onClick"
-            />
-          </div>
-          <!-- start of the form -->
-          <form @submit.prevent="addToCart">
-            <div class="form-group">
-              <label for="dropDown">Add {{ productComponent.name }}</label>
-              <select id="dropDown" v-model="selectedSize">
-                <option
-                    v-for="dropDown in dropDowns"
-                    :key="dropDown"
-                    :value="dropDown"
-                >{{ dropDown }}</option
-                >
-              </select>
-            </div>
 
+<!--          <div class="add-to-wishList">-->
+<!--            <font-awesome-icon icon="heart"/>-->
+<!--          </div>--> <!--- ask team do we need it-->
+
+          <!-- start of the form -->
+          <form @submit.prevent="addBookToCart">
+            <!-- removed drop down as it did not serve a purpose-->
             <div class="form-group">
               <label for="quantity">Quantity</label>
               <input
@@ -116,6 +101,7 @@
 <script>
 import NavBar from '@/components/NavBar.vue';
 import FooterSection from '@/components/FooterSection.vue';
+import {addBookToCart} from "@/services/cartService";
 
 export default {
   name: 'productComponent',
@@ -123,9 +109,12 @@ export default {
     NavBar,
     FooterSection,
   },
+
   data() {
     return {
       productComponent: {
+        id: 4,// will later be modified to return on from the API
+        cartId:2,
         imgaeurl: ' ',
         name: 'Heroes in crisis ',
         description: 'This is a description of a product',
@@ -134,19 +123,29 @@ export default {
         ratings: '* * * *',
         activeTab: 'description',
       },
-      favourateunfilled: require('@/assets/favourate2png.png'),
-      favourateFilledIn: require('@/assets/favourateFilledIn.png'),
-      iFilled: false,
+
+      // removed unnecessary line here
 
       galleryImages: [
-        { src: require('@/assets/ComicBookCover1.jpeg'), alt: 'Image 1' },
-        { src: require('@/assets/ComicBookCover2.jpeg'), alt: 'Image 2' },
-        { src: require('@/assets/ComicBookCover3.jpeg'), alt: 'Image 3' },
-        { src: require('@/assets/ComicBookCover4.jpeg'), alt: 'Image 4' },
+        {src: require('@/assets/ComicBookCover1.jpeg'), alt: 'Image 1'},
+        {src: require('@/assets/ComicBookCover2.jpeg'), alt: 'Image 2'},
+        {src: require('@/assets/ComicBookCover3.jpeg'), alt: 'Image 3'},
+        {src: require('@/assets/ComicBookCover4.jpeg'), alt: 'Image 4'},
       ],
     };
   },
-};
+
+  methods: {
+    async addBookToCart() {
+      try {
+        await addBookToCart(1, 2); // currenlty we are hardcoding the book into the cart
+        alert('Comic added to cart!');
+      } catch (error) {
+        alert('Failed to add comic to cart.');
+      }
+    },
+  }
+}
 </script>
 <style scoped>
 .view_item_page-container{
