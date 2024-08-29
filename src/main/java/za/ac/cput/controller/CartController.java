@@ -71,6 +71,10 @@ public class CartController {
     public Cart removeFromCart(@PathVariable("cartId") Long cartId,@PathVariable("sku") Long sku){
         return removeFromCartApi.removeBookFromCart(cartId,sku);
     }
+    @GetMapping("/getCustomerCart/{email}")
+    public Cart getCartWithCustomerEmail(@PathVariable("email") String email){
+        return cartService.getCartByCustomerEmail(email);
+    }
 
 }
 

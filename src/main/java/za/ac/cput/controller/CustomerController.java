@@ -55,5 +55,9 @@ public class CustomerController {
             return new ResponseEntity<>("Invalid email or password", HttpStatus.UNAUTHORIZED);
         }
     }
+    @GetMapping("/getByEmail/{email}")
+    public Customer getByEmail(@PathVariable("email") String email){
+        return service.getCustomerByEmail(email);
+    }
 
 }

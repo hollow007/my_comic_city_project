@@ -62,4 +62,8 @@ private final RemoveFromWishListApi removeFromWishListApi;
     public WishList removeFromWishList(@PathVariable("wishListId") Long cartId,@PathVariable("sku") Long sku){
         return removeFromWishListApi.removeBookFromWishList(cartId,sku);
     }
+    @GetMapping("/getCustomerWishList/{email}")
+    public WishList getCustomerWishList(@PathVariable("email") String email){
+        return wishListService.getWishListWithCustomerEmail(email);
+    }
 }

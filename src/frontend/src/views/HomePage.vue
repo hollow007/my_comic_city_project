@@ -1,7 +1,7 @@
 <template>
   <div id="home-page">
     <NavBar />
-    <HeroSection />
+    <HeroSection/>
     <ProductGrid title="New Arrivals" :comics="newArrivals" :wishlist="wishlist" @add-to-cart="addToCart" @toggle-wishlist="toggleWishlist" />
     <ProductGrid title="Hot Picks" :comics="hotPicks" :wishlist="wishlist" @add-to-cart="addToCart" @toggle-wishlist="toggleWishlist" />
     <FooterSection />
@@ -14,8 +14,8 @@ import HeroSection from '@/components/HeroSection.vue';
 import ProductGrid from '@/components/ProductGrid.vue';
 import FooterSection from '@/components/FooterSection.vue';
 import { getAllComicBooks } from '@/services/comicBookService';
-import { addBookToCart } from '@/services/cartService';
-import { addBookToWishList } from '@/services/wishlistService';
+import {addBookToCart, getCustomerCart} from '@/services/cartService';
+import {addBookToWishList, getCustomerWishList} from '@/services/wishlistService';
 
 export default {
   name: 'HomePage',
@@ -29,8 +29,10 @@ export default {
     return {
       newArrivals: [],
       hotPicks: [],
-      wishlist: [],
-      cartId: '2', // Replace with the actual cart ID
+      wishlistItems: [],
+      cartItems:[],
+      cart:'',
+      wishList:'',
       loading: true,
       error: null,
     };
@@ -55,18 +57,37 @@ export default {
       }
     },
     async addToCart(sku) {
+      const userEmail=localStorage.getItem('userEmail');
+
+      if (!userEmail) {
+        console.error('No user email found. Please log in.');
+        return;
+      }
+
       try {
-        await addBookToCart(this.cartId, sku); // Send the correct SKU to the API
+        const response=await getCustomerCart(userEmail);
+        this.cart = response.data;
+        this.cartItems=this.cart.comicBooks||[];
+        await addBookToCart(this.cart.cartId, sku); // Send the correct SKU to the API
         alert('Comic added to cart!');
       } catch (error) {
         alert('Failed to add comic to cart.');
       }
     },
     async toggleWishlist(sku) {
+      const userEmail=localStorage.getItem('userEmail');
+
+      if (!userEmail) {
+        console.error('No user email found. Please log in.');
+        return;
+      }
+
       try {
         // Call wishlist service to toggle the comic in the wishlist
-        const updatedWishlist = await addBookToWishList(1, sku); // Adjust as per your service
-        this.wishlist = updatedWishlist.comicBooks; // Update the local wishlist
+        const response=await getCustomerWishList(userEmail);
+        this.wishList = response.data;
+        this.wishlistItems=this.wishList.comicBooks||[];
+        await addBookToWishList (this.wishList.wishListId, sku);
         alert('Comic added to WishList!');
       } catch (error) {
         alert('Failed to update wishlist.');
