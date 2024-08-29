@@ -23,7 +23,7 @@
         <p class="text-sm">Items: {{ cartItems.length }}</p>
       </div>
       <div class="cart-footer-actions">
-        <a href="#" class="view-cart">View Cart</a>
+        <router-link to="/cart"><a href="#" class="view-cart">View Cart</a></router-link>
         <button class="checkout">Checkout</button>
       </div>
     </div>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { getCart, removeBookFromCart } from "@/services/cartService";
+import { getCustomerCart, removeBookFromCart} from "@/services/cartService";
 import Notification from "@/components/NotificationComponent.vue";
 
 export default {
@@ -46,6 +46,7 @@ export default {
   },
   data() {
     return {
+      cart:'',
       cartItems: [],
       cartTotal: 0,
       notification: {
@@ -58,12 +59,17 @@ export default {
     await this.fetchCart();
   },
   methods: {
-    async fetchCart() {
-      try {
-        const response = await getCart(2);
-        const cartData = response.data;
 
-        this.cartItems = cartData.comicBooks;
+    async fetchCart() {
+      const userEmail=localStorage.getItem('userEmail');
+      if (!userEmail) {
+        console.error('User email not found. Please log in.');
+        this.$router.push('/');
+      }
+      try {
+        const response = await getCustomerCart(userEmail);
+        this.cart = response.data;
+        this.cartItems = this.cart.comicBooks;
         this.cartTotal = this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
         // Emit the cart item count to the parent component
@@ -76,7 +82,7 @@ export default {
       const isConfirmed = confirm('Are you sure you want to remove this item from the cart?');
       if (isConfirmed) {
         try {
-          await removeBookFromCart(2, sku);
+          await removeBookFromCart(this.cart.cartId, sku);
           this.cartTotal=0
           await this.fetchCart(); // Refresh the cart list
           this.notification.message = 'Item removed successfully';

@@ -9,4 +9,5 @@ import za.ac.cput.domain.Customer;
 public interface
 CustomerRepository extends JpaRepository<Customer, Long> {
     Customer findByContactEmailAndPassword(@Param("email") String email, @Param("password") String password);
+    Customer findByContact_Email(@Param("email")String email);
 }

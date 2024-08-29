@@ -56,7 +56,6 @@ class WishListServiceTest {
     private static BufferedImage image2;
 
 
-
     private static Publisher publisher1;
     private static Publisher publisher2;
     private static Publisher publisher3;
@@ -72,13 +71,13 @@ class WishListServiceTest {
 
 
     @BeforeAll
-    static void  setUp() {
+    static void setUp() {
 
         System.out.println("============================SETUP==================================");
 
-        String url1 ="C:\\Users\\User\\Documents\\IntelliJ Projects 2024\\comic_city_project\\images\\ComicBookCover4.jpeg";
-        String url2="C:\\Users\\User\\Documents\\IntelliJ Projects 2024\\comic_city_project\\images\\ComicBookCover5.jpeg";
-        String url3="C:\\Users\\User\\Documents\\IntelliJ Projects 2024\\comic_city_project\\images\\ComicBookCover6.jpeg";
+        String url1 = "C:\\Users\\User\\Documents\\IntelliJ Projects 2024\\comic_city_project\\images\\ComicBookCover4.jpeg";
+        String url2 = "C:\\Users\\User\\Documents\\IntelliJ Projects 2024\\comic_city_project\\images\\ComicBookCover5.jpeg";
+        String url3 = "C:\\Users\\User\\Documents\\IntelliJ Projects 2024\\comic_city_project\\images\\ComicBookCover6.jpeg";
 
         try {
 
@@ -97,8 +96,6 @@ class WishListServiceTest {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
-
 
 
         //Authors
@@ -147,13 +144,10 @@ class WishListServiceTest {
         author1 = AuthorFactory.buildAuthor(001L, "Lamark", "Principle", "Darwin");
 
 
-
         author2 = AuthorFactory.buildAuthor(002L, "Jacob", "Gedleyihlekisa", "Zuma");
 
 
-
         author3 = AuthorFactory.buildAuthor(003L, "Mpumzi", "John", "Mbula");
-
 
 
         authors1 = new ArrayList<>();
@@ -229,13 +223,13 @@ class WishListServiceTest {
         customer3 = CustomerFactory.buildCustomer(9874, "Vuyokazi", "Xayiya", "Mpu@2022!!", con3);
         System.out.println(customer3);
 
-        wishList1 = WishListFactory.buildWishList(1L,"My Fave", customer1, comicBooks1, LocalDate.of(2024, 04, 12), LocalDate.now());
+        wishList1 = WishListFactory.buildWishList(1L, "My Fave", customer1, comicBooks1, LocalDate.of(2024, 04, 12), LocalDate.now());
         System.out.println(wishList1);
 
-        wishList2 = WishListFactory.buildWishList(2L,"Birthday Gift", customer2, comicBooks2, LocalDate.of(2024, 05, 22), LocalDate.of(2024, 06, 17));
+        wishList2 = WishListFactory.buildWishList(2L, "Birthday Gift", customer2, comicBooks2, LocalDate.of(2024, 05, 22), LocalDate.of(2024, 06, 17));
         System.out.println(wishList2);
 
-        wishList3 = WishListFactory.buildWishList(3L,"My WishList",customer3, comicBooks3, LocalDate.of(2024, 06, 13), LocalDate.now());
+        wishList3 = WishListFactory.buildWishList(3L, "My WishList", customer3, comicBooks3, LocalDate.of(2024, 06, 13), LocalDate.now());
         System.out.println(wishList3);
 
     }
@@ -275,8 +269,8 @@ class WishListServiceTest {
     @Order(3)
     void update() {
         System.out.println("============================Update==================================");
-        WishList wishListToUpdate=new WishList.Builder().copy(wishList2).setUpdatedDate(LocalDate.now()).build();
-        WishList updatedWishList=wishListService.update(wishListToUpdate);
+        WishList wishListToUpdate = new WishList.Builder().copy(wishList2).setUpdatedDate(LocalDate.now()).build();
+        WishList updatedWishList = wishListService.update(wishListToUpdate);
         assertNotNull(updatedWishList);
         System.out.println(updatedWishList);
     }
@@ -286,15 +280,15 @@ class WishListServiceTest {
     @Order(4)
     void delete() {
         System.out.println("============================Delete===============================");
-        boolean isDeleted=wishListService.delete(3L);
+        boolean isDeleted = wishListService.delete(3L);
         assertTrue(isDeleted);
-        System.out.println("WishList with wishListId:"+wishList3.getWishListId()+" is deleted Successfully");
+        System.out.println("WishList with wishListId:" + wishList3.getWishListId() + " is deleted Successfully");
     }
 
     @Test
     @Order(5)
     void getall() {
-        List<WishList>wishLists=wishListService.getall();
+        List<WishList> wishLists = wishListService.getall();
         assertNotNull(wishLists);
         System.out.println(wishLists);
     }
@@ -302,8 +296,18 @@ class WishListServiceTest {
     @Test
     @Order(6)
     void quantityTest() {
-        int quantity=wishListService.calculateQuantity(2L);
-        assertEquals(quantity,wishList2.getComicBooks().size());
-        System.out.println("Test Passed:\n"+"Quantity:"+quantity+" matches:"+wishList2.getComicBooks().size());
+        int quantity = wishListService.calculateQuantity(2L);
+        assertEquals(quantity, wishList2.getComicBooks().size());
+        System.out.println("Test Passed:\n" + "Quantity:" + quantity + " matches:" + wishList2.getComicBooks().size());
+    }
+
+    @Test
+    @Order(7)
+    void getWishListWithCustomerEmail() {
+        WishList wishList = wishListService.getWishListWithCustomerEmail("vxayiya@gmail.com");
+        assertNotNull(wishList);
+        System.out.println(wishList);
+
+
     }
 }

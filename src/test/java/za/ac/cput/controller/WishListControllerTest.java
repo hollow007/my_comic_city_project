@@ -181,4 +181,15 @@ class WishListControllerTest {
        // assertEquals(1,wishListWithNewBook.getComicBooks().size());
         System.out.println("Saved data:" + wishListWithNewBook);
     }
+
+    @Test
+    @Order(9)
+    void getWishListByCustomerEmail() {
+        String url = BASE_URL + "/getCustomerWishList/vxayiya@gmail.com" ;
+        ResponseEntity<WishList> response = testRestTemplate.getForEntity(url, WishList.class);
+        WishList readWishList=response.getBody();
+        assertNotNull(readWishList);
+        System.out.println("Customer's WishList: " + response.getBody());
+    }
+
 }

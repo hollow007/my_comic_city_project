@@ -46,32 +46,27 @@ export default {
   },
   methods: {
     login() {
-      alert('Login clicked');
-      alert(this.email);
-      alert(this.password);
-      fetch(`api/comiccity/Customer/login/${this.email}/${this.password}`, {
+      fetch(`/api/comiccity/Customer/login/${encodeURIComponent(this.email)}/${encodeURIComponent(this.password)}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         }
       })
           .then((response) => {
-            alert(response.status);
-            if (response.status === 200) {
+            if (response.ok) {
               return response.text();
             } else {
-              alert('Invalid Email or Password.');
-              throw new Error('Invalid Email or Password.');
+              return response.json().then(data => {
+                throw new Error(data.error || 'Invalid email or password');
+              });
             }
           })
           .then((data) => {
-            if (data) {
-              this.loginError = data;
-              alert(data); // Shows 'Login successful!'
-              // Redirect or handle successful login
+            if (data === 'Login successful') {
+              localStorage.setItem('userEmail', this.email); // Store user email or another identifier
+              this.$router.push('/');
             } else {
-              this.loginError = 'Invalid Email or Password.';
-              alert("Invalid Email or Password.");
+              this.loginError = 'Invalid email or password.';
             }
           })
           .catch((error) => {
@@ -80,12 +75,14 @@ export default {
           });
     },
     createAccount() {
+      // Handle account creation logic
       this.loginError = 'Create Account button clicked!';
       console.log('Creating account with', this.email, this.password);
     }
   }
 };
 </script>
+
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;900&display=swap');

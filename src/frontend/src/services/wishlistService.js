@@ -27,3 +27,6 @@ export const removeBookFromWishList = (wishListId, sku) => {
 export const addBookToWishList = (wishListId, sku) => {
     return axios.post(`${API_URL}/${wishListId}/addComicBook/${sku}`);
 };
+export const getCustomerWishList = (email) => {
+    return axios.get(`${API_URL}/getCustomerWishList/${email}`);
+};

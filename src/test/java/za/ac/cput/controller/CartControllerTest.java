@@ -202,4 +202,14 @@ class CartControllerTest {
         System.out.println("Saved data:" + cartWithNewBook);
     }
 
+    @Test
+    @Order(9)
+    void getCartByCustomerEmail() {
+        String url = BASE_URL + "/getCustomerCart/vxayiya@gmail.com" ;
+        ResponseEntity<Cart> response = restTemplate.getForEntity(url, Cart.class);
+        Cart fetchedcart=response.getBody();
+        assertNotNull(fetchedcart);
+        System.out.println("Customer's Cart: " + response.getBody());
+    }
+
 }

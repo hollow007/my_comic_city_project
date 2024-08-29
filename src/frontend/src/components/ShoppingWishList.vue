@@ -1,68 +1,6 @@
 <template>
   <div :class="themeClass">
-    <!-- Navbar -->
-    <nav class="navbar">
-      <!-- Top Section -->
-      <div class="top-section">
-        <div class="left-side">
-          <font-awesome-icon icon="facebook" class="icon social-icon" />
-          <font-awesome-icon icon="instagram" class="icon social-icon" />
-          <span class="slogan">Best Comic Store in Town</span>
-        </div>
-        <div class="right-side">
-          <a href="#">About Us</a>
-          <a href="#">Contact Us</a>
-        </div>
-      </div>
-
-      <!-- Horizontal Line -->
-      <hr class="section-divider" />
-
-      <!-- Middle Section -->
-      <div class="middle-section">
-        <div class="logo">
-          <img :src="require('@/assets/Designer.png')" alt="Comicity Logo" />
-        </div>
-
-        <div class="icon-container">
-          <div class="search-container">
-            <input type="search" id="search-input" placeholder="Search..." />
-            <font-awesome-icon icon="search" class="icon1" />
-          </div>
-
-          <!-- Cart Icon Wrapper -->
-          <div class="relative cart-icon-wrapper" @mouseenter="showCart" @mouseleave="hideCart">
-            <font-awesome-icon icon="shopping-cart" class="icon cart-icon" />
-            <div class="cart-badge">{{ cartItemCount }}</div>
-            <CartSummary v-if="isCartVisible" @update-cart-count="updateCartCount" />
-          </div>
-
-          <!-- Wishlist Icon Wrapper -->
-          <div class="relative wishlist-icon-wrapper" @mouseenter="showWishlist" @mouseleave="hideWishlist">
-            <font-awesome-icon icon="heart" class="icon wishlist-icon" />
-            <div class="cart-badge">{{ wishListItemCount }}</div>
-            <WishlistSummary v-if="isWishlistVisible" @update-wishList-count="updateWishListCount" :wishListId="wishListId" />
-          </div>
-
-          <font-awesome-icon icon="user" class="icon" />
-          <font-awesome-icon icon="sun" class="icon" @click="toggleTheme" />
-        </div>
-      </div>
-
-      <!-- Horizontal Line -->
-      <hr class="section-divider" />
-
-      <!-- Bottom Section -->
-      <div class="bottom-section">
-        <ul class="bottom-nav-links">
-          <li><a href="#">Home <font-awesome-icon icon="faChevronUp" class="icon arrow-icon" /></a></li>
-          <li><a href="#">Link 1 <font-awesome-icon icon="faChevronUp" class="icon arrow-icon" /></a></li>
-          <li><a href="#">Link 2 <font-awesome-icon icon="faChevronUp" class="icon arrow-icon" /></a></li>
-          <li><a href="#">Link 3 <font-awesome-icon icon="faChevronUp" class="icon arrow-icon" /></a></li>
-        </ul>
-      </div>
-      <hr class="section-divider" />
-    </nav>
+    <NavBar />
 
     <!-- Wishlist -->
     <div class="wishlist">
@@ -108,22 +46,23 @@
 </template>
 
 <script>
-import { getWishList } from "@/services/wishlistService";
-import { addToCartService } from "@/services/cartService";
-import CartSummary from './CartSummary.vue';
-import WishlistSummary from './WishlistSummary.vue';
+import {getCustomerWishList} from "@/services/wishlistService";
+import {addBookToCart, getCustomerCart} from "@/services/cartService";
+
+import NavBar from "@/components/NavBar.vue";
 
 export default {
   components: {
-    CartSummary,
-    WishlistSummary
+    NavBar,
+
   },
   data() {
     return {
+      userEmail:'',
       wishlistItems: [],
       cartItemCount: 0,
       wishListItemCount: 0,
-      wishListId: '1',
+      wishList:'',
       isCartVisible: false,
       isWishlistVisible: false,
       themeClass: 'dark-theme'
@@ -134,18 +73,19 @@ export default {
       return 'R ' + amount.toFixed(2);
     },
     async fetchWishlist() {
+      this.userEmail=localStorage.getItem('userEmail')
       try {
-        const response = await getWishList(2);
-        const wishList = response.data;
+        const response = await getCustomerWishList(this.userEmail);
+        this.wishList = response.data;
 
-        if (wishList.comicBooks.length > 0) {
-          const randomIndex = Math.floor(Math.random() * wishList.comicBooks.length);
-          wishList.comicBooks.forEach((item, index) => {
+        if (this.wishList.comicBooks.length > 0) {
+          const randomIndex = Math.floor(Math.random() * this.wishList.comicBooks.length);
+          this.wishList.comicBooks.forEach((item, index) => {
             item.inStock = index === randomIndex;
           });
         }
 
-        this.wishlistItems = wishList.comicBooks;
+        this.wishlistItems = this.wishList.comicBooks;
       } catch (error) {
         console.error("Error fetching wishlist:", error);
       }
@@ -154,35 +94,23 @@ export default {
       this.wishlistItems = this.wishlistItems.filter(wishlistItem => wishlistItem.id !== item.id);
     },
     async addToCart(item) {
+
       try {
-        await addToCartService(item.id);
+        const response=await getCustomerCart(this.userEmail);
+        this.cart = response.data;
+        this.cartItems=this.cart.comicBooks||[];
+        await addBookToCart(this.cart.cartId, item.sku); // Send the correct SKU to the API
         alert(`${item.name} has been added to your cart!`);
+
       } catch (error) {
-        console.error("Error adding item to cart:", error);
-        alert("There was a problem adding the item to your cart.");
+        alert('Failed to add comic to cart.');
       }
+
     },
     getPhotoUrl(photo) {
       return `data:image/jpeg;base64,${photo}`;
     },
-    showCart() {
-      this.isCartVisible = true;
-    },
-    hideCart() {
-      this.isCartVisible = false;
-    },
-    showWishlist() {
-      this.isWishlistVisible = true;
-    },
-    hideWishlist() {
-      this.isWishlistVisible = false;
-    },
-    updateCartCount(count) {
-      this.cartItemCount = count;
-    },
-    updateWishListCount(count) {
-      this.wishListItemCount = count;
-    },
+
     toggleTheme() {
       this.themeClass = this.themeClass === 'dark-theme' ? 'light-theme' : 'dark-theme';
     }
@@ -194,170 +122,6 @@ export default {
 </script>
 
 <style scoped>
-/* Navbar Styles */
-.navbar {
-  display: flex;
-  flex-direction: column;
-  background-color: #333;
-  color: white;
-  position: fixed; /* Fix the navbar at the top */
-  top: 0;
-  width: 100%;
-  z-index: 1000; /* Ensure it stays above other content */
-}
-
-.navbar .section-divider {
-  margin: 0;
-  border: 0;
-  border-top: 1px solid #575555;
-}
-
-/* Ensure content below the navbar starts after the navbar height */
-body {
-  margin: 0;
-  padding-top: 80px; /* Adjust this value based on your navbar height */
-}
-
-/* Top Section */
-.top-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px 20px;
-  background-color: #444;
-  font-size: 0.9rem;
-}
-
-.left-side {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.slogan {
-  margin-left: 10px;
-}
-
-.right-side a {
-  color: white;
-  margin-left: 15px;
-  text-decoration: none;
-}
-
-/* Social Icons */
-.social-icon {
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-.social-icon:hover {
-  color: #888;
-}
-
-/* Middle Section */
-.middle-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-}
-
-.logo {
-  width: 150px;
-  height: 55px;
-}
-
-.logo img {
-  width: 100%;
-  height: auto;
-}
-
-.icon-container {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  position: relative;
-}
-
-/* Improved Search Input Styles */
-.search-container {
-  position: relative;
-}
-
-#search-input {
-  background-color: white;
-  width: 0;
-  transition: width 0.4s, border-radius 0.4s;
-  border-radius: 50%;
-  border: 2px solid transparent;
-  outline: none;
-  padding: 12px 20px;
-  color: white;
-  cursor: pointer;/* Adjust font size */
-}
-
-#search-input:focus {
-  border-radius: 20px;
-  width: 500px;
-  color: black;
-}
-
-.icon1 {
-  color: #333;
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1rem;
-  transition: opacity 0.4s;
-}
-
-#search-input:focus + .icon1 {
-  opacity: 0;
-}
-
-/* Cart & Wishlist Icon Styles */
-.cart-icon-wrapper, .wishlist-icon-wrapper {
-  position: relative;
-}
-
-.cart-badge {
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  padding: 5px 10px;
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  font-size: 0.8rem;
-}
-
-.icon {
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-/* Bottom Section */
-.bottom-section {
-  padding: 10px 20px;
-}
-
-.bottom-nav-links {
-  list-style: none;
-  display: flex;
-  gap: 30px;
-  margin: 0;
-  padding: 0;
-}
-
-.bottom-nav-links a {
-  color: white;
-  text-decoration: none;
-}
-
-.arrow-icon {
-  margin-left: 5px;
-}
 
 /* Wishlist Styles */
 .wishlist {
