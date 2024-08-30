@@ -59,7 +59,7 @@ export default {
     async addToCart(sku) {
       const userEmail=localStorage.getItem('userEmail');
 
-      if (!userEmail) {
+      if (userEmail===null) {
         console.error('No user email found. Please log in.');
         return;
       }
@@ -77,7 +77,7 @@ export default {
     async toggleWishlist(sku) {
       const userEmail=localStorage.getItem('userEmail');
 
-      if (!userEmail) {
+      if (userEmail===null) {
         console.error('No user email found. Please log in.');
         return;
       }

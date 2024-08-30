@@ -11,6 +11,7 @@
             placeholder="Email"
             class="input-field"
             required
+            aria-label="Email address"
         />
       </label>
       <label class="input-label" for="password">
@@ -21,6 +22,7 @@
             class="input-field"
             v-model="password"
             required
+            aria-label="Password"
         />
       </label>
     </div>
@@ -32,47 +34,70 @@
         <span class="button-text">Create Account</span>
       </button>
     </div>
+    <p v-if="loginError" class="error-message">{{ loginError }}</p>
   </div>
 </template>
 
 <script>
+
+
+
+import {getCustomerWishList} from "@/services/wishlistService";
+import {getCustomerCart} from "@/services/cartService";
+
 export default {
   data() {
     return {
       email: '',
       password: '',
-      loginError: ''
+      loginError: '',
+      isLoading: false
     };
   },
   methods: {
-    login() {
-      fetch(`/api/comiccity/Customer/login/${encodeURIComponent(this.email)}/${encodeURIComponent(this.password)}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
+    async login() {
+      this.loginError = '';
+      if (!this.email || !this.password) {
+        this.loginError = 'Please enter both email and password.';
+        return;
+      }
+      this.isLoading = true;
+
+      try {
+        const response = await fetch(`/api/comiccity/Customer/login/${encodeURIComponent(this.email)}/${encodeURIComponent(this.password)}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.text();
+          if (data === 'Login successful') {
+            localStorage.setItem('userEmail', this.email); // Store user email or another identifier
+            try {
+              const cartResponse = await getCustomerCart(this.email);
+              this.$emit('update-cart-count', cartResponse.data.comicBooks.length);
+               const wishlistResponse = await getCustomerWishList(this.email);
+              this.$emit('update-wishList-count', wishlistResponse.data.comicBooks.length);
+
+            } catch (error) {
+              console.error('Error fetching data:', error);
+            }
+            this.$router.push('/');
+          } else {
+            this.loginError = 'Invalid email or password.';
+          }
+        } else {
+          const data = await response.json();
+          this.loginError = data.error || 'Invalid email or password.';
         }
-      })
-          .then((response) => {
-            if (response.ok) {
-              return response.text();
-            } else {
-              return response.json().then(data => {
-                throw new Error(data.error || 'Invalid email or password');
-              });
-            }
-          })
-          .then((data) => {
-            if (data === 'Login successful') {
-              localStorage.setItem('userEmail', this.email); // Store user email or another identifier
-              this.$router.push('/');
-            } else {
-              this.loginError = 'Invalid email or password.';
-            }
-          })
-          .catch((error) => {
-            this.loginError = 'Error during login. Please try again later.';
-            console.error('There was a problem with the fetch operation:', error);
-          });
+      } catch (error) {
+        this.loginError = 'Error during login. Please try again later.';
+        console.error('There was a problem with the fetch operation:', error);
+      } finally {
+        this.isLoading = false;
+      }
     },
     createAccount() {
       // Handle account creation logic
@@ -82,7 +107,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;900&display=swap');
@@ -173,5 +197,11 @@ body {
 
 .create-account-button {
   background-color: darkgoldenrod;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  text-align: center;
 }
 </style>

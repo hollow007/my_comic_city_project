@@ -31,14 +31,14 @@
         </label>
 
         <!-- Cart Icon Wrapper -->
-        <div class="relative cart-icon-wrapper" @mouseenter="showCart" @mouseleave="hideCart">
+        <div class="relative cart-icon-wrapper" @click="showCart" @mouseenter="showCart" @mouseleave="hideCart">
           <font-awesome-icon icon="shopping-cart" class="icon cart-icon"/>
           <div class="cart-badge">{{ cartItemCount }}</div>
           <CartSummary v-if="isCartVisible" @update-cart-count="updateCartCount"/>
         </div>
 
         <!-- Wishlist Icon Wrapper -->
-        <div class="relative wishlist-icon-wrapper" @mouseenter="showWishlist" @mouseleave="hideWishlist">
+        <div class="relative wishlist-icon-wrapper" @click="showWishlist" @mouseenter="showWishlist" @mouseleave="hideWishlist">
           <font-awesome-icon icon="heart" class="icon wishlist-icon"/>
           <div class="cart-badge">{{ wishListItemCount }}</div>
           <WishlistSummary v-if="isWishlistVisible" @update-wishList-count="updateWishListCount"
@@ -83,17 +83,17 @@
         <ul class="bottom-nav-links">
           <router-link to="/">
             <li><a href="#">Home
-              <font-awesome-icon icon="faChevronUp" class="icon arrow-icon"/>
+              <font-awesome-icon icon="chevronUp" class="icon arrow-icon"/>
             </a></li>
           </router-link>
           <li><a href="#">Link 1
-            <font-awesome-icon icon="faChevronUp" class="icon arrow-icon"/>
+            <font-awesome-icon icon="chevronUp" class="icon arrow-icon"/>
           </a></li>
           <li><a href="#">Link 2
-            <font-awesome-icon icon="faChevronUp" class="icon arrow-icon"/>
+            <font-awesome-icon icon="chevronUp" class="icon arrow-icon"/>
           </a></li>
           <li><a href="#">Link 3
-            <font-awesome-icon icon="faChevronUp" class="icon arrow-icon"/>
+            <font-awesome-icon icon="chevronUp" class="icon arrow-icon"/>
           </a></li>
         </ul>
       </div>
@@ -118,7 +118,7 @@ export default {
       isWishlistVisible: false,
       cartItemCount: 0,
       wishListItemCount: 0,
-      wishListId: '1',
+
       isAuthenticated: false,
       userName: '',
       isDropdownVisible: false
@@ -166,6 +166,8 @@ export default {
     logout() {
       const isConfirmed = confirm('Are you sure you want to Logout?');
       if (isConfirmed) {
+        this.updateWishListCount(0);
+        this.updateCartCount(0);
         localStorage.removeItem('userEmail');
         this.isAuthenticated = false;
         this.userName = '';

@@ -1,35 +1,43 @@
 <template>
-  <div class="wishlist-summary" v-if="wishlistItems.length">
+  <div class="wishlist-summary">
     <h2>Wishlist</h2>
-    <div v-for="item in wishlistItems" :key="item.sku" class="wishlist-item">
-      <!-- Remove Button -->
-      <div class="remove-item" @click="removeItem(item.sku)">×</div>
+    <div v-if="wishlistItems.length > 0">
+      <div v-for="item in wishlistItems" :key="item.sku" class="wishlist-item">
+        <!-- Remove Button -->
+        <div class="remove-item" @click="removeItem(item.sku)">×</div>
 
-      <!-- Item Image -->
-      <div
-          class="wishlist-item-image"
-          :style="{ backgroundImage: `url(${getPhotoUrl(item.photo)})` }"
-      ></div>
+        <!-- Item Image -->
+        <div
+            class="wishlist-item-image"
+            :style="{ backgroundImage: `url(${getPhotoUrl(item.photo)})` }"
+        ></div>
 
-      <!-- Item Details -->
-      <div class="wishlist-item-details">
-        <p class="text-base">{{ item.name }}</p>
-        <p class="text-sm">{{ item.price }}</p>
+        <!-- Item Details -->
+        <div class="wishlist-item-details">
+          <p class="text-base">{{ item.name }}</p>
+          <p class="text-sm">{{ formatPrice(item.price) }}</p>
+        </div>
+      </div>
+      <div class="wishlist-footer">
+        <div class="wishlist-footer-actions">
+          <p class="text-sm">Total: {{ formatPrice(wishListTotal) }}</p>
+          <p class="text-sm">Items: {{ wishlistItems.length }}</p>
+          <router-link to="/wishList">
+            <a href="#" class="view-wishlist">View Wishlist</a>
+          </router-link>
+        </div>
       </div>
     </div>
-    <div class="wishlist-footer">
-      <div class="wishlist-footer-actions">
-        <p class="text-sm">Total: {{ formatPrice(wishListTotal) }}</p>
-        <p class="text-sm">Items: {{ wishlistItems.length }}</p>
-        <router-link to="/wishList" ><a href="#" class="view-wishlist">View Wishlist</a></router-link>
-      </div>
+    <div v-else>
+      <p class="text-base">Your wishlist is empty.</p>
     </div>
     <Notification v-if="notification.message" :message="notification.message" />
   </div>
 </template>
 
+
 <script>
-import {getCustomerWishList,  removeBookFromWishList} from "@/services/wishlistService";
+import { getCustomerWishList, removeBookFromWishList } from "@/services/wishlistService";
 import Notification from "@/components/NotificationComponent.vue";
 
 export default {
@@ -43,9 +51,9 @@ export default {
   },
   data() {
     return {
-      wishList:'',
+      wishList: '',
       wishlistItems: [],
-      wishListTotal:0,
+      wishListTotal: 0,
       notification: {
         message: '',
         duration: 3000
@@ -57,19 +65,21 @@ export default {
   },
   methods: {
     async fetchWishlist() {
-      const userEmail = localStorage.getItem('userEmail'); //
+      const userEmail = localStorage.getItem('userEmail');
       if (!userEmail) {
         console.error('User email not found. Please log in.');
-        this.$router.push('/');
+        //this.$router.push('/login'); // Redirect to login page if user is not logged in
+        return;
       }
       try {
         const response = await getCustomerWishList(userEmail);
-        this.wishList=response.data
-        this.wishlistItems = this.wishList.comicBooks; // Assuming the API returns the wishlist items
-        this.wishListTotal = this.wishlistItems.reduce((total, item) => total + item.price , 0);
+        this.wishList = response.data;
+        this.wishlistItems = this.wishList.comicBooks || []; // Safely assign wishlist items
+        this.wishListTotal = this.wishlistItems.reduce((total, item) => total + item.price, 0);
         this.$emit('update-wishList-count', this.wishlistItems.length);
       } catch (error) {
         console.error('Error fetching wishlist items:', error);
+        this.notification.message = 'Failed to load wishlist.';
       }
     },
     async removeItem(sku) {
@@ -81,6 +91,7 @@ export default {
           this.notification.message = 'Item removed successfully';
         } catch (error) {
           console.error('Error removing item from wishlist:', error);
+          this.notification.message = 'Failed to remove item.';
         }
       }
     },
@@ -88,12 +99,12 @@ export default {
       return `data:image/jpeg;base64,${photo}`;
     },
     formatPrice(price) {
-      // Format the price as a string with the currency symbol
       return `R${price.toFixed(2)}`;
     }
   }
 };
 </script>
+
 
 <style scoped>
 /* Wishlist Summary styles */
