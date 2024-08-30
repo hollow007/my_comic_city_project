@@ -1,39 +1,49 @@
 <template>
-  <div class="cart-summary" v-if="cartItems.length">
+  <div class="cart-summary">
     <h2>Cart</h2>
-    <div v-for="item in cartItems" :key="item.sku" class="cart-item">
-      <!-- Remove Button -->
-      <div class="remove-item" @click="removeItem(item.sku)">×</div>
+    <div v-if="cartItems.length > 0">
+      <div v-for="item in cartItems" :key="item.sku" class="cart-item">
+        <!-- Remove Button -->
+        <div class="remove-item" @click="removeItem(item.sku)">×</div>
 
-      <!-- Item Image -->
-      <div
-          class="cart-item-image"
-          :style="{ backgroundImage: `url(${getPhotoUrl(item.photo)})` }"
-      ></div>
+        <!-- Item Image -->
+        <div
+            class="cart-item-image"
+            :style="{ backgroundImage: `url(${getPhotoUrl(item.photo)})` }"
+        ></div>
 
-      <!-- Item Details -->
-      <div class="cart-item-details">
-        <p class="text-base">{{ item.name }}</p>
-        <p class="text-sm">{{ item.price }} • {{ item.quantity }}</p>
+        <!-- Item Details -->
+        <div class="cart-item-details">
+          <p class="text-base">{{ item.name }}</p>
+          <p class="text-sm">{{ item.price }} • {{ item.quantity }}</p>
+        </div>
+      </div>
+      <div class="cart-footer">
+        <div>
+          <p class="text-sm">Total: {{ formatPrice(cartTotal) }}</p>
+          <p class="text-sm">Items: {{ cartItems.length }}</p>
+        </div>
+        <div class="cart-footer-actions">
+          <router-link to="/cart"><a href="#" class="view-cart">View Cart</a></router-link>
+          <button class="checkout">Checkout</button>
+        </div>
       </div>
     </div>
-    <div class="cart-footer">
-      <div>
-        <p class="text-sm">Total: R{{ cartTotal }}</p>
-        <p class="text-sm">Items: {{ cartItems.length }}</p>
-      </div>
-      <div class="cart-footer-actions">
-        <a href="#" class="view-cart">View Cart</a>
-        <button class="checkout">Checkout</button>
-      </div>
+    <div v-else>
+      <p class="text-base">Your Cart is empty.</p>
     </div>
+    <Notification v-if="notification.message" :message="notification.message" />
   </div>
 </template>
 
+
 <script>
-import {getCart, updateCart} from "@/services/cartService";
+import { getCustomerCart, removeBookFromCart } from "@/services/cartService";
+import Notification from "@/components/NotificationComponent.vue";
+
 export default {
   name: 'CartSummary',
+  components: { Notification },
   props: {
     cartId: {
       type: String,
@@ -42,47 +52,59 @@ export default {
   },
   data() {
     return {
+      cart: '',
       cartItems: [],
       cartTotal: 0,
+      notification: {
+        message: '',
+        duration: 3000
+      }
     };
   },
   async mounted() {
+    await this.fetchCart();
+  },
+  methods: {
+    async fetchCart() {
+      const userEmail = localStorage.getItem('userEmail');
+      if (!userEmail) {
+        console.error('User email not found. Please log in.');
+        // this.$router.push('/login'); // Redirect to login page if user is not logged in
+        return;
+      }
       try {
-        const response = await getCart(2);
-        const cartData = response.data;
-
-        this.cartItems = cartData.comicBooks;
-        this.cart = cartData;
-        this.cartTotal = this.cartItems.reduce((total, item) => total + item.price, 0);
+        const response = await getCustomerCart(userEmail);
+        this.cart = response.data;
+        this.cartItems = this.cart.comicBooks || []; // Safely assign cart items
+        this.cartTotal = this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
         // Emit the cart item count to the parent component
         this.$emit('update-cart-count', this.cartItems.length);
       } catch (error) {
         console.error('Error fetching cart items:', error);
+        this.notification.message = 'Failed to load cart.';
       }
     },
     async removeItem(sku) {
       const isConfirmed = confirm('Are you sure you want to remove this item from the cart?');
       if (isConfirmed) {
-        const itemIndex = this.cartItems.findIndex(item => item.sku === sku);
-        if (itemIndex > -1) {
-          this.cartItems.splice(itemIndex, 1);
-          this.cartTotal = this.cartItems.reduce((total, item) => total + item.price, 0);
-          this.cart.comicBooks = this.cartItems;
-          this.cart.updatedDate = new Date().toISOString().split('T')[0];
-
-          try {
-            await updateCart(this.cart);
-            this.$emit('update-cart-count', this.cartItems.length); // Emit updated cart count
-          } catch (error) {
-            console.error('Error updating cart:', error);
-          }
+        try {
+          await removeBookFromCart(this.cart.cartId, sku);
+          await this.fetchCart(); // Refresh the cart list
+          this.notification.message = 'Item removed successfully';
+        } catch (error) {
+          console.error('Error removing item from cart:', error);
+          this.notification.message = 'Failed to remove item.';
         }
       }
     },
     getPhotoUrl(photo) {
       return `data:image/jpeg;base64,${photo}`;
     },
+    formatPrice(price) {
+      // Format the price as a string with the currency symbol
+      return `R${price.toFixed(2)}`;
+    }
   }
 };
 </script>

@@ -170,7 +170,7 @@ class CartServiceTest {
         Contact con2 = CustomerContactFactory.buildContact("james@gmail.com", "0739946042", shippingAddress2, billingAddress2);
         System.out.println(con2);
 
-        Contact con3 = CustomerContactFactory.buildContact("vxayiya@gmail.com", "0835805117", shippingAddress3, billingAddress3);
+            Contact con3 = CustomerContactFactory.buildContact("vxayiya@gmail.com", "0835805117", shippingAddress3, billingAddress3);
         System.out.println(con3);
 
         customer1 = CustomerFactory.buildCustomer(1234, "Leroy", "Kulcha", "Liam", "Lkulcha123", con1);
@@ -215,7 +215,7 @@ class CartServiceTest {
     }
 
     @Test
-    @Disabled
+    //@Disabled
     @Order(2)
     void read() {
         System.out.println("============================Read==================================");
@@ -226,7 +226,7 @@ class CartServiceTest {
     }
 
     @Test
-    @Disabled
+    //@Disabled
     @Order(3)
     void update() {
         System.out.println("============================Update==================================");
@@ -238,7 +238,7 @@ class CartServiceTest {
 
 
     @Test
-    @Disabled
+    //@Disabled
     @Order(4)
     void delete() {
         System.out.println("============================Delete===============================");
@@ -248,7 +248,7 @@ class CartServiceTest {
     }
 
     @Test
-    @Order(5)
+    //@Order(5)
     void getall() {
         System.out.println("=============================GetALL==============================");
         List<Cart>carts=cartService.getall();
@@ -266,7 +266,7 @@ class CartServiceTest {
     }
 
     @Test
-    @Disabled
+    //@Disabled
     @Order(7)
     void totalPriceTest() {
         double sum=cartService.getCartTotalPrice(2L);
@@ -276,6 +276,16 @@ class CartServiceTest {
         }
         assertEquals(sum,sum2);
         System.out.println("Test Passed:TotalPrices match :\nprice1:R"+sum+"\nprice2:R"+sum2);
+
+    }
+    @Test
+    //@Disabled
+    @Order(8)
+    void getCartWithCustomerEmail() {
+       Cart cartFetched=cartService.getCartByCustomerEmail("vxayiya@gmail.com");
+       assertNotNull(cartFetched);
+        System.out.println(cartFetched);
+
 
     }
 }

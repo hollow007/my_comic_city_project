@@ -10,6 +10,7 @@ import java.util.List;
 @Service
 public class WishListService implements IWishListService {
     private WishListRepository wishListRepository;
+
     @Autowired
     public WishListService(WishListRepository wishListRepository) {
         this.wishListRepository = wishListRepository;
@@ -17,7 +18,7 @@ public class WishListService implements IWishListService {
 
     @Override
     public WishList create(WishList wishList) {
-     return wishListRepository.save(wishList);
+        return wishListRepository.save(wishList);
     }
 
     @Override
@@ -40,7 +41,12 @@ public class WishListService implements IWishListService {
     public List<WishList> getall() {
         return wishListRepository.findAll();
     }
-    public int calculateQuantity(Long wishListId){
+
+    public int calculateQuantity(Long wishListId) {
         return wishListRepository.numberOfBooksOnThisWishList(wishListId);
+    }
+
+    public WishList getWishListWithCustomerEmail(String email) {
+        return wishListRepository.findByCustomer_Contact_Email(email);
     }
 }
