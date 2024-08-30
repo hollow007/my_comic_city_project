@@ -75,9 +75,9 @@ class WishListServiceTest {
 
         System.out.println("============================SETUP==================================");
 
-        String url1 = "C:\\Users\\User\\Documents\\IntelliJ Projects 2024\\comic_city_project\\images\\ComicBookCover4.jpeg";
-        String url2 = "C:\\Users\\User\\Documents\\IntelliJ Projects 2024\\comic_city_project\\images\\ComicBookCover5.jpeg";
-        String url3 = "C:\\Users\\User\\Documents\\IntelliJ Projects 2024\\comic_city_project\\images\\ComicBookCover6.jpeg";
+        String url1 = "images/ComicBookCover1.jpeg";
+        String url2 = "images/ComicBookCover2.jpeg";
+        String url3 = "images/ComicBookCover3.jpeg";
 
         try {
 
