@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -68,6 +69,9 @@ class WishListServiceTest {
     private static Address shippingAddress2;
     private static Address billingAddress3;
     private static Address shippingAddress3;
+    static  WishList wishListCreated1;
+    static  WishList wishListCreated2;
+    static  WishList wishListCreated3;
 
 
     @BeforeAll
@@ -75,9 +79,9 @@ class WishListServiceTest {
 
         System.out.println("============================SETUP==================================");
 
-        String url1 = "C:\\Users\\User\\Documents\\IntelliJ Projects 2024\\comic_city_project\\images\\ComicBookCover4.jpeg";
-        String url2 = "C:\\Users\\User\\Documents\\IntelliJ Projects 2024\\comic_city_project\\images\\ComicBookCover5.jpeg";
-        String url3 = "C:\\Users\\User\\Documents\\IntelliJ Projects 2024\\comic_city_project\\images\\ComicBookCover6.jpeg";
+        String url1 ="images/ComicBookCover4.jpeg";
+        String url2="image/ComicBookCover5.jpeg";
+        String url3="images/ComicBookCover6.jpeg";
 
         try {
 
@@ -121,13 +125,6 @@ class WishListServiceTest {
         publisher3 = PublisherFactory.buildPublisher(9101L, "EkasiComics", 2020);
 //Books
 
-        book1 = ComicBookFactory.bookBuilder("GENERATION X", "Thriller", "A super villean on a quest",
-                "B04", 200.99, 2.00, 7, authors1, publisher1, LocalDate.of(2024, 07, 04), out.toByteArray());
-        book2 = ComicBookFactory.bookBuilder("City Man", "Sci-Fi", "A scientific experiment disaster creates a superhero",
-                "B05", 896.99, 4.80, 6, authors1, publisher2, LocalDate.of(2000, 02, 26), out1.toByteArray());
-        book3 = ComicBookFactory.bookBuilder("Save US", "Fantasy", "A blud hungry villean turn hero",
-                "B06", 1439.99, 3.50, 3, authors2, publisher3, LocalDate.of(1956, 05, 20), out2.toByteArray());
-
         comicBooks1 = new ArrayList<>();
         comicBooks1.add(book1);
         comicBooks1.add(book3);
@@ -165,12 +162,19 @@ class WishListServiceTest {
         publisher3 = PublisherFactory.buildPublisher(9101L, "DC Comics", 1910);
 //Books
 
-        book1 = ComicBookFactory.bookBuilder("Thor", "Fantasy", "AsGuards Prince son of Zuis",
-                "B01", 299.99, 2.00, 1, authors1, publisher1, LocalDate.of(2022, 03, 04), out.toByteArray());
-        book2 = ComicBookFactory.bookBuilder("Avatar", "Sci-Fi", "Two Dimension Worls Colliding into one.",
-                "B02", 199.99, 1.80, 1, authors1, publisher2, LocalDate.of(2024, 03, 15), out1.toByteArray());
-        book3 = ComicBookFactory.bookBuilder("HALO", "Fantasy", "GALAXY 2000 years from now",
-                "B03", 539.99, 3.50, 3, authors2, publisher3, LocalDate.of(2021, 05, 30), out.toByteArray());
+
+        Set<Genre> genres1 = Set.of(Genre.FANTASY, Genre.SCI_FI);
+        Set<Genre> genres2 = Set.of(Genre.MYSTERY);
+
+
+        book1 = ComicBookFactory.bookBuilder("Thor", genres1, "AsGuards Prince son of Zuis",
+                "B01", 299.99, 2.00, 1, authors1, publisher1, LocalDate.of(2022, 03, 04),out.toByteArray());
+        book2 = ComicBookFactory.bookBuilder("Avatar", genres2, "Two Dimension Worls Colliding into one.",
+                "B02", 199.99, 1.80, 1, authors1, publisher2, LocalDate.of(2024, 03, 15),out1.toByteArray());
+        book3 = ComicBookFactory.bookBuilder("HALO", genres1, "GALAXY 2000 years from now",
+                "B03", 539.99, 3.50, 3, authors2, publisher3, LocalDate.of(2021, 05, 30),out2.toByteArray());
+
+
 
         comicBooks1 = new ArrayList<>();
         comicBooks1.add(book1);
@@ -205,22 +209,22 @@ class WishListServiceTest {
         System.out.println(shippingAddress3);
 
 
-        Contact con1 = CustomerContactFactory.buildContact("leroyk@gmail.com", "0739946042", shippingAddress1, billingAddress1);
+        Contact con1 = CustomerContactFactory.buildContact("leroyy9@gmail.com", "0739946042", shippingAddress1, billingAddress1);
         System.out.println(con1);
 
-        Contact con2 = CustomerContactFactory.buildContact("james@gmail.com", "0739946042", shippingAddress2, billingAddress2);
+        Contact con2 = CustomerContactFactory.buildContact("james2@gmail.com", "0739946042", shippingAddress2, billingAddress2);
         System.out.println(con2);
 
-        Contact con3 = CustomerContactFactory.buildContact("vxayiya@gmail.com", "0835805117", shippingAddress3, billingAddress3);
+        Contact con3 = CustomerContactFactory.buildContact("vxayiya1@gmail.com", "0835805117", shippingAddress3, billingAddress3);
         System.out.println(con3);
 
-        customer1 = CustomerFactory.buildCustomer(1234, "Leroy", "Kulcha", "Liam", "Lkulcha123", con1);
+        customer1 = CustomerFactory.buildCustomer("Leroy", "Kulcha", "Liam", "Lkulcha123", con1);
         System.out.println(customer1);
 
-        customer2 = CustomerFactory.buildCustomer(5678, "James", "Ntokozo", "jkulcha456", con2);
+        customer2 = CustomerFactory.buildCustomer( "James", "Ntokozo", "jkulcha456", con2);
         System.out.println(customer2);
 
-        customer3 = CustomerFactory.buildCustomer(9874, "Vuyokazi", "Xayiya", "Mpu@2022!!", con3);
+        customer3 = CustomerFactory.buildCustomer("Vuyokazi", "Xayiya", "Mpu@2022!!", con3);
         System.out.println(customer3);
 
         wishList1 = WishListFactory.buildWishList(1L, "My Fave", customer1, comicBooks1, LocalDate.of(2024, 04, 12), LocalDate.now());
@@ -241,15 +245,15 @@ class WishListServiceTest {
 
         System.out.println("============================CREATE==================================");
 
-        WishList wishListCreated1 = wishListService.create(wishList1);
+        wishListCreated1 = wishListService.create(wishList1);
         assertNotNull(wishListCreated1);
         System.out.println(wishListCreated1);
 
-        WishList wishListCreated2 = wishListService.create(wishList2);
+         wishListCreated2 = wishListService.create(wishList2);
         assertNotNull(wishListCreated2);
         System.out.println(wishListCreated2);
 
-        WishList wishListCreated3 = wishListService.create(wishList3);
+         wishListCreated3 = wishListService.create(wishList3);
         assertNotNull(wishListCreated3);
         System.out.println(wishListCreated3);
 
@@ -259,8 +263,8 @@ class WishListServiceTest {
     @Order(2)
     void read() {
         System.out.println("============================Read==================================");
-
-        WishList wishListRead = wishListService.read(2L);
+        System.out.println("To read :" + wishListCreated1.getWishListId());
+        WishList wishListRead = wishListService.read(wishListCreated1.getWishListId());
         assertNotNull(wishListRead);
         System.out.println(wishListRead);
     }
@@ -269,8 +273,10 @@ class WishListServiceTest {
     @Order(3)
     void update() {
         System.out.println("============================Update==================================");
-        WishList wishListToUpdate = new WishList.Builder().copy(wishList2).setUpdatedDate(LocalDate.now()).build();
-        WishList updatedWishList = wishListService.update(wishListToUpdate);
+
+        WishList wishListToUpdate=new WishList.Builder().copy(wishListCreated2).setUpdatedDate(LocalDate.now()).build();
+        WishList updatedWishList=wishListService.update(wishListToUpdate);
+
         assertNotNull(updatedWishList);
         System.out.println(updatedWishList);
     }
@@ -280,7 +286,9 @@ class WishListServiceTest {
     @Order(4)
     void delete() {
         System.out.println("============================Delete===============================");
-        boolean isDeleted = wishListService.delete(3L);
+
+        boolean isDeleted=wishListService.delete(wishListCreated3.getWishListId());
+
         assertTrue(isDeleted);
         System.out.println("WishList with wishListId:" + wishList3.getWishListId() + " is deleted Successfully");
     }
