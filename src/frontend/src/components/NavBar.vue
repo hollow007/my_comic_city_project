@@ -1,4 +1,5 @@
 <template>
+  <div class="no-bootstrap-affect">
   <nav class="navbar">
     <!-- Top Section -->
     <div class="top-section">
@@ -99,6 +100,7 @@
       </div>
       <hr class="section-divider"/>
   </nav>
+  </div>
 </template>
 
 <script>
@@ -221,6 +223,7 @@ export default {
 </script>
 
 <style scoped>
+
 .user-info {
   display: flex;
   align-items: center;
