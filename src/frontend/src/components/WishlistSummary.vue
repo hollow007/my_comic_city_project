@@ -21,7 +21,7 @@
       <div class="wishlist-footer-actions">
         <p class="text-sm">Total: {{ formatPrice(wishListTotal) }}</p>
         <p class="text-sm">Items: {{ wishlistItems.length }}</p>
-        <a href="#" class="view-wishlist">View Wishlist</a>
+        <router-link to="/wishList" ><a href="#" class="view-wishlist">View Wishlist</a></router-link>
       </div>
     </div>
     <Notification v-if="notification.message" :message="notification.message" />
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { getWishList, removeBookFromWishList } from "@/services/wishlistService";
+import {getCustomerWishList,  removeBookFromWishList} from "@/services/wishlistService";
 import Notification from "@/components/NotificationComponent.vue";
 
 export default {
@@ -43,6 +43,7 @@ export default {
   },
   data() {
     return {
+      wishList:'',
       wishlistItems: [],
       wishListTotal:0,
       notification: {
@@ -56,10 +57,15 @@ export default {
   },
   methods: {
     async fetchWishlist() {
+      const userEmail = localStorage.getItem('userEmail'); //
+      if (!userEmail) {
+        console.error('User email not found. Please log in.');
+        this.$router.push('/');
+      }
       try {
-        const response = await getWishList(1);
-        const wishList=response.data
-        this.wishlistItems = wishList.comicBooks; // Assuming the API returns the wishlist items
+        const response = await getCustomerWishList(userEmail);
+        this.wishList=response.data
+        this.wishlistItems = this.wishList.comicBooks; // Assuming the API returns the wishlist items
         this.wishListTotal = this.wishlistItems.reduce((total, item) => total + item.price , 0);
         this.$emit('update-wishList-count', this.wishlistItems.length);
       } catch (error) {
@@ -70,7 +76,7 @@ export default {
       const isConfirmed = confirm('Are you sure you want to remove this item from your wishlist?');
       if (isConfirmed) {
         try {
-          await removeBookFromWishList(1, sku);
+          await removeBookFromWishList(this.wishList.wishListId, sku);
           await this.fetchWishlist(); // Refresh the wishlist
           this.notification.message = 'Item removed successfully';
         } catch (error) {

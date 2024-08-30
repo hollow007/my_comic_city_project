@@ -43,4 +43,7 @@ public class CustomerService implements ICustomerService{
     public Customer authenticationByEmail(String email, String password) {
         return repository.findByContactEmailAndPassword(email, password);
     }
+    public  Customer getCustomerByEmail(String email){
+        return repository.findByContact_Email(email);
+    }
 }
