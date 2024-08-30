@@ -48,7 +48,7 @@
             <p><strong>Total:</strong> {{ formatCurrency(cartTotal + shippingCost) }}</p>
           </div>
           <div class="cart-actions">
-            <button class="checkout-button">Checkout</button>
+            <button class="checkout-button" @click="goToCheckout">Checkout</button>
           </div>
         </div>
       </div>
@@ -129,14 +129,19 @@ export default {
   toggleTheme() {
     this.themeClass = this.themeClass === 'dark-theme' ? 'light-theme' : 'dark-theme';
   },
-}
-,
-created()
-{
-  this.fetchCart();
-}
-}
-;
+
+
+    goToCheckout() {
+      this.$router.push({
+        name: 'CartCheckout',
+        params: { cartItems: this.cartItems },
+      });
+    },
+  },
+  created() {
+    this.fetchCart();
+  }
+};
 </script>
 
 <style scoped>

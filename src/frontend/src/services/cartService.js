@@ -27,6 +27,11 @@ export const removeBookFromCart = (cartId, sku) => {
 export const addBookToCart = (cartId, sku) => {
     return axios.post(`${API_URL}/${cartId}/addComicBook/${sku}`);
 };
+
+export const placeOrder = (cartId, orderData) => { //still needs to be fixed for storing data correctly
+    return axios.post(`${API_URL}/placeOrder/${cartId}`, orderData);
+};
+
 export const getCustomerCart = (email) => {
     return axios.get(`${API_URL}/getCustomerCart/${email}`);
 };
