@@ -82,7 +82,7 @@ export default {
       this.postalCode = '';
     },
     fetchShippingAddresses() {
-      // Use axios to send a GET request to fetch all shipping addresses
+      // Use axios to senda GET request to fetch all shipping addresses
       axios.get('/shipping_address/getall')
           .then(response => {
             this.shippingAddresses = response.data;

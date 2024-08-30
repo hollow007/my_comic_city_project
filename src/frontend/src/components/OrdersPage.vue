@@ -41,7 +41,7 @@ export default {
 }
 
 .main-content {
-  width: 100%; /* Updated to use full width without relying on external components */
+  width: 100%; /* Updatedto use full width without relying on external components */
   padding-left: 20px;
 }
 

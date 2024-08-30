@@ -151,7 +151,7 @@ export default {
   background-color: #f4f4f4; /* Sidebar background color */
 }
 
-/* Content area styling */
+/* Content areastyling */
 .content {
   flex: 1; /* Takes up remaining width */
   padding: 20px;

@@ -120,20 +120,7 @@
 
 <!--.sidebar li {-->
 <!--  margin-bottom: 10px;-->
-<!--  cursor: pointer;-->
-<!--}-->
 
-<!--.sidebar li.active {-->
-<!--  font-weight: bold;-->
-<!--}-->
-
-<!--.sidebar li::after {-->
-<!--  content: "";-->
-<!--  display: block;-->
-<!--  border-bottom: 1px solid #000;-->
-<!--  margin: 5px 0;-->
-<!--}-->
-<!--</style>-->
 <template>
   <div class="account-sidebar">
     <h2>MY ACCOUNT</h2>

@@ -1,41 +1,4 @@
 
-<!--<template>-->
-<!--  <div class="addresses-page">-->
-<!--    <div class="main-content">-->
-<!--      <div class="addresses-header">-->
-<!--        <i class="fas fa-map-marker-alt"></i>-->
-<!--        <h1>Addresses</h1>-->
-<!--      </div>-->
-<!--      <p>The following addresses will be used on the checkout page by default</p>-->
-<!--      <div class="addresses">-->
-<!--        <div class="address-box">-->
-<!--          <h2>Billing address</h2>-->
-<!--          <p>You have not set up this type of address yet</p>-->
-<!--          <button class="add-address-button" @click="goToBillingAddress">ADD ADDRESS</button>-->
-<!--        </div>-->
-<!--        <div class="address-box">-->
-<!--          <h2>Shipping address</h2>-->
-<!--          <p>You have not set up this type of address yet</p>-->
-<!--          <button class="add-address-button" @click="goToShippingAddress">ADD ADDRESS</button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</template>-->
-
-<!--<script>-->
-<!--export default {-->
-<!--  name: 'AddressesPage',-->
-<!--  methods: {-->
-<!--    goToBillingAddress() {-->
-<!--      this.$router.push('/billing-address');-->
-<!--    },-->
-<!--    goToShippingAddress() {-->
-<!--      this.$router.push('/shipping-address');-->
-<!--    }-->
-<!--  }-->
-<!--};-->
-<!--</script>-->
 <template>
   <div class="addresses-page">
     <div class="main-content">
