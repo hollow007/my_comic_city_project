@@ -14,7 +14,10 @@ const routes = [
     { path: '/cart', component: ShoppingCart},
     { path: '/wishList', component: ShoppingWishList},
     { path: '/login', component: LoginPage},
-    { path: '/createAccount', component: CreateAccount}
+    { path: '/createAccount', component: CreateAccount},
+    {path: '/cartcheckout', name: 'CartCheckout', component: () => import('@/components/CartCheckout.vue'),
+        props: route => ({ cartItems: route.params.cartItems }),
+    },
 
 ];
 
