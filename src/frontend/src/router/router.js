@@ -1,43 +1,50 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '@/views/HomePage.vue';
-import viewItem from "@/views/viewItem.vue";
+//import viewItem from "@/views/viewItem.vue";
 import ShoppingCart from "@/components/ShoppingCart.vue";
 import ShoppingWishList from "@/components/ShoppingWishList.vue";
-import ComicBooksTable from '@/components/ComicBooksTable.vue';
+//import ComicBooksTable from '@/components/ComicBooksTable.vue';
 import LoginPage from "@/components/LoginPage.vue";
-import EditBook from "@/components/EditBook.vue";
+// import EditBook from "@/components/EditBook.vue";
 import CreateAccount from "@/components/CreateAccount.vue";
-import MainLayout from "@/components/MainLayout.vue";
-import AddNewBook from "@/components/AddNewBook.vue";
+// import MainLayout from "@/components/MainLayout.vue";
+// import AddNewBook from "@/components/AddNewBook.vue";
 import AccountSidebar from "@/components/AccountSidebar.vue";
 import ordersPage from "@/components/OrdersPage.vue";
 import AccountDetails from "@/components/AccountDetails.vue";
 import AddressesPage from "@/components/AddressesPage.vue";
 import WishListPage from "@/components/WishListPage.vue";
-import AdminOrderManagment from "@/components/AdminOrderManagment.vue";
+import ViewItem from "@/views/viewItem.vue";
+//import AdminOrderManagment from "@/components/AdminOrderManagment.vue";
 
 const routes = [
     // Main landing page
 
-    { path: '/home', name: 'HomePage', component: HomePage },
+    { path: '/', name: 'HomePage', component: HomePage },
 
     // MainLayout wrapper for admin-related routes
-    {
-        path: '/',
-        component: MainLayout,
-        children: [
-            { path: '', redirect: 'comic-books' },
-            { path: 'comic-books', name: 'ComicBooks', component: ComicBooksTable },
-            { path: 'add-new-book', name: 'AddNewBook', component: AddNewBook },
-            { path: 'edit-book/:id', name: 'EditBook', component: EditBook, props: true },
-            { path: 'view-orders', name: 'AdminOrdersManagement', component: AdminOrderManagment },
-
-        ],
-    },
+    // {
+    //     path: '/',
+    //     component: MainLayout,
+    //     children: [
+    //         { path: '', redirect: 'comic-books' },
+    //         { path: 'comic-books', name: 'ComicBooks', component: ComicBooksTable },
+    //         { path: 'add-new-book', name: 'AddNewBook', component: AddNewBook },
+    //         { path: 'edit-book/:id', name: 'EditBook', component: EditBook, props: true },
+    //         { path: 'view-orders', name: 'AdminOrdersManagement', component: AdminOrderManagment },
+    //
+    //     ],
+    // },
 
 
     // Other standalone routes
-    { path: '/viewItem', name: 'ViewItem', component: viewItem },
+
+    {
+        path: '/comic/:sku', // Dynamic parameter
+        name: 'view-item',
+        component: ViewItem,
+        props: true // Allows passing route params as props
+    },
     { path: '/cart', name: 'ShoppingCart', component: ShoppingCart },
     { path: '/wishList', name: 'ShoppingWishList', component: ShoppingWishList },
     { path: '/login', name: 'LoginPage', component: LoginPage },
