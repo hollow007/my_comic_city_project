@@ -11,13 +11,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/Customer")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CustomerController {
     @Autowired
     private CustomerService service;
 
     @PostMapping("/create")
     public Customer create(@RequestBody Customer customer){
-        return service.create(customer);
+        System.out.println("Entered Customer");
+        System.out.println("Customer: " + customer);
+        Customer savedCustomer = service.create(customer);
+        return savedCustomer;
     }
 
     @GetMapping("/read/{customerId}")
