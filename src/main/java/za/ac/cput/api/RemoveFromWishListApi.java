@@ -28,7 +28,7 @@ public class RemoveFromWishListApi {
         // Retrieve the wishList
         WishList wishList = wishListService.read(wishListId);
         if (wishList == null) {
-            // Handle cart not found case
+            // Handle wishList not found case
             System.out.println("WishList not found with ID: " + wishListId);
             return null;
         }

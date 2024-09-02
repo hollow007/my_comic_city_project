@@ -1,6 +1,6 @@
 <template>
   <div class="no-bootstrap-affect">
-  <nav class="navbar">
+  <nav class="navbarr">
     <!-- Top Section -->
     <div class="top-section">
       <div class="left-side">
@@ -27,7 +27,7 @@
 
       <div class="icon-container">
         <label for="search-input" class="search-label">
-          <input type="search" id="search-input" placeholder="Search..."/>
+          <input type="search" id="search-input" placeholder="Search..."  @input="handleSearchInput"/>
           <font-awesome-icon icon="search" class="icon1"/>
         </label>
 
@@ -130,7 +130,9 @@ export default {
   },
 
   methods: {
-
+    handleSearchInput(event) {
+      this.$emit('search-query', event.target.value);
+    },
     toggleDropdown() {
       this.isDropdownVisible = !this.isDropdownVisible;
     },
@@ -228,7 +230,7 @@ export default {
 
 
 /* Navbar Styles */
-.navbar {
+.navbarr {
   display: flex;
   flex-direction: column;
   background-color: #333;

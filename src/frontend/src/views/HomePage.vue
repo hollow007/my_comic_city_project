@@ -1,6 +1,6 @@
 <template>
   <div id="home-page">
-    <NavBar />
+    <NavBar  @search-query="handleSearchQuery" />
     <HeroSection/>
 
     <!-- Conditional rendering based on showAll flag -->
@@ -52,7 +52,7 @@ import ProductGrid from '@/components/ProductGrid.vue';
 import FooterSection from '@/components/FooterSection.vue';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import FilterComponent from '@/components/FilterComponent.vue';
-import { getAllComicBooks } from '@/services/comicBookService';
+import {getAllComicBooks, searchComicBooksByName} from '@/services/comicBookService';
 import { addBookToCart, getCustomerCart } from "@/services/cartService";
 import { addBookToWishList, getCustomerWishList } from "@/services/wishlistService";
 
@@ -83,9 +83,10 @@ export default {
       filters: {
         price: '',
         genre: '',
-        releaseDate: '',
+        releaseDateFrom: '',
+        releaseDateTo:'',
         publisher: ''
-      }
+      },searchQuery: '',
     };
   },
   created() {
@@ -124,23 +125,46 @@ export default {
         this.loading = false;
       }
     },
+    async handleSearchQuery(query) {
+      this.searchQuery = query;
+      if (this.searchQuery) {
+        try {
+          const searchResults = await searchComicBooksByName(this.searchQuery);
+          this.allComics = searchResults.data;  // Update allComics to display only search results
+          this.updateDisplayedComics();
+        } catch (error) {
+          this.error = 'Failed to fetch search results.';
+        }
+      } else {
+        // If searchQuery is empty, refetch all comics
+        await this.fetchComicBooks() ;
+      }
+    },
     updateDisplayedComics() {
       let filteredComics = this.allComics;
 
       // Apply filters if any
-      if (this.filters.price) {
+      if (this.filters.minPrice !== undefined && this.filters.maxPrice !== undefined) {
         filteredComics = filteredComics.filter(comic =>
-            this.filters.price === 'low' ? comic.price <= 20 : comic.price > 20
+            comic.price >= this.filters.minPrice && comic.price <= this.filters.maxPrice
         );
       }
+
       if (this.filters.genre) {
         filteredComics = filteredComics.filter(comic => comic.genre === this.filters.genre);
       }
-      if (this.filters.releaseDate) {
-        filteredComics = filteredComics.filter(comic => new Date(comic.releaseDate) >= new Date(this.filters.releaseDate));
+      // Apply release date range filter
+      if (this.filters.releaseDateFrom && this.filters.releaseDateTo) {
+        const fromDate = new Date(this.filters.releaseDateFrom);
+        const toDate = new Date(this.filters.releaseDateTo);
+        filteredComics = filteredComics.filter(comic => {
+          const releaseDate = new Date(comic.releaseDate);
+          return releaseDate >= fromDate && releaseDate <= toDate;
+        });
       }
+
       if (this.filters.publisher) {
-        filteredComics = filteredComics.filter(comic => comic.publisher === this.filters.publisher);
+        filteredComics = filteredComics.filter(comic => comic.publisher.name === this.filters.publisher);
       }
 
       const start = (this.currentPage - 1) * this.itemsPerPage;
