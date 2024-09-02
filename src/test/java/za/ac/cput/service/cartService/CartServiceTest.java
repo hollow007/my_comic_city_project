@@ -2,6 +2,7 @@ package za.ac.cput.service.cartService;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Order;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.*;
@@ -77,9 +78,11 @@ class CartServiceTest {
 
         System.out.println("============================SETUP==================================");
 
+
         String url1 ="images/ComicBookCover4.jpeg";
-        String url2="image/ComicBookCover5.jpeg";
+        String url2="images/ComicBookCover5.jpeg";
         String url3="images/ComicBookCover6.jpeg";
+
 
         try {
 

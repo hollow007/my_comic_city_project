@@ -92,7 +92,7 @@ export default {
           const data = await response.json();
           this.loginError = data.error || 'Invalid email or password.';
         }
-      } catch (error) {
+      } catch (error) {``
         this.loginError = 'Error during login. Please try again later.';
         console.error('There was a problem with the fetch operation:', error);
       } finally {

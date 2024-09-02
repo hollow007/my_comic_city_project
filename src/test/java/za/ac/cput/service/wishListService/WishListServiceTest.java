@@ -79,9 +79,11 @@ class WishListServiceTest {
 
         System.out.println("============================SETUP==================================");
 
-        String url1 ="images/ComicBookCover4.jpeg";
-        String url2="image/ComicBookCover5.jpeg";
-        String url3="images/ComicBookCover6.jpeg";
+
+        String url1 = "images/ComicBookCover1.jpeg";
+        String url2 = "images/ComicBookCover2.jpeg";
+        String url3 = "images/ComicBookCover3.jpeg";
+
 
         try {
 

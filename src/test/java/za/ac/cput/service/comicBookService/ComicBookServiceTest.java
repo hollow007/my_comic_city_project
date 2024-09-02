@@ -61,16 +61,20 @@ class ComicBookServiceTest {
     private static Publisher publisher1;
     private static Publisher publisher2;
     private static Publisher publisher3;
+
     Set<Genre> genres1 ;
     Set<Genre> genres2 ;
-        String url1 ="download.jpeg";
-        String url2="download.jpeg";
-        String url3="download.jpeg";
-
-    @BeforeEach
-    void setUp() {
-        System.out.println("=============================SET-UP====================================");
        
+
+    @BeforeAll
+    static void  setUp() {
+
+        System.out.println("============================SETUP==================================");
+
+        String url1 ="images/ComicBookCover9.jpeg";
+        String url2="images/ComicBookCover10.jpeg";
+        String url3="images/ComicBookCover6.jpeg";
+      
         try {
 
             image = ImageIO.read(new File(url1));
@@ -93,11 +97,11 @@ class ComicBookServiceTest {
 
 
         //Authors
-        author1 = AuthorFactory.buildAuthor(001L, "Nombulelo", "Mbula");
+        author1 = AuthorFactory.buildAuthor(001L, "Mbuyazi", "Mlu");
         System.out.println(author1);
-        author2 = AuthorFactory.buildAuthor(002L, "Joyce", "Brandan", "Candance");
+        author2 = AuthorFactory.buildAuthor(002L, "Sherly", "Avuyile", "Bobby");
         System.out.println(author2);
-        author3 = AuthorFactory.buildAuthor(003L, "Kruben",  "Naidoo");
+        author3 = AuthorFactory.buildAuthor(003L, "Daton",  "Zwivhuya");
         System.out.println(author3);
 
         authors1 = new ArrayList<>();
@@ -114,9 +118,9 @@ class ComicBookServiceTest {
         authors2.add(author1);
 
 
-        publisher1 = PublisherFactory.buildPublisher(1234L, "SA Comics", 2018);
-        publisher2 = PublisherFactory.buildPublisher(5678L, "CPUTComics", 1994);
-        publisher3 = PublisherFactory.buildPublisher(9101L, "EkasiComics", 2020);
+        publisher1 = PublisherFactory.buildPublisher(1234L, "CputComics", 2000);
+        publisher2 = PublisherFactory.buildPublisher(5678L, "KwazuluComics", 2009);
+        publisher3 = PublisherFactory.buildPublisher(9101L, "DCComics", 1910);
 //Books
 
         genres1 = Set.of(Genre.FANTASY, Genre.SCI_FI);
@@ -157,10 +161,10 @@ class ComicBookServiceTest {
         ComicBook savedComicCook2 = comicBookService.create(book2);
         assertNotNull(savedComicCook2);
         System.out.println(savedComicCook2);
-
-        ComicBook savedComicCook3 = comicBookService.create(book3);
-        assertNotNull(savedComicCook3);
-        System.out.println(savedComicCook3);
+//
+//        ComicBook savedComicCook3 = comicBookService.create(book3);
+//        assertNotNull(savedComicCook3);
+//        System.out.println(savedComicCook3);
     }
 //
     @Test

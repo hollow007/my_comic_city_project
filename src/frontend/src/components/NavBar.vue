@@ -49,7 +49,6 @@
         <!-- Conditionally Render User Icon or Login | Sign Up -->
         <div v-if="isAuthenticated">
           <div class="user-info" @click.stop="toggleDropdown">
-
             <font-awesome-icon icon="user" class="icon"/>
             <span class="user-name">{{ userName }}</span>
 
@@ -57,48 +56,46 @@
               <ul>
                 <li><a href="#">Inbox</a></li>
                 <li><a href="#">Account</a></li>
-                <li><a href="#">Favourites</a></li>
+                <li><a href="#">Help</a></li>
                 <li><a href="#" @click="logout">Logout</a></li>
               </ul>
             </div>
           </div>
-          </div>
-
-
-
-          <div v-else class="auth-links">
-            <button @click="goToLogin" class="nav-button">Login</button>
-            <span>|</span>
-            <button @click="goToSignup" class="nav-button">Sign Up</button>
-          </div>
-
-          <font-awesome-icon icon="sun" class="icon" @click="toggleTheme"/>
         </div>
-      </div>
 
-      <!-- Horizontal Line -->
-      <hr class="section-divider"/>
+        <div v-else class="auth-links">
+          <button @click="goToLogin" class="nav-button">Login</button>
+          <span>|</span>
+          <button @click="goToSignup" class="nav-button">Sign Up</button>
+        </div>
 
-      <!-- Bottom Section -->
-      <div class="bottom-section">
-        <ul class="bottom-nav-links">
-          <router-link to="/">
-            <li><a href="#">Home
-              <font-awesome-icon icon="chevronUp" class="icon arrow-icon"/>
-            </a></li>
-          </router-link>
-          <li><a href="#">Link 1
-            <font-awesome-icon icon="chevronUp" class="icon arrow-icon"/>
-          </a></li>
-          <li><a href="#">Link 2
-            <font-awesome-icon icon="chevronUp" class="icon arrow-icon"/>
-          </a></li>
-          <li><a href="#">Link 3
-            <font-awesome-icon icon="chevronUp" class="icon arrow-icon"/>
-          </a></li>
-        </ul>
+        <font-awesome-icon icon="sun" class="icon" @click="toggleTheme"/>
       </div>
-      <hr class="section-divider"/>
+    </div>
+
+    <!-- Horizontal Line -->
+    <hr class="section-divider"/>
+
+    <!-- Bottom Section -->
+    <div class="bottom-section">
+      <ul class="bottom-nav-links">
+        <router-link to="/">
+          <li><a href="#">Home
+            <font-awesome-icon icon="chevronUp" class="icon arrow-icon"/>
+          </a></li>
+        </router-link>
+        <li><a href="#">Shop by genre
+          <font-awesome-icon icon="chevronUp" class="icon arrow-icon"/>
+        </a></li>
+        <li><a href="#">Shop by publisher
+          <font-awesome-icon icon="chevronUp" class="icon arrow-icon"/>
+        </a></li>
+        <li><a href="#" @click.prevent="navigateToShopAll">Shop all
+          <font-awesome-icon icon="chevronUp" class="icon arrow-icon"/>
+        </a></li>
+      </ul>
+    </div>
+    <hr class="section-divider"/>
   </nav>
   </div>
 </template>
@@ -114,22 +111,26 @@ export default {
     CartSummary,
     WishlistSummary,
   },
+
+
   data() {
     return {
       isCartVisible: false,
       isWishlistVisible: false,
       cartItemCount: 0,
       wishListItemCount: 0,
-
       isAuthenticated: false,
       userName: '',
-      isDropdownVisible: false
+      isDropdownVisible: false,
     };
   },
+
   created() {
     this.checkAuthStatus();
   },
+
   methods: {
+
     toggleDropdown() {
       this.isDropdownVisible = !this.isDropdownVisible;
     },
@@ -139,7 +140,6 @@ export default {
         this.isDropdownVisible = false;
       }
     },
-
     checkAuthStatus() {
       const userEmail = localStorage.getItem('userEmail');
       if (userEmail) {
@@ -157,7 +157,6 @@ export default {
               return response.json();
             })
             .then(data => {
-              console.log(data.name.firstName)
               this.userName = data.name.firstName;
             })
             .catch(error => {
@@ -174,7 +173,7 @@ export default {
         this.isAuthenticated = false;
         this.userName = '';
         this.$router.push('/');
-      }// Redirect to home or login page
+      }
     },
     showCart() {
       this.isCartVisible = true;
@@ -202,26 +201,18 @@ export default {
     },
     goToSignup() {
       this.$router.push('/signUp');
-    }
-    ,
-    watch: {
-      isDropdownVisible(newValue) {
-        if (newValue) {
-          document.addEventListener('click', this.handleOutsideClick);
-        } else {
-          document.removeEventListener('click', this.handleOutsideClick);
-        }
-      }
     },
-
+    navigateToShopAll() {
+      // Navigate to the HomePage and trigger the shop all view
+      this.$router.push({ path: '/', query: { shopAll: true } });
+    }
   },
-  beforeUnmount() {
-    // Clean up event listener when the component is destroyed
-    document.removeEventListener('click', this.handleOutsideClick);
-  },}
-;
-</script>
 
+  beforeUnmount() {
+    document.removeEventListener('click', this.handleOutsideClick);
+  },
+};
+</script>
 <style scoped>
 
 .user-info {
@@ -414,15 +405,39 @@ input[type="search"]:focus + .icon1 {
 
 .bottom-nav-links li {
   margin-right: 20px;
+  position: relative; /* For positioning the underline */
 }
 
 .bottom-nav-links a {
-  color: white;
+  color: #e0dbdb;
   text-decoration: none;
   display: flex;
   align-items: center;
+  position: relative;
+  padding-bottom: 5px; /* Add padding to accommodate the underline */
 }
 
+/* Hover effect for links */
+.bottom-nav-links a:hover {
+  color: white; /* Change the link color on hover */
+  font-weight: bold;
+}
+
+.bottom-nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px; /* Thickness of the underline */
+  background-color: transparent; /* Default to transparent */
+  transition: background-color 0.3s; /* Smooth transition for the underline */
+}
+
+/* Show red underline on hover */
+.bottom-nav-links a:hover::after {
+  background-color: #ff0000; /* Red underline on hover */
+}
 /* Arrow Icon for Dropdown */
 .arrow-icon {
   margin-left: 5px;
@@ -504,9 +519,12 @@ input[type="search"]:focus + .icon1 {
   margin: 0;
 }
 
+
 .dropdown-menu li {
   border-bottom: 1px solid #ddd;
 }
+
+
 
 .dropdown-menu li:last-child {
   border-bottom: none;
@@ -521,7 +539,8 @@ input[type="search"]:focus + .icon1 {
 
 .dropdown-menu a:hover {
   background-color: #f0f0f0;
-  color: #00796b;
+  color: darkred;
+  font-weight: bold;
 }
 
 </style>

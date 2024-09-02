@@ -26,7 +26,7 @@
             <td>{{ formatCurrency(item.price) }}</td>
             <td>{{ item.inStock ? 'Yes' : 'No' }}</td>
             <td>
-              <button @click="removeFromWishlist(item)">Remove</button>
+              <button @click="remove(item)">Remove</button>
               <button
                   :disabled="!item.inStock"
                   @click="addToCart(item)"
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import {getCustomerWishList} from "@/services/wishlistService";
+import {getCustomerWishList, removeBookFromWishList} from "@/services/wishlistService";
 import {addBookToCart, getCustomerCart} from "@/services/cartService";
 
 import NavBar from "@/components/NavBar.vue";
@@ -69,6 +69,8 @@ export default {
     };
   },
   methods: {
+
+
     formatCurrency(amount) {
       return 'R ' + amount.toFixed(2);
     },
@@ -90,8 +92,18 @@ export default {
         console.error("Error fetching wishlist:", error);
       }
     },
-    removeFromWishlist(item) {
-      this.wishlistItems = this.wishlistItems.filter(wishlistItem => wishlistItem.id !== item.id);
+    async remove(item) {
+      const isConfirmed = confirm('Are you sure you want to remove this item from your wishlist?');
+      if (isConfirmed) {
+        try {
+          await removeBookFromWishList(this.wishList.wishListId, item.sku);
+          await this.fetchWishlist(); // Refresh the wishlist
+         alert('Item removed successfully');
+        } catch (error) {
+          console.error('Error removing item from wishlist:', error);
+          this.notification.message = 'Failed to remove item.';
+        }
+      }
     },
     async addToCart(item) {
 
