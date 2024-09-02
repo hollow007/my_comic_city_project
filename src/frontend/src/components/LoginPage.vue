@@ -87,13 +87,14 @@ export default {
             this.$router.push('/');
           } else {
             this.loginError = 'Invalid email or password.';
+            alert(this.loginError)
           }
         } else {
           const data = await response.json();
           this.loginError = data.error || 'Invalid email or password.';
         }
       } catch (error) {``
-        this.loginError = 'Error during login. Please try again later.';
+        this.loginError = 'Invalid email or password.';
         console.error('There was a problem with the fetch operation:', error);
       } finally {
         this.isLoading = false;
@@ -101,8 +102,7 @@ export default {
     },
     createAccount() {
       // Handle account creation logic
-      this.loginError = 'Create Account button clicked!';
-      console.log('Creating account with', this.email, this.password);
+      this.$router.push('/signUp');
     }
   }
 };

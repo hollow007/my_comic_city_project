@@ -31,7 +31,7 @@ const routes = [
     { path: '/cart', name: 'ShoppingCart', component: ShoppingCart },
     { path: '/wishList', name: 'ShoppingWishList', component: ShoppingWishList },
     { path: '/login', name: 'LoginPage', component: LoginPage },
-    { path: '/createAccount', name: 'CreateAccount', component: CreateAccount },
+    { path: '/signUp', name: 'CreateAccount', component: CreateAccount },
 ];
 
 const router = createRouter({
