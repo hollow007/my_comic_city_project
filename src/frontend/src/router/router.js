@@ -41,7 +41,7 @@ const routes = [
     { path: '/cart', name: 'ShoppingCart', component: ShoppingCart },
     { path: '/wishList', name: 'ShoppingWishList', component: ShoppingWishList },
     { path: '/login', name: 'LoginPage', component: LoginPage },
-    { path: '/createAccount', name: 'CreateAccount', component: CreateAccount },
+
     {path: '/cartcheckout', name: 'CartCheckout', component: () => import('@/components/CartCheckout.vue'),
         props: route => ({ cartItems: route.params.cartItems }),
     },
@@ -52,6 +52,9 @@ const routes = [
     { path: '/account-details', name: 'Acount-Details', component: AccountDetails },
     { path: '/wishlist', name: 'wishList', component: WishListPage },
 
+
+
+    { path: '/signUp', name: 'CreateAccount', component: CreateAccount },
 
 ];
 
