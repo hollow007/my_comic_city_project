@@ -13,7 +13,7 @@ public class User{
     protected String password;
     @Embedded
     protected Name name;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     protected Contact contact;
 
 

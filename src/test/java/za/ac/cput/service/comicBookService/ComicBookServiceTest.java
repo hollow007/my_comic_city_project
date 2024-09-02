@@ -119,8 +119,8 @@ class ComicBookServiceTest {
 
 
         publisher1 = PublisherFactory.buildPublisher(1234L, "CputComics", 2000);
-        publisher2 = PublisherFactory.buildPublisher(5678L, "KwazuluComics", 2009);
-        publisher3 = PublisherFactory.buildPublisher(9101L, "DCComics", 1910);
+        publisher2 = PublisherFactory.buildPublisher(5L, "KwazuluComics", 2009);
+        publisher3 = PublisherFactory.buildPublisher(5L, "DCComics", 1910);
 //Books
 
         genres1 = Set.of(Genre.FANTASY, Genre.SCI_FI);
@@ -169,7 +169,7 @@ class ComicBookServiceTest {
 
     @Test
     @Order(2)
-    void read() {
+    void read(){
         System.out.println("=============================READ====================================");
         ComicBook readBook = comicBookService.read(1L);
         assertNotNull(readBook);
