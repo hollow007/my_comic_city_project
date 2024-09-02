@@ -60,6 +60,14 @@ public class CustomerOrderService implements ICustomerOrderService {
 
         System.out.println("Comic Books: " + comicBooks);
 
+        customerOrder = new CustomerOrder.CustomerOrderBuilder()
+                .copy(customerOrder)
+                .setCustomer(customer)
+                .setComicBooks(comicBooks)
+                .setStatus(customerOrder.getStatus())
+                .build();
+
+
         if (customerOrder != null) {
             System.out.println("Order to be Saved: " + customerOrder);
             if(customerOrder.getOrderId() ==  null ||
@@ -79,6 +87,7 @@ public class CustomerOrderService implements ICustomerOrderService {
                     customerOrder = existingCustomerOrder.get();
                 }}
         }
+
         return  customerOrder;
     }
 

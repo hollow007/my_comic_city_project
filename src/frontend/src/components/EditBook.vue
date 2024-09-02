@@ -107,7 +107,7 @@
 </template>
 
 <script>
-import BookService from "@/services/BookService";
+import { getComicBook, updateComicBook } from "@/services/comicBookService";
 
 export default {
   data() {
@@ -121,34 +121,63 @@ export default {
         price: '',
         releaseDate: '',
         description: '',
-        authors: [],
+        quantity: '',
+        authors: [], // Initialize as an empty array
         publisher: {
+          publisherId: '',
           name: '',
           yearFounded: '',
         },
         photo: null,
       },
-      displayGenres: '', // A string for displaying genres
-      photoUrl: null, // Holds the URL for the photo preview
-      successMessage: '', // Holds the success message
+      displayGenres: '',
+      photoUrl: null,
+      successMessage: '',
+      errorMessage: '',
     };
   },
   mounted() {
-    const bookId = this.$route.params.id; // Get the book ID from the route
+    const bookId = this.$route.params.id;
     console.log('Received Book ID:', bookId);
     this.fetchComicBook(bookId);
   },
   methods: {
     async fetchComicBook(bookId) {
       try {
-        const data = await BookService.readComic(bookId);
-        this.comicBook = data;
-        this.displayGenres = Array.from(data.genres).join(', '); // Convert the Set to a comma-separated string
-        if (this.comicBook.photo) {
-          this.photoUrl = `data:image/jpeg;base64,${this.comicBook.photo}`;
+        const response = await getComicBook(bookId);
+        const data = response.data; // Assuming you're destructuring from response.data
+
+        console.log('Fetched Comic Book Data:', data);
+
+        if (data) {
+          this.comicBook = {
+            sku: data.sku || '',
+            name: data.name || '',
+            isbn: data.isbn || '',
+            weight: data.weight || '',
+            price: data.price || '',
+            releaseDate: data.releaseDate || '',
+            description: data.description || '',
+            quantity: data.quantity || 0,
+            authors: data.authors || [],
+            publisher: data.publisher || { name: '', yearFounded: '' },
+            genres: new Set(data.genres || []),
+            photo: data.photo || null
+          };
+
+          // Convert genres from Set to a displayable string
+          this.displayGenres = Array.from(this.comicBook.genres).join(', ');
+
+          // Display the photo if it exists
+          if (this.comicBook.photo) {
+            this.photoUrl = `data:image/jpeg;base64,${this.comicBook.photo}`;
+          }
+        } else {
+          console.error('No data received from API');
         }
       } catch (error) {
         console.error('Error fetching comic book:', error);
+        this.errorMessage = "Failed to load comic book details.";
       }
     },
     goBack() {
@@ -167,38 +196,41 @@ export default {
     },
     handleCancel() {
       if (confirm("Are you sure you want to cancel? All unsaved changes will be lost.")) {
-        this.$router.go(-1); // Navigate back to the previous page
+        this.$router.go(-1);
       }
     },
     async handleSubmit() {
+      this.comicBook.genres = Array.from(this.comicBook.genres);
       try {
         if (this.comicBook.photo && this.comicBook.photo instanceof File) {
           const reader = new FileReader();
           reader.onload = async () => {
-            this.comicBook.photo = reader.result.split(',')[1]; // Strip out the data URL part
-            await BookService.updateComicBook(this.comicBook);
+            this.comicBook.photo = reader.result.split(',')[1];
+            console.log('Comic book :', this.comicBook);
+            await updateComicBook(this.comicBook);
           };
           reader.readAsDataURL(this.comicBook.photo);
         } else {
-          await BookService.updateComicBook(this.comicBook);
+          await updateComicBook(this.comicBook);
         }
         this.successMessage = "Comic book saved successfully!";
         console.log('Comic book updated successfully:', this.comicBook);
         this.$router.push(`/comic-books`);
       } catch (error) {
         console.error('Error updating comic book:', error);
-        this.successMessage = "Failed to update comic book.";
-        this.$router.push(`/comic-books`);
+        this.errorMessage = "Failed to update comic book.";
       }
     },
     formatAuthorName(author) {
-      const firstName = author.name.firstName;
+      if (!author || !author.name) return '';
+      const firstName = author.name.firstName || '';
       const middleName = author.name.middleName ? author.name.middleName.charAt(0) + '.' : '';
       return `${firstName} ${middleName}`;
     }
   },
 };
 </script>
+
 
 <style scoped>
 .container {

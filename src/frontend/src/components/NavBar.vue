@@ -1,6 +1,6 @@
 <template>
   <div class="no-bootstrap-affect">
-  <nav class="navbar">
+  <nav class="navbarr">
     <!-- Top Section -->
     <div class="top-section">
       <div class="left-side">
@@ -228,7 +228,7 @@ export default {
 
 
 /* Navbar Styles */
-.navbar {
+.navbarr {
   display: flex;
   flex-direction: column;
   background-color: #333;

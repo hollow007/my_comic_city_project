@@ -15,7 +15,7 @@ public class CustomerOrder {
 
 
 
-    @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "order_comicbook",
             joinColumns = @JoinColumn(name = "order_id"),
@@ -30,7 +30,9 @@ public class CustomerOrder {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OrderStatus status;
 
     protected CustomerOrder() {
     }
@@ -42,6 +44,7 @@ public class CustomerOrder {
         this.comicBooks = builder.comicBooks;
         this.totalAmount = builder.totalAmount;
         this.customer = builder.customer;
+        this.status = builder.status;
 
 
     }
@@ -56,6 +59,9 @@ public class CustomerOrder {
         return orderDate;
     }
 
+    public OrderStatus getStatus() {
+        return status;
+    }
 
     public List<ComicBook> getComicBooks() {
         return comicBooks;
@@ -77,6 +83,7 @@ public class CustomerOrder {
                 ", comicBooks=" + comicBooks +
                 ", totalAmount=" + totalAmount +
                 ", customer=" + customer +
+                ", status=" + status +
                 '}';
     }
 
@@ -87,6 +94,7 @@ public class CustomerOrder {
         private List<ComicBook> comicBooks;
         private double totalAmount;
         private Customer customer;
+        private OrderStatus status;
 
 
         public CustomerOrderBuilder() {
@@ -94,6 +102,11 @@ public class CustomerOrder {
 
         public CustomerOrderBuilder setCustomer(Customer customer) {
             this.customer = customer;
+            return this;
+        }
+
+        public CustomerOrderBuilder setStatus(OrderStatus status) {
+            this.status = status;
             return this;
         }
 

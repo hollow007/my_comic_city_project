@@ -62,7 +62,7 @@ class InvoiceServiceTest {
         Customer customer1 = CustomerFactory.buildCustomer("Leroy" , "Kulcha", "Liam","Lkulcha123",con1);
         Customer customer2 = CustomerFactory.buildCustomer("James" , "Kulcha", "","jkulcha456",con2);
 
-        customerOrder = CustomerOrderFactory.buildCustomerOrder(  LocalDate.from(LocalDateTime.now()), comicBooks, customer1 ,650.00);
+        customerOrder = CustomerOrderFactory.buildCustomerOrder(  LocalDate.from(LocalDateTime.now()), comicBooks, customer1 ,650.00, OrderStatus.SHIPPED);
 
         invoice1 = InvoiceFactory.buildInvoice(1L, customerOrder, LocalDateTime.now());
         invoice2 = InvoiceFactory.buildInvoice(2L, null, LocalDateTime.now());

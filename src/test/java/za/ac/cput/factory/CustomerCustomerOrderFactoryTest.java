@@ -58,7 +58,7 @@ public class CustomerCustomerOrderFactoryTest {
         Customer customer1 = CustomerFactory.buildCustomer("Leroy" , "Kulcha", "Liam","Lkulcha123",con1);
         Customer customer2 = CustomerFactory.buildCustomer("James" , "Kulcha", "","jkulcha456",con2);
 
-          customerOrder1 = CustomerOrderFactory.buildCustomerOrder( LocalDate.of(2022, 03, 04), comicBooks, customer1,650.00);
+          customerOrder1 = CustomerOrderFactory.buildCustomerOrder( LocalDate.of(2022, 03, 04), comicBooks, customer1,650.00, OrderStatus.ON_HOLD);
 //        customerOrder2 = CustomerOrderFactory.buildCustomerOrder("ORD002", 2L,LocalDate.of(2024, 7, 17), Arrays.asList(comicBook1, comicBook2), 650.00);
 //        customerOrder3 = CustomerOrderFactory.buildCustomerOrder("ORD003", 2L,LocalDate.now(), Arrays.asList(comicBook1, comicBook2), -100.00);
     }
