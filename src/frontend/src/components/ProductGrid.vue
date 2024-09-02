@@ -7,6 +7,7 @@
           :key="comic.id"
           :comic="comic"
           :wishlist="wishlist"
+          @comic-selected="handleComicSelected"
           @add-to-cart="handleAddToCart"  @toggle-wishlist="handleToggleWishlist"/>
     </div>
   </div>
@@ -26,6 +27,9 @@ export default {
     wishlist:Array
   },
   methods: {
+    handleComicSelected(sku) {
+      this.$router.push({ name: 'view-item', params: { sku } });
+    },
     handleAddToCart(sku) {
       this.$emit('add-to-cart', sku); // Emit the SKU to the parent component
     },

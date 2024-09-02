@@ -21,3 +21,6 @@ export const deleteComicBook = (sku) => {
 export const getAllComicBooks = () => {
     return axios.get(`${API_URL}/getAll`);
 };
+export const searchComicBooksByName = (name) => {
+    return axios.get(`${API_URL}/search/name/${name}`);
+};

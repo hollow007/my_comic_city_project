@@ -1,61 +1,56 @@
 <template>
   <div class="view_item_page-container">
     <nav-bar/>
-    <header class="page-header">
-    </header>
+    <header class="page-header"></header>
     <main class="product-page">
       <div class="product-top">
-        <div class="product-image">
-         <img src="@/assets/ComicBookCover10.jpeg" alt="product Image" />
+        <div class="product-image"  >
+          <img :src="comicImage" alt="Comic Cover"/>
         </div>
         <div class="product-description">
-          <h2>{{ productComponent.name }}</h2>
-          <p><strong>Price:</strong> R{{ productComponent.price }}</p>
+          <h2>{{ comic.name }}</h2>
+          <p><strong>Price:</strong> R{{ comic.price }}</p>
 
-        <div class="heart-icon" :class="{ 'active': isFavorite }" @click="toggleWishlist">
-          <font-awesome-icon icon="heart"/>
-        </div>
+          <div class="heart-icon" :class="{ 'active': isFavorite }" @click="toggleWishlist">
+            <font-awesome-icon icon="heart"/>
+          </div>
 
-        <!-- Start of the form -->
-        <form @submit.prevent="addBookToCart">
-          <div class="form-group">
-            <label for="quantity">Quantity</label>
-            <input type="number" id="quantity" v-model="quantity" min="1"/>
-          </div>
-          <div class="form-action">
-            <button type="submit">Add to cart</button>
-          </div>
-        </form>
-        <!-- End of form -->
+          <form @submit.prevent="addToCart">
+            <div class="form-group">
+              <label for="quantity">Quantity</label>
+              <input type="number" id="quantity" v-model="quantity" min="1"/>
+            </div>
+            <div class="form-action">
+              <button type="submit">Add to cart</button>
+            </div>
+          </form>
 
-        <div class="in-stock">
-          <p>Availability: {{ productComponent.availability }}</p> <!-- Fixed typo -->
-        </div>
+          <div class="in-stock">
+            <p>Availability: {{ comic.availability }}</p>
+          </div>
 
-        <!-- Tabs section -->
-        <div class="product-tabs">
-          <ul>
-            <li :class="{ active: activeTab === 'description' }" @click="activeTab = 'description'">Description</li>
-            <li :class="{ active: activeTab === 'details' }" @click="activeTab = 'details'">Details</li>
-            <li :class="{ active: activeTab === 'ratings' }" @click="activeTab = 'ratings'">Ratings</li>
-          </ul>
-          <div v-if="activeTab === 'description'">
-            <p>{{ productComponent.description }}</p>
-          </div>
-          <div v-if="activeTab === 'details'">
-            <table>
-              <tr v-for="(value, key) in productDetails" :key="key">
-                <td>{{ key }}</td>
-                <td>{{ value }}</td>
-              </tr>
-            </table>
-          </div>
-          <div v-if="activeTab === 'ratings'">
-            <p>Customer Ratings: {{ productComponent.ratings }} / 5</p>
+          <div class="product-tabs">
+            <ul>
+              <li :class="{ active: activeTab === 'description' }" @click="activeTab = 'description'">Description</li>
+              <li :class="{ active: activeTab === 'details' }" @click="activeTab = 'details'">Details</li>
+              <li :class="{ active: activeTab === 'ratings' }" @click="activeTab = 'ratings'">Ratings</li>
+            </ul>
+            <div v-if="activeTab === 'description'">
+              <p>{{ comic.description }}</p>
+            </div>
+            <div v-if="activeTab === 'details'">
+              <table>
+                <tr v-for="(value, key) in comic" :key="key">
+                  <td>{{ key }}</td>
+                  <td>{{ value }}</td>
+                </tr>
+              </table>
+            </div>
+            <div v-if="activeTab === 'ratings'">
+              <p>Customer Ratings: {{ comic.ratings }} / 5</p>
+            </div>
           </div>
         </div>
-        <!-- End of Tabs section -->
-      </div>
       </div>
       <div class="Related-items">
         <h3>Related Items</h3>
@@ -70,10 +65,12 @@
   </div>
 </template>
 
+
 <script>
 import NavBar from '@/components/NavBar.vue';
 import FooterSection from '@/components/FooterSection.vue';
-import { addBookToCart } from "@/services/cartService";
+import {addBookToCart, getCustomerCart} from "@/services/cartService";
+import {getComicBook} from "@/services/comicBookService";
 
 export default {
   name: 'ViewItem', // Updated component name
@@ -82,7 +79,6 @@ export default {
     FooterSection,
   },
   props: {
-    comic: Object,
     wishlist: {
       type: Array,
       default: () => [] // Ensure default is an empty array
@@ -90,17 +86,12 @@ export default {
   },
   data() {
     return {
-      productComponent: {
-        id: 4, // This will later be modified to return one from the API
-        cartId: 2,
-        imageurl: ' ',
-        name: 'Heroes in Crisis',
-        description: 'This is a description of a product',
-        price: 99.99,
-        availability: 'in stock',
-        ratings: '* * * *',
-      },
+
+      comic: '', // This will store the fetched comic data
+      quantity: 1,
       activeTab: 'description',
+      sku:'',
+
       galleryImages: [
         { src: require('@/assets/ComicBookCover1.jpeg'), alt: 'Image 1' },
         { src: require('@/assets/ComicBookCover2.jpeg'), alt: 'Image 2' },
@@ -108,6 +99,9 @@ export default {
         { src: require('@/assets/ComicBookCover4.jpeg'), alt: 'Image 4' },
       ],
     };
+  },
+  created() {
+    this.fetchComicDetails();
   },
   computed: {
     isFavorite() {
@@ -117,12 +111,36 @@ export default {
         return isInWishlist;
       }
       return false;
-    }
+    },
+    comicImage() {
+      return this.comic.photo
+          ? `data:image/jpeg;base64,${this.comic.photo}`
+          : 'https://via.placeholder.com/150';
+    },
   },
+
   methods: {
-    async addBookToCart() {
+    async fetchComicDetails() {
+      this.sku  = this.$route.params.sku; // Get the SKU from route parameters
       try {
-        await addBookToCart(1, 2); // Currently we are hardcoding the book into the cart
+        const response= await getComicBook(this.sku); // Fetch the comic details using the SKU
+        this.comic=response.data;
+      } catch (error) {
+        console.error('Failed to fetch comic details:', error);
+      }
+    },
+    async addToCart() {
+      const userEmail = localStorage.getItem('userEmail');
+
+      if (userEmail === null) {
+        console.error('No user email found. Please log in.');
+        return;
+      }
+
+      try {
+        const response = await getCustomerCart(userEmail);
+        this.cartItems = response.data.comicBooks || [];
+        await addBookToCart(response.data.cartId,this. sku);
         alert('Comic added to cart!');
       } catch (error) {
         alert('Failed to add comic to cart.');
@@ -130,7 +148,16 @@ export default {
     },
     toggleWishlist() {
       this.$emit('toggle-wishlist', this.comic.sku);
-    }
+    },
+
+    authorsList() {
+      return this.comic.authors
+          .map((author) => {
+            const initial = author.name.firstName.charAt(0).toUpperCase();
+            return `${initial}. ${author.name.lastName}`;
+          })
+          .join(', ');
+    },
   }
 }
 </script>
@@ -250,14 +277,14 @@ input[type="number"] {
 
 .product-tabs div {
   padding: 20px;
-  border: 1px solid grey;
+  //border: 1px solid grey;
   border-radius: 4px;
 }
 
 .product-tabs table {
   width: 100%;
   border-collapse: collapse;
-  border-color: black;
+
 }
 
 .product-tabs table td {

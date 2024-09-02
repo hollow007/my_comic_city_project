@@ -1,8 +1,8 @@
 <template>
   <div class="comic-card">
-    <router-link to="/viewItem">
-      <img :src="comicImage" alt="Comic Cover" class="comic-image"/>
-    </router-link>
+
+      <img :src="comicImage" alt="Comic Cover" class="comic-image" @click="selectComic"/>
+
     <div
         class="heart-icon"
         :class="{ 'active': isFavorite }"
@@ -12,9 +12,9 @@
     </div>
     <div class="comic-info">
       <div class="title-price">
-        <router-link to="/viewItem"  class="no-underline">
+        <div  class="no-underline" @click="selectComic">
           <h3 class="book-title">{{ comic.name }}</h3>
-        </router-link>
+        </div>
         <p class="price">{{ formatPrice(comic.price) }}</p>
       </div>
       <p class="author">{{ authorsList }}</p>
@@ -73,7 +73,11 @@ export default {
     },
     toggleWishlist() {
       this.$emit('toggle-wishlist', this.comic.sku); // Emit the comic SKU for wishlist toggle
-    }
+    },
+
+      selectComic() {
+        this.$emit('comic-selected', this.comic.sku);
+      }
   }
 };
 </script>

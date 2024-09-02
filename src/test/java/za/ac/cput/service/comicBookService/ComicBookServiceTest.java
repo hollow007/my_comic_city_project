@@ -161,12 +161,12 @@ class ComicBookServiceTest {
         ComicBook savedComicCook2 = comicBookService.create(book2);
         assertNotNull(savedComicCook2);
         System.out.println(savedComicCook2);
-//
-//        ComicBook savedComicCook3 = comicBookService.create(book3);
-//        assertNotNull(savedComicCook3);
-//        System.out.println(savedComicCook3);
+
+        ComicBook savedComicCook3 = comicBookService.create(book3);
+        assertNotNull(savedComicCook3);
+        System.out.println(savedComicCook3);
     }
-//
+
     @Test
     @Order(2)
     void read(){
@@ -187,38 +187,37 @@ class ComicBookServiceTest {
         }
     }
 
-//    @Test
-//    @Order(3)
-//    void update() {
-//        System.out.println("=============================UPDATE====================================");
-//        authors.add(author2);
-//        ComicBook updatedComicBook = new ComicBook.Builder().copy(book2)
-//                .setPrice(880)
-//                .setAuthors(authors)
-//                .build();
-//
-//        ComicBook saved = comicBookService.update(updatedComicBook);
-//        assertNotNull(saved);
-//        System.out.println(saved);
-//
-//    }
-//
-//    @Test
-//
-//    @Order(4)
-//
-//    void delete() {
-//        System.out.println("=============================DELETE====================================");
-//        boolean isDeleted = comicBookService.delete(3L);
-//        assertEquals(true, isDeleted);
-//        System.out.println("Successfully deleted book: " + book3.getName());
-//    }
-//
-//    @Test
-//    @Order(5)
-//    void getAll() {
-//        System.out.println("=============================GET-ALL====================================");
-//        System.out.println(comicBookService.getAll());
-//
-//}
+    @Test
+    @Order(3)
+    void update() {
+        System.out.println("=============================UPDATE====================================");
+        authors2.add(author2);
+        ComicBook updatedComicBook = new ComicBook.Builder().copy(book2)
+                .setPrice(880)
+                .setAuthors(authors2)
+                .build();
+
+        ComicBook saved = comicBookService.update(updatedComicBook);
+        assertNotNull(saved);
+        System.out.println(saved);
+
+    }
+
+    @Test
+    @Order(4)
+
+    void delete() {
+        System.out.println("=============================DELETE====================================");
+        boolean isDeleted = comicBookService.delete(3L);
+        assertEquals(true, isDeleted);
+        System.out.println("Successfully deleted book: " + book3.getName());
+    }
+
+    @Test
+    @Order(5)
+    void getAll() {
+        System.out.println("=============================GET-ALL====================================");
+        System.out.println(comicBookService.getAll());
+
+}
 }

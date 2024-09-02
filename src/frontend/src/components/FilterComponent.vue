@@ -9,7 +9,7 @@
             type="range"
             min="0"
             max="50000"
-            step="50"
+            step="10"
             v-model="maxPrice"
             @input="updatePriceRange"
             class="price-slider"
@@ -64,7 +64,7 @@ export default {
       selectedReleaseDateTo: '',
       selectedPublisher: '',
       genres: ['Action', 'Adventure', 'Drama', 'Fantasy'],
-      publishers: ['Marvel', 'DC', 'Dark Horse'],
+      publishers: ['SA Comics', 'DC', 'Dark Horse'],
     };
   },
   methods: {
@@ -156,7 +156,7 @@ button {
   border-radius: 6px; /* Increased border radius for a more rounded button */
   cursor: pointer;
   font-size: 16px; /* Increased font size */
-  width: 50%; /* Full width button */
+  width: 56%; /* Full width button */
 }
 
 button:hover {

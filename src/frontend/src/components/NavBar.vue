@@ -27,7 +27,7 @@
 
       <div class="icon-container">
         <label for="search-input" class="search-label">
-          <input type="search" id="search-input" placeholder="Search..."/>
+          <input type="search" id="search-input" placeholder="Search..."  @input="handleSearchInput"/>
           <font-awesome-icon icon="search" class="icon1"/>
         </label>
 
@@ -130,7 +130,9 @@ export default {
   },
 
   methods: {
-
+    handleSearchInput(event) {
+      this.$emit('search-query', event.target.value);
+    },
     toggleDropdown() {
       this.isDropdownVisible = !this.isDropdownVisible;
     },
