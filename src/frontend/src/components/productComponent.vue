@@ -121,10 +121,10 @@ export default {
 
   methods: {
     async fetchComicDetails() {
-      this.sku  = this.$route.params.sku; // Get the SKU from route parameters
+      this.sku = this.$route.params.sku; // Get the SKU from route parameters
       try {
-        const response= await getComicBook(this.sku); // Fetch the comic details using the SKU
-        this.comic=response.data;
+        const response = await getComicBook(this.sku); // Fetch the comic details using the SKU
+        this.comic = response.data;
       } catch (error) {
         console.error('Failed to fetch comic details:', error);
       }
@@ -140,7 +140,7 @@ export default {
       try {
         const response = await getCustomerCart(userEmail);
         this.cartItems = response.data.comicBooks || [];
-        await addBookToCart(response.data.cartId,this. sku);
+        await addBookToCart(response.data.cartId, this.sku);
         alert('Comic added to cart!');
       } catch (error) {
         alert('Failed to add comic to cart.');
