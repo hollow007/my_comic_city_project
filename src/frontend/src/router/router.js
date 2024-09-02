@@ -6,9 +6,9 @@ import ShoppingWishList from "@/components/ShoppingWishList.vue";
 import ComicBooksTable from '@/components/ComicBooksTable.vue';
 import LoginPage from "@/components/LoginPage.vue";
 import EditBook from "@/components/EditBook.vue";
-import AddNewBook from "../../../../../comic_city_project45/src/frontend/src/components/AddNewBook.vue";
 import CreateAccount from "@/components/CreateAccount.vue";
 import MainLayout from "@/components/MainLayout.vue";
+import AddNewBook from "@/components/AddNewBook.vue";
 
 const routes = [
     // Main landing page
