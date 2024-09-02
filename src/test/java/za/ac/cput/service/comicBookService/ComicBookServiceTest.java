@@ -6,7 +6,9 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Service;
+
 import za.ac.cput.domain.*;
+
 import za.ac.cput.factory.AuthorFactory;
 import za.ac.cput.factory.ComicBookFactory;
 import za.ac.cput.factory.PublisherFactory;
@@ -22,6 +24,7 @@ import java.security.PublicKey;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
@@ -48,7 +51,6 @@ class ComicBookServiceTest {
     private static ByteArrayOutputStream out;
     private static BufferedImage image;
 
-
     private static ByteArrayOutputStream out1;
     private static BufferedImage image1;
 
@@ -60,6 +62,9 @@ class ComicBookServiceTest {
     private static Publisher publisher2;
     private static Publisher publisher3;
 
+    Set<Genre> genres1 ;
+    Set<Genre> genres2 ;
+       
 
     @BeforeAll
     static void  setUp() {
@@ -69,7 +74,7 @@ class ComicBookServiceTest {
         String url1 ="images/ComicBookCover9.jpeg";
         String url2="images/ComicBookCover10.jpeg";
         String url3="images/ComicBookCover6.jpeg";
-
+      
         try {
 
             image = ImageIO.read(new File(url1));
@@ -118,16 +123,21 @@ class ComicBookServiceTest {
         publisher3 = PublisherFactory.buildPublisher(9101L, "DCComics", 1910);
 //Books
 
-        book1 = ComicBookFactory.bookBuilder("The GAME 2", "Thriller", "Spaace Wars in far awa galaxy",
+        genres1 = Set.of(Genre.FANTASY, Genre.SCI_FI);
+        genres2 = Set.of(Genre.MYSTERY);
+
+        
+        book1 = ComicBookFactory.bookBuilder("The GAME 2", genres1, "Spaace Wars in far awa galaxy",
                 "B10", 474.99, 1.50, 7, authors1, publisher3, LocalDate.of(2024, 8, 11), out.toByteArray());
-        book2 = ComicBookFactory.bookBuilder("BeeKeeper 3", "Sci-Fi", "A scientific experiment disaster creates a superhero",
+        book2 = ComicBookFactory.bookBuilder("BeeKeeper 3", genres2, "A scientific experiment disaster creates a superhero",
                 "B11", 699.99, 3.80, 6, authors1, publisher1, LocalDate.of(2024, 7, 17), out1.toByteArray());
-        book3 = ComicBookFactory.bookBuilder("The LastMan 2", "Action", "A power hungry villean threatens to destroy earth",
+        book3 = ComicBookFactory.bookBuilder("The LastMan 2", genres1, "A power hungry villean threatens to destroy earth",
                 "B12", 1980.99, 2.40, 3, authors2, publisher2, LocalDate.of(2024, 07, 20), out2.toByteArray());
 
         comicBooks1 = new ArrayList<>();
         comicBooks1.add(book1);
         comicBooks1.add(book3);
+
 
         comicBooks2 = new ArrayList<>();
         comicBooks2.add(book1);

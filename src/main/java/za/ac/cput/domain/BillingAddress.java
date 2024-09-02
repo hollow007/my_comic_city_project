@@ -57,7 +57,7 @@ public class BillingAddress extends Address{
     }
 
 
-    public static class BillingAddressBuilder extends Address.AddressBuilder<BillingAddressBuilder>{
+    public static class BillingAddressBuilder extends AddressBuilder<BillingAddressBuilder>{
 
         protected String paymentMethod;
 
