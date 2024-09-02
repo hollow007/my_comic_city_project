@@ -17,7 +17,11 @@
     "core-js": "^3.8.3",
     "lines-and-columns": "^2.0.4",
     "vue": "^3.2.13",
-    "vue-router": "^4.4.3"
+    "vue-router": "^4.4.3",
+    "vue-multiselect": "^3.0.0",
+    "bootstrap": "^5.3.3"
+
+
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -26,7 +30,10 @@
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3"
+    "eslint-plugin-vue": "^8.0.3",
+    "postcss": "^8.4.40",
+    "tailwindcss": "^3.4.10",
+    "autoprefixer": "^10.4.20"
   },
   "eslintConfig": {
     "root": true,
