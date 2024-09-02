@@ -8,16 +8,15 @@
         </div>
 
         <div class="d-flex align-items-center">
-          <a href="#" class="text-light me-3" aria-label="Home">Home</a>
-          <a href="#" class="text-light me-3" aria-label="Contact Us">Contact Us</a>
+
           <div class="dropdown">
             <a class="d-flex align-items-center text-light text-decoration-none dropdown-toggle" href="#" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="path_to_user_image" alt="User Profile" style="width: 40px; height: 40px; border-radius: 50%;">
+              <img src="@/assets/profile.png" alt="User Profile" style="width: 40px; height: 40px; border-radius: 50%;">
               <span class="ms-2">Me</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser1">
               <li><a class="dropdown-item" href="#" aria-label="Profile">Profile</a></li>
-              <li><a class="dropdown-item" href="#" aria-label="Logout">Logout</a></li>
+              <li><a class="dropdown-item"  @click = "logout" aria-label="Logout">Logout</a></li>
             </ul>
           </div>
         </div>
@@ -32,7 +31,14 @@
           <li class="nav-item">
             <router-link class="nav-link text-light" to="/add-new-book">Add Comic</router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link text-light" to="/view-orders">Orders Management</router-link>
+          </li>
         </ul>
+        <!-- Fixed Logout Button -->
+        <div class="logout-button mt-auto p-3">
+          <button class="btn btn-danger w-100" aria-label="Logout" @click = "logout" >Logout</button>
+        </div>
       </aside>
       <main class="col-md-9 col-lg-10 content">
         <router-view></router-view>
@@ -44,6 +50,14 @@
 <script>
 export default {
   name: 'MainLayout',
+  methods: {
+    logout() {
+      const isConfirmed = confirm('Are you sure you want to Logout?');
+      if (isConfirmed) {
+        this.$router.push('/');
+      }
+    },
+  }
 };
 </script>
 
@@ -85,12 +99,13 @@ header img {
 }
 
 
-
-
 .sidebar {
   padding: 20px;
   height: 100vh;
   box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .content {
@@ -137,6 +152,14 @@ header img {
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-top: 10px solid #fff;
+}
+.logout-button {
+  margin-top: auto;
+  padding: 20px;
+}
+
+.logout-button .btn {
+  width: 100%;
 }
 
 

@@ -100,6 +100,7 @@
 
 <script>
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap';
 
 export default {
 
@@ -112,7 +113,7 @@ export default {
       selectedGenres: [],
       loading: false,
       errorMsg: '',
-      genres: ['ACTION', 'FANTASY', 'MYSTERY', 'SCI_FI'], // Define genres array for the checkboxes
+      genres: ['ACTION', 'FANTASY', 'MYSTERY', 'SCI_FI', 'DRAMA'], // Define genres array for the checkboxes
     };
   },
   methods: {
@@ -138,6 +139,10 @@ export default {
     fetchBooksByReleaseDate() {
       if (!this.startDate || !this.endDate) {
         this.errorMsg = 'Please enter both start and end dates';
+        return;
+      }
+      if (new Date(this.startDate) > new Date(this.endDate)) {
+        this.errorMsg('Start date cannot be later than end date');
         return;
       }
       this.loading = true;

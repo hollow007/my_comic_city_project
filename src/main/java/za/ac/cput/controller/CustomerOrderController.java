@@ -37,6 +37,7 @@ public class CustomerOrderController {
 
     @GetMapping("/getAll")
     public List<CustomerOrder> findAll() {
+        System.out.println("Entered get all");
         return customerOrderService.getall();
     }
 }

@@ -70,7 +70,6 @@ public class ComicBook {
 
     }
 
-
     private ComicBook(Builder builder) {
         this.sku = builder.SKU;
         this.name = builder.name;

@@ -64,7 +64,7 @@ class InvoiceControllerTest {
         Customer customer2 = CustomerFactory.buildCustomer("James" , "Kulcha", "","jkulcha456",con2);
 
 
-        customerOrder = CustomerOrderFactory.buildCustomerOrder(  LocalDate.from(LocalDateTime.now()), comicBooks, customer1,650.00);
+        customerOrder = CustomerOrderFactory.buildCustomerOrder(  LocalDate.from(LocalDateTime.now()), comicBooks, customer1,650.00, OrderStatus.PENDING);
 
         invoice1 = InvoiceFactory.buildInvoice(1L, customerOrder, LocalDateTime.now());
 

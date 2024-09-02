@@ -60,21 +60,22 @@ class CustomerOrderServiceTest {
         Address shippingAddress = ShippingAddressFactory.buildShippingAddress(LocalTime.of(9,52), "34 Batersea Drive", "Kibbler park", "2091", "Johannesburg");
         System.out.println(shippingAddress);
 
-        Contact con1 = CustomerContactFactory.buildContact("leroyy1@gmail.com", "0739946042", shippingAddress, billingAddress);
+        Contact con1 = CustomerContactFactory.buildContact("leroy1@gmail.com", "0739946042", shippingAddress, billingAddress);
         Contact con2 = CustomerContactFactory.buildContact("221164014@mycput.ac.za", "0739946042",  shippingAddress , billingAddress);
 
         Customer customer1 = CustomerFactory.buildCustomer("Leroy" , "Kulcha", "Liam","Lkulcha123",con1);
         Customer customer2 = CustomerFactory.buildCustomer("James" , "Kulcha", "","jkulcha456",con2);
 
 
-        customerOrder1 = CustomerOrderFactory.buildCustomerOrder(  LocalDate.of(2022, 03, 04), comicBooks, customer1, 650.00);
+        customerOrder1 = CustomerOrderFactory.buildCustomerOrder(  LocalDate.of(2022, 03, 04), comicBooks, customer1, 650.00, OrderStatus.PROCESSING);
     }
 
     @Test
     @Order(1)
     void create() {
         System.out.println("===========================CREATE========================================");
-         savedCustomerOrder = customerOrderService.create(customerOrder1);
+
+        savedCustomerOrder = customerOrderService.create(customerOrder1);
         assertNotNull(savedCustomerOrder);
         System.out.println("Saved Order: " + customerOrder1);
     }
