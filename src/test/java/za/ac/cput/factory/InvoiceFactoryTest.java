@@ -61,9 +61,9 @@ class InvoiceFactoryTest {
         Customer customer1 = CustomerFactory.buildCustomer("Leroy" , "Kulcha", "Liam","Lkulcha123",con1);
         Customer customer2 = CustomerFactory.buildCustomer("James" , "Kulcha", "","jkulcha456",con2);
 
-        customerOrder1 = CustomerOrderFactory.buildCustomerOrder( LocalDate.of(2022, 03, 04), comicBooks,  customer2 , 650.00);
+        customerOrder1 = CustomerOrderFactory.buildCustomerOrder( LocalDate.of(2022, 03, 04), comicBooks,  customer2 , 650.00, OrderStatus.PENDING);
         customerOrder2 = null;
-        customerOrder3 = CustomerOrderFactory.buildCustomerOrder(LocalDate.now(), comicBooks, customer1,650.00);
+        customerOrder3 = CustomerOrderFactory.buildCustomerOrder(LocalDate.now(), comicBooks, customer1,650.00, OrderStatus.PENDING);
 
         invoice1 = InvoiceFactory.buildInvoice(1L, customerOrder1, LocalDateTime.now());
         invoice2 = InvoiceFactory.buildInvoice(2L, customerOrder2, LocalDateTime.now());

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import za.ac.cput.domain.Author;
 import za.ac.cput.domain.Publisher;
 import za.ac.cput.domain.WishList;
+import za.ac.cput.factory.PublisherFactory;
 import za.ac.cput.repository.AuthorRepository;
 import za.ac.cput.repository.PublisherRepository;
 
@@ -16,13 +17,18 @@ public class PublisherService implements IPublisherService {
 
     private PublisherRepository repository;
 
+
     @Autowired
     public PublisherService(PublisherRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public Publisher create(Publisher publisher) {
+    public Publisher create(Publisher p) {
+        Publisher publisher = PublisherFactory.buildPublisher(
+                p.getName(),
+                p.getYearFounded()
+        );
 
         if (publisher != null) {
             System.out.println("publisher to be Saved: " + publisher);

@@ -4,5 +4,6 @@ public enum Genre {
     ACTION,
     FANTASY,
     MYSTERY,
-    SCI_FI
+    SCI_FI,
+    DRAMA
 }

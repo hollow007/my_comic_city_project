@@ -10,6 +10,7 @@ import za.ac.cput.domain.ComicBook;
 
 import za.ac.cput.domain.Genre;
 import za.ac.cput.domain.Publisher;
+import za.ac.cput.factory.AuthorFactory;
 import za.ac.cput.repository.AuthorRepository;
 import za.ac.cput.repository.ComicBookRepository;
 import za.ac.cput.repository.PublisherRepository;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 @Service
 public class ComicBookService implements IComicBookService{
     @Autowired
-    private ComicBookRepository repo;  // Use 'repo' as the name for ComicBookRepository
+    private ComicBookRepository repo;
 
     @Autowired
     private PublisherService publisherService;
@@ -33,9 +34,9 @@ public class ComicBookService implements IComicBookService{
     @Autowired
     private AuthorRepository authorRepository;
 
-    @Autowired
-    public ComicBookService(ComicBookRepository repository) {
-        this.repo = repository;
+
+    // Public constructor, as Spring needs access to create and manage the bean
+    public ComicBookService() {
     }
 
 
@@ -58,11 +59,12 @@ public class ComicBookService implements IComicBookService{
                             return authorRepository.save(author);
 
                         } else {
+                            System.out.println("Enters else");
 
                             // If authorID is not null, try to find the author in the repository
                             Optional<Author> existingAuthor = authorRepository.findById(author.getAuthorID());
                             // Return the existing author if found, or save and return the new one if not found
-                            return existingAuthor.orElseGet(() -> authorRepository.save(author));
+                            return existingAuthor.orElseGet(() -> authorRepository.save(author ));
                         }
                     })
                     .collect(Collectors.toList());
@@ -93,11 +95,22 @@ public class ComicBookService implements IComicBookService{
         // Handle Authors
         List<Author> authors = comicBook.getAuthors();
         if (authors != null) {
-
             authors = authors.stream()
                     .map(author -> {
-                        Optional<Author> existingAuthor = authorRepository.findById(author.getAuthorID());
-                        return existingAuthor.orElseGet(() -> authorRepository.save(author));
+                        System.out.println("Author: " + author );
+                        if (author.getAuthorID()  == null ||
+                            author.getAuthorID() == 0) {
+                            // If authorID is null, save the author directly
+                            return authorRepository.save(author);
+
+                        } else {
+                            System.out.println("Entered else");
+
+                            // If authorID is not null, try to find the author in the repository
+                            Optional<Author> existingAuthor = authorRepository.findById(author.getAuthorID());
+                            // Return the existing author if found, or save and return the new one if not found
+                            return existingAuthor.orElseGet(() -> authorRepository.save(author));
+                        }
                     })
                     .collect(Collectors.toList());
         }

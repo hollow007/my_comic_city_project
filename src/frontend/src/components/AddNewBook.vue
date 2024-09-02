@@ -78,7 +78,6 @@
         </div>
       </div>
 
-
       <div class="row">
         <div class="col-12 mb-3">
           <button type="button" class="btn btn-success" @click="addAuthor">+ Add Author</button>
@@ -119,7 +118,7 @@
 <script>
 import Multiselect from "vue-multiselect";
 import 'vue-multiselect/dist/vue-multiselect.css';
-import BookService from "@/services/BookService";
+import {createComicBook} from "@/services/comicBookService";
 
 export default {
   components: {
@@ -149,7 +148,9 @@ export default {
         { name: "ACTION" },
         { name: "FANTASY" },
         { name: "MYSTERY" },
-        { name: "SCI_FI" }
+        { name: "SCI_FI" },
+        { name: "DRAMA" },
+
       ],
       photoUrl: null,
     };
@@ -212,6 +213,7 @@ export default {
       const comicBookData = {
         ...this.comicBook,
         authors: this.comicBook.authors.map(author => ({
+
           name: {
             firstName: author.firstName,
             middleName: author.middleName || '',
@@ -229,12 +231,11 @@ export default {
         photo: this.comicBook.photo
       };
 
-
       console.log('ComicBook Data Being Submitted:', comicBookData);
 
       try {
         // Submit comic book data
-        let response = await BookService.createComicBook(comicBookData);
+        let response = await createComicBook(comicBookData);
 
 
         console.log('Comic book saved successfully:', response);

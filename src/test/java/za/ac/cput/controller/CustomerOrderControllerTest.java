@@ -44,7 +44,7 @@ class CustomerOrderControllerTest {
         Publisher publisher1 = PublisherFactory.buildPublisher(34655L, "Marvel",2000);
 
 
-        author1 = AuthorFactory.buildAuthor(001L,"Lamark", "", "Darwin");
+        author1 = AuthorFactory.buildAuthor(001L,"Lamark",  "Darwin");
         author2 = AuthorFactory.buildAuthor(002L, "Jacob", "Gedleyihlekisa", "Zuma");
 
         authors = new ArrayList<>();
@@ -71,7 +71,7 @@ class CustomerOrderControllerTest {
         Customer customer1 = CustomerFactory.buildCustomer("Leroy" , "Kulcha", "Liam","Lkulcha123",con1);
         Customer customer2 = CustomerFactory.buildCustomer("James" , "Kulcha", "","jkulcha456",con2);
 
-        customerOrder1 = CustomerOrderFactory.buildCustomerOrder( LocalDate.of(2022, 03, 04), comicBooks, customer1,650.00);
+        customerOrder1 = CustomerOrderFactory.buildCustomerOrder( LocalDate.of(2022, 03, 04), comicBooks, customer1,650.00, OrderStatus.SHIPPED);
     }
 
     @Test
