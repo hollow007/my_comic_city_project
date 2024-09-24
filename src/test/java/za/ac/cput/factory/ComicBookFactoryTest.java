@@ -70,8 +70,8 @@ class ComicBookFactoryTest {
         authors.add(author1);
         authors.add(author2);
 
-        Set<Genre> genres1 = Set.of(Genre.FANTASY, Genre.SCI_FI);
-        Set<Genre> genres2 = Set.of(Genre.MYSTERY);
+        Set<Genre> genres1 = Set.of( GenreFactory.buildGenre("Sci-Fi"), GenreFactory.buildGenre("Action"));
+        Set<Genre> genres2 = Set.of(GenreFactory.buildGenre("Fantasy"));
 
 
         book1 = ComicBookFactory.bookBuilder("Thor", genres1, "AsGuards Prince son of Zuis",

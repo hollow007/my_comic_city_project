@@ -30,7 +30,7 @@ public class AuthorController {
         return authorService.read(id);
     }
 
-    @PostMapping("/delete/{authorID}")
+    @DeleteMapping("/delete/{authorID}")
     public boolean delete(@PathVariable long authorID){
         return authorService.delete(authorID);
     }

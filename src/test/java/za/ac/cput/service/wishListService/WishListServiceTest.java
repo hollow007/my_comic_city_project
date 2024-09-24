@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.*;
 import za.ac.cput.factory.*;
+import za.ac.cput.service.customerService.CustomerService;
 
 
 import javax.imageio.ImageIO;
@@ -73,6 +74,9 @@ class WishListServiceTest {
     static  WishList wishListCreated2;
     static  WishList wishListCreated3;
 
+    @Autowired
+    private CustomerService customerService;
+
 
     @BeforeAll
     static void setUp() {
@@ -105,11 +109,11 @@ class WishListServiceTest {
 
 
         //Authors
-        author1 = AuthorFactory.buildAuthor(001L, "Nombulelo", "", "Mbula");
+        author1 = AuthorFactory.buildAuthor(001L, "Nombulelo", "Mbula");
 
         author2 = AuthorFactory.buildAuthor(002L, "Joyce", "Brandan", "Candance");
 
-        author3 = AuthorFactory.buildAuthor(003L, "Kruben", "", "Naidoo");
+        author3 = AuthorFactory.buildAuthor(003L, "Kruben",  "Naidoo");
 
 
         authors1 = new ArrayList<>();
@@ -140,13 +144,6 @@ class WishListServiceTest {
         comicBooks3.add(book3);
 
         //Authors
-        author1 = AuthorFactory.buildAuthor(001L, "Lamark", "Principle", "Darwin");
-
-
-        author2 = AuthorFactory.buildAuthor(002L, "Jacob", "Gedleyihlekisa", "Zuma");
-
-
-        author3 = AuthorFactory.buildAuthor(003L, "Mpumzi", "John", "Mbula");
 
 
         authors1 = new ArrayList<>();
@@ -165,9 +162,8 @@ class WishListServiceTest {
 //Books
 
 
-        Set<Genre> genres1 = Set.of(Genre.FANTASY, Genre.SCI_FI);
-        Set<Genre> genres2 = Set.of(Genre.MYSTERY);
-
+        Set<Genre> genres1 = Set.of( GenreFactory.buildGenre("Sci-Fi"), GenreFactory.buildGenre("Action"));
+        Set<Genre> genres2 = Set.of(GenreFactory.buildGenre("Fantasy"));
 
         book1 = ComicBookFactory.bookBuilder("Thor", genres1, "AsGuards Prince son of Zuis",
                 "B01", 299.99, 2.00, 1, authors1, publisher1, LocalDate.of(2022, 03, 04),out.toByteArray());
@@ -211,10 +207,10 @@ class WishListServiceTest {
         System.out.println(shippingAddress3);
 
 
-        Contact con1 = CustomerContactFactory.buildContact("leroyy9@gmail.com", "0739946042", shippingAddress1, billingAddress1);
+        Contact con1 = CustomerContactFactory.buildContact("leroy1@gmail.com", "0739946042", shippingAddress1, billingAddress1);
         System.out.println(con1);
 
-        Contact con2 = CustomerContactFactory.buildContact("james2@gmail.com", "0739946042", shippingAddress2, billingAddress2);
+        Contact con2 = CustomerContactFactory.buildContact("james1@gmail.com", "0739946042", shippingAddress2, billingAddress2);
         System.out.println(con2);
 
         Contact con3 = CustomerContactFactory.buildContact("vxayiya1@gmail.com", "0835805117", shippingAddress3, billingAddress3);
@@ -276,7 +272,10 @@ class WishListServiceTest {
     void update() {
         System.out.println("============================Update==================================");
 
-        WishList wishListToUpdate=new WishList.Builder().copy(wishListCreated2).setUpdatedDate(LocalDate.now()).build();
+        WishList wishListToUpdate=new WishList.Builder().copy(wishList2).
+                setUpdatedDate(LocalDate.now())
+                .setCustomer(customerService.read(3L))
+                .build();
         WishList updatedWishList=wishListService.update(wishListToUpdate);
 
         assertNotNull(updatedWishList);

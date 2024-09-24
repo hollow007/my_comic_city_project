@@ -16,7 +16,7 @@
           <label class="form-label">Genres</label>
           <multiselect
               v-model="selectedGenres"
-              :options="allGenres"
+              :options="genres"
               :multiple="true"
               :taggable="true"
               placeholder="Select genres"
@@ -53,49 +53,35 @@
 
 
       <h3 class="mt-4">Author Details</h3>
-      <div class="row" v-for="(author, index) in comicBook.authors" :key="index">
-        <div class="col-md-4 mb-3">
-          <label class="form-label">First Name</label>
-          <input v-model="author.firstName" type="text" class="form-control" placeholder="Enter first name" />
-        </div>
-        <div class="col-md-4 mb-3">
-          <label class="form-label">Middle Name</label>
-          <input v-model="author.middleName" type="text" class="form-control" placeholder="Enter middle name" />
-        </div>
-        <div class="col-md-4 mb-3 d-flex align-items-end">
-          <div class="w-100">
-            <label class="form-label">Surname</label>
-            <input v-model="author.lastName" type="text" class="form-control" placeholder="Enter surname" />
-          </div>
-          <button
-              type="button"
-              class="btn btn-danger ms-2 mb-2"
-              @click="removeAuthor(index)"
-              :disabled="comicBook.authors.length === 1"
-          >
-            Remove
-          </button>
+      <div class="row mb-3">
+        <div class="col-md-11">
+          <multiselect
+              v-model="comicBook.authors"
+              :options="allAuthors"
+              :multiple="true"
+              :taggable="true"
+              placeholder="Select authors"
+              label="fullName"
+              track-by="authorID"
+             >
+          </multiselect>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col-12 mb-3">
-          <button type="button" class="btn btn-success" @click="addAuthor">+ Add Author</button>
-        </div>
-      </div>
-
 
       <h3 class="mt-4">Publisher Details</h3>
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Name</label>
-          <input v-model="comicBook.publisher.name" type="text" class="form-control" placeholder="Enter name" />
-        </div>
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Year Found</label>
-          <input v-model="comicBook.publisher.yearFounded" type="text" class="form-control" placeholder="Enter year found" />
+      <div class="row mb-3">
+        <div class="col-md-11 ">
+          <multiselect
+              v-model="comicBook.publisher"
+              :options="allPublishers"
+              placeholder="Select publisher"
+              label="fullName"
+              track-by="publisherId"
+              @input="updatePublisher">
+          </multiselect>
         </div>
       </div>
+
 
 
       <div class="mb-3">
@@ -119,6 +105,9 @@
 import Multiselect from "vue-multiselect";
 import 'vue-multiselect/dist/vue-multiselect.css';
 import {createComicBook} from "@/services/comicBookService";
+import {getAllAuthors} from "@/services/AuthorService";
+import {getAllPublishers} from "@/services/PublisherService";
+import {getAllGenre} from "@/services/GenreService";
 
 export default {
   components: {
@@ -144,39 +133,82 @@ export default {
         photo: null,
       },
       selectedGenres: [],
-      allGenres: [
-        { name: "ACTION" },
-        { name: "FANTASY" },
-        { name: "MYSTERY" },
-        { name: "SCI_FI" },
-        { name: "DRAMA" },
-
-      ],
+      genres: [],
       photoUrl: null,
+      selectedAuthors: [],
+      allAuthors: [],
+      selectedPublisher: null,
+      allPublishers: [],
     };
+  },
+  mounted() {
+    this.fetchAuthors();
+    this.fetchPublishers();
+    this.fetchGenres();
   },
   watch: {
     selectedGenres(newVal) {
-      this.comicBook.genres = newVal.map(genre => genre.name);
+      this.comicBook.genres = newVal.map(genre => ({
+        id: genre.id,
+        name: genre.name,
+      }));
       console.log('Genres updated via watcher:', this.comicBook.genres);
     }
+
   },
   methods: {
+    async fetchAuthors() {
+      try {
+        const response = await getAllAuthors();
+        this.allAuthors = response.data.map(author => ({
+          authorID: author.authorID,
+          name: {
+            firstName: author.name.firstName,
+            middleName: author.name.middleName || '',
+            lastName: author.name.lastName
+          },
+          fullName: `${author.authorID} - ${author.name.firstName} ${author.name.middleName || ''} ${author.name.lastName}`.trim(),
+        }));
+      } catch (error) {
+        console.error('Error fetching authors:', error);
+      }
+    },
+    async fetchGenres() {
+      this.loadingGenres = true;
+      try {
+        const response = await getAllGenre();
+        this.genres = response.data.map(genre => ({
+          id: genre.id,
+          name: genre.name,
+        }));
+      } catch (error) {
+        console.error('Error fetching genres:', error);
+        this.errorMsg = 'Failed to load genres.';
+      } finally {
+        this.loadingGenres = false;
+      }
+    },
+    async fetchPublishers() {
+      try {
+        const response = await getAllPublishers();
+        this.allPublishers = response.data.map(publisher => ({
+          publisherId: publisher.publisherId,
+          name: publisher.name,
+          yearFounded: publisher.yearFounded,
+          fullName: `${publisher.publisherId} - ${publisher.name} ${publisher.yearFounded}`,
+        }));
+      } catch (error) {
+        console.error('Error fetching publishers:', error);
+      }
+    },
+
+    updatePublisher() {
+      this.comicBook.publisher = this.selectedPublisher;
+    },
     updateGenres() {
       this.comicBook.genres = this.selectedGenres.map(genre => genre.name);
     },
-    addAuthor() {
-      this.comicBook.authors.push({
-        firstName: '',
-        middleName: '',
-        lastName: '',
-      });
-    },
-    removeAuthor(index) {
-      if (this.comicBook.authors.length > 1) {
-        this.comicBook.authors.splice(index, 1);
-      }
-    },
+
     handleFileUpload(event) {
       const file = event.target.files[0];
       if (file) {
@@ -213,16 +245,17 @@ export default {
       const comicBookData = {
         ...this.comicBook,
         authors: this.comicBook.authors.map(author => ({
-
+          authorID: author.authorID,
           name: {
-            firstName: author.firstName,
-            middleName: author.middleName || '',
-            lastName: author.lastName
+            firstName: author.name.firstName,
+            middleName: author.name.middleName || '',
+            lastName: author.name.lastName
           }
         })),
         publisher: {
-          ...this.comicBook.publisher,
-          yearFounded: parseInt(this.comicBook.publisher.yearFounded, 10)
+          publisherId: this.comicBook.publisher.publisherId,
+          name: this.comicBook.publisher.name,
+          yearFounded : this.comicBook.publisher.yearFounded
         },
         weight: parseFloat(this.comicBook.weight),
         price: parseFloat(this.comicBook.price),
@@ -249,6 +282,7 @@ export default {
       }
     }
   },
+
 };
 </script>
 
@@ -402,6 +436,5 @@ h3 {
 .align-items-end {
   align-items: flex-end;
 }
-
 
 </style>

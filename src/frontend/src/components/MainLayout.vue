@@ -29,10 +29,13 @@
             <router-link class="nav-link text-light" to="/comic-books">Comic Books</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link text-light" to="/add-new-book">Add Comic</router-link>
+            <router-link class="nav-link text-light" to="/view-orders">Orders Management</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link text-light" to="/view-orders">Orders Management</router-link>
+            <router-link class="nav-link text-light" to="/authors">Authors</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link text-light" to="/publishers">Publishers</router-link>
           </li>
         </ul>
         <!-- Fixed Logout Button -->
