@@ -19,6 +19,7 @@ import java.util.List;
 public class ComicBook {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+//id
 
     private Long sku;
 
@@ -57,11 +58,9 @@ public class ComicBook {
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 
-    @ElementCollection(targetClass = Genre.class ,fetch = FetchType.EAGER)
-    @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "comic_book_genres", joinColumns = @JoinColumn(name = "comic_book_id"))
+    @ManyToMany
     @Column(name = "genre")
-    private Set<Genre> genres;  // Multiple genre
+    private Set<Genre> genres;
 
     @Lob
     @Column(length=100000)

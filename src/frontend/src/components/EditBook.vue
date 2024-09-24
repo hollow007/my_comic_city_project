@@ -122,7 +122,7 @@ export default {
         releaseDate: '',
         description: '',
         quantity: '',
-        authors: [], // Initialize as an empty array
+        authors: [],
         publisher: {
           publisherId: '',
           name: '',
@@ -145,7 +145,7 @@ export default {
     async fetchComicBook(bookId) {
       try {
         const response = await getComicBook(bookId);
-        const data = response.data; // Assuming you're destructuring from response.data
+        const data = response.data;
 
         console.log('Fetched Comic Book Data:', data);
 
@@ -165,10 +165,10 @@ export default {
             photo: data.photo || null
           };
 
-          // Convert genres from Set to a displayable string
+
           this.displayGenres = Array.from(this.comicBook.genres).join(', ');
 
-          // Display the photo if it exists
+
           if (this.comicBook.photo) {
             this.photoUrl = `data:image/jpeg;base64,${this.comicBook.photo}`;
           }
@@ -263,7 +263,7 @@ h3 {
 
 .btn-link:hover {
   text-decoration: underline;
-  color: #007bff; /* Optional: Add a hover color */
+  color: #007bff;
 }
 
 .img-thumbnail {
@@ -288,7 +288,7 @@ h3 {
 .page-title {
   font-family: 'Comic Sans MS', sans-serif;
   font-weight: bold;
-  font-size: 2rem; /* Slightly larger for the main page title */
+  font-size: 2rem;
   color: #333;
   text-transform: uppercase;
   text-shadow: 2px 2px 0px #000, -2px -2px 0px #000;
@@ -325,7 +325,7 @@ textarea.form-control {
   background-color: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  border: 4px solid #333; /* Bold border to mimic comic panels */
+  border: 4px solid #333;
   font-family: 'Comic Sans MS', sans-serif;
 }
 
@@ -340,27 +340,27 @@ table th,
 table td {
   padding: 12px;
   text-align: left;
-  border-bottom: 2px solid #333; /* Thicker border for a comic feel */
+  border-bottom: 2px solid #333;
 }
 
 table th {
-  background-color: #f2f2f2; /* Light gray background for the header */
+  background-color: #f2f2f2;
   font-weight: bold;
   text-transform: uppercase;
   border-top: 4px solid #333;
 }
 
 table tr:nth-child(even) {
-  background-color: #fff; /* White background for even rows */
+  background-color: #fff;
 }
 
 table tr:nth-child(odd) {
-  background-color: #f9f9f9; /* Light gray background for odd rows */
+  background-color: #f9f9f9;
 }
 
 table tr:hover {
-  background-color: #ffcc00; /* Comic book yellow on hover */
-  transform: scale(1.02); /* Slight zoom effect on hover */
+  background-color: #ffcc00;
+  transform: scale(1.02);
 }
 
 .btn {

@@ -11,6 +11,7 @@ import za.ac.cput.domain.Genre;
 import za.ac.cput.domain.Publisher;
 import za.ac.cput.factory.AuthorFactory;
 import za.ac.cput.factory.ComicBookFactory;
+import za.ac.cput.factory.GenreFactory;
 import za.ac.cput.factory.PublisherFactory;
 import za.ac.cput.service.authorService.AuthorService;
 import za.ac.cput.service.comicBookService.ComicBookService;
@@ -84,8 +85,8 @@ class ComicBookControllerTest {
 
         publisher1 = PublisherFactory.buildPublisher(34655L, "Marvel", 2000);
 
-        Set<Genre> genres1 = Set.of(Genre.FANTASY, Genre.SCI_FI);
-        Set<Genre> genres2 = Set.of(Genre.MYSTERY);
+        Set<Genre> genres1 = Set.of( GenreFactory.buildGenre("Sci-Fi"), GenreFactory.buildGenre("Action"));
+        Set<Genre> genres2 = Set.of(GenreFactory.buildGenre("Fantasy"));
 
 
         book1 = ComicBookFactory.bookBuilder("Thor", genres1, "AsGuards Prince son of Zuis",

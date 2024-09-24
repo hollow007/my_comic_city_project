@@ -7,6 +7,9 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.OneToOne;
 //
 
+//Role Entity
+//
+
 
 @MappedSuperclass
 public class User{

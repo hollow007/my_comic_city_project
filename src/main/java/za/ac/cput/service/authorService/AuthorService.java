@@ -1,7 +1,7 @@
 package za.ac.cput.service.authorService;
 // Mlungisi L. Mbuyazi
 // 221164014
-// https://github.com/Skiet88/comic__city_project
+// https://github.com/Skiet88/comic_city_project
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.ac.cput.domain.Address;
@@ -21,25 +21,11 @@ public class AuthorService implements IAuthorService{
     @Autowired
     public AuthorService(AuthorRepository authorRepository) {
         this.repo = authorRepository;
-
     }
 
     @Override
     public Author create(Author author) {
-        if (author != null) {
-            System.out.println("checking if existing author exists");
-            Optional<Author> existingAuthor = repo.findById(author.getAuthorID());
-            if (existingAuthor.isPresent()) {
-                System.out.println("found author");
-                author = existingAuthor.get();
-            } else {
-                System.out.println("saving new author");
-                author = repo.save(author);
-                System.out.println("Saved");
-            }
-        }
-        return author;
-
+        return repo.save(author);
     }
 
     @Override

@@ -9,6 +9,7 @@ import za.ac.cput.domain.Genre;
 import za.ac.cput.service.comicBookService.ComicBookService;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -70,9 +71,14 @@ public class ComicBookController {
         return new ResponseEntity<>(comicBooks, HttpStatus.OK);
     }
 
+//    @GetMapping("/search/genres")
+//    public ResponseEntity<List<ComicBook>> findByGenresIn(@RequestParam("genres") Set<Genre> genres) {
+//        List<ComicBook> comicBooks = comicBookService.findByGenresIn(genres);
+//        return new ResponseEntity<>(comicBooks, HttpStatus.OK);
+//    }
     @GetMapping("/search/genres")
-    public ResponseEntity<List<ComicBook>> findByGenresIn(@RequestParam("genres") Set<Genre> genres) {
-        List<ComicBook> comicBooks = comicBookService.findByGenresIn(genres);
-        return new ResponseEntity<>(comicBooks, HttpStatus.OK);
+    public List<ComicBook> getComicBooksByGenres(@RequestParam List<String> genres) {
+        Set<String> genreSet = new HashSet<>(genres);
+        return comicBookService.findByGenreNamesIn(genreSet);
     }
 }

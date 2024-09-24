@@ -29,30 +29,7 @@ public class PublisherService implements IPublisherService {
                 p.getName(),
                 p.getYearFounded()
         );
-
-        if (publisher != null) {
-            System.out.println("publisher to be Saved: " + publisher);
-            if (publisher.getPublisherId() == null ||
-                    publisher.getPublisherId() == 0) {
-                System.out.println("saving new publisher");
-
-                publisher = repository.save(publisher);
-                System.out.println("Saved");
-                System.out.println("Saved publisher" + publisher);
-            } else {
-                System.out.println("checking if  publisher exists");
-
-                Optional<Publisher> existingPublisher = repository.findById(publisher.getPublisherId());
-
-                if (existingPublisher.isPresent()) {
-                    System.out.println("found publisher");
-                    publisher = existingPublisher.get();
-                } else {
-                    repository.save(publisher);
-                }
-                }
-        }
-        return publisher;
+        return repository.save(publisher);
     }
 
     @Override

@@ -44,7 +44,8 @@ class InvoiceServiceTest {
         authors.add(author1);
         authors.add(author2);
 
-        Set<Genre> genres1 = Set.of(Genre.FANTASY, Genre.SCI_FI);
+        Set<Genre> genres1 = Set.of( GenreFactory.buildGenre("Sci-Fi"), GenreFactory.buildGenre("Action"));
+
         comicBook = ComicBookFactory.bookBuilder("Thor", genres1, "AsGuards Prince son of Zuis",
                 "B01", 299.99, 2.00, 1, authors, publisher, LocalDate.of(2022, 03, 04), new byte[0]);
 

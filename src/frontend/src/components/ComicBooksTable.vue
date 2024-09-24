@@ -1,12 +1,15 @@
 
 <template>
   <div class="table-container">
-    <h2>Comic Book Inventory</h2>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h2 class="me-3  p-7">Comic Books Management</h2>
+      <button @click="AddNewBook" class="btn btn-success"><b>+</b>Add New</button>
+    </div>
 
-    <!-- Filter Section -->
+
     <div class="filters card p-3 mb-4">
       <div class="row g-3">
-        <!-- Filter by Name -->
+
         <div class="col-md-4">
           <input
               v-model="searchName"
@@ -17,7 +20,7 @@
           />
         </div>
 
-        <!-- Filter by Release Date Range -->
+
         <div class="col-md-3">
           <input
               v-model="startDate"
@@ -40,9 +43,9 @@
           </button>
         </div>
 
-        <!-- Filter by Genres -->
+
         <div class="col-md-12">
-          <div class="form-check form-check-inline " v-for="genre in genres" :key="genre">
+          <div class="form-check form-check-inline" v-for="genre in genres" :key="genre">
             <input
                 class="form-check-input strong-border"
                 type="checkbox"
@@ -51,19 +54,25 @@
             />
             <label class="form-check-label">{{ genre }}</label>
           </div>
-          <button @click="fetchBooksByGenres" class="btn btn-secondary mt-2 strong-border">
+
+          <button @click="fetchBooksByGenres" class="btn btn-secondary mt-2 me-5 strong-border">
             Filter by Genres
           </button>
+
+          <button @click="toGenres" class="btn btn-success mt-2 strong-border">
+            Add New Genre
+          </button>
         </div>
+
       </div>
     </div>
 
-    <!-- Loading and Error Messages -->
-    <p v-if="loading" class="loading-message">Loading...</p>
+
+    <p v-if="loadingBooks || loadingGenres" class="loading-message">Loading...</p>
     <p v-if="errorMsg" class="error-message">{{ errorMsg }}</p>
 
-    <!-- Comic Book Table with Original Theme -->
-    <table v-if="!loading && books.length > 0">
+
+    <table >
       <thead>
       <tr>
         <th>Title</th>
@@ -77,19 +86,22 @@
       </tr>
       </thead>
       <tbody>
+
       <tr v-for="book in books" :key="book.sku">
         <td>{{ book.name }}</td>
         <td>{{ book.sku }}</td>
         <td>{{ book.isbn }}</td>
         <td>{{ book.releaseDate }}</td>
-        <td>{{ book.price.toFixed(2) }}</td>
-        <td>{{ book.genres.join(', ') }}</td>
+        <td>{{ book.price ? book.price.toFixed(2) : 'N/A' }}</td>
+        <td>{{ book.genres.map(genre => genre.name).join(', ') }}</td>
         <td>{{ book.quantity }}</td>
         <td class="actions">
           <button @click="editBook(book.sku)">Edit</button>
           <button @click="confirmDelete(book.sku)" class="delete">Delete</button>
         </td>
       </tr>
+
+
       <tr v-if="books.length === 0">
         <td colspan="8" class="no-data">No books available.</td>
       </tr>
@@ -101,9 +113,9 @@
 <script>
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
+import { getAllGenre } from "@/services/GenreService";
 
 export default {
-
   data() {
     return {
       books: [],
@@ -111,27 +123,58 @@ export default {
       startDate: '',
       endDate: '',
       selectedGenres: [],
-      loading: false,
+      loadingBooks: false,
+      loadingGenres: false,
       errorMsg: '',
-      genres: ['ACTION', 'FANTASY', 'MYSTERY', 'SCI_FI', 'DRAMA'], // Define genres array for the checkboxes
+      genres: [],
     };
   },
+
   methods: {
+    fetchAllBooks() {
+      this.loadingBooks = true;
+      fetch(`/api/comiccity/comic_book/getAll`)
+          .then((response) => response.json())
+          .then((data) => {
+            this.books = data;
+            console.log("Books: ", this.books)
+            this.loadingBooks = false;
+          })
+          .catch((error) => {
+            this.errorMsg = 'Error fetching all books';
+            this.loadingBooks = false;
+            console.error(error);
+          });
+    },
+
+    async fetchGenres() {
+      this.loadingGenres = true;
+      try {
+        const response = await getAllGenre();
+        this.genres = response.data.map(genre => genre.name);
+      } catch (error) {
+        console.error('Error fetching genres:', error);
+        this.errorMsg = 'Failed to load genres.';
+      } finally {
+        this.loadingGenres = false;
+      }
+    },
+
     fetchBooksByName() {
       if (!this.searchName) {
         this.fetchAllBooks();
         return;
       }
-      this.loading = true;
+      this.loadingBooks = true;
       fetch(`/api/comiccity/comic_book/search/name/${this.searchName}`)
           .then((response) => response.json())
           .then((data) => {
             this.books = data;
-            this.loading = false;
+            this.loadingBooks = false;
           })
           .catch((error) => {
             this.errorMsg = 'Error fetching data by name';
-            this.loading = false;
+            this.loadingBooks = false;
             console.error(error);
           });
     },
@@ -145,58 +188,51 @@ export default {
         this.errorMsg('Start date cannot be later than end date');
         return;
       }
-      this.loading = true;
+      this.loadingBooks = true;
       fetch(`/api/comiccity/comic_book/search/releaseDates?startDate=${this.startDate}&endDate=${this.endDate}`)
           .then((response) => response.json())
           .then((data) => {
             this.books = data;
-            this.loading = false;
+            this.loadingBooks = false;
           })
           .catch((error) => {
             this.errorMsg = 'Error fetching data by release date';
-            this.loading = false;
+            this.loadingBooks = false;
             console.error(error);
           });
     },
 
     fetchBooksByGenres() {
       if (this.selectedGenres.length === 0) {
-        // If no genres are selected, fetch all books
         this.fetchAllBooks();
         return;
       }
-      this.loading = true;
-      const genresParam = this.selectedGenres.join(',');
+      this.loadingBooks = true;
+
+
+      const genreNames = this.selectedGenres.map(genre => genre);
+      const genresParam = genreNames.join(',');
+
       fetch(`/api/comiccity/comic_book/search/genres?genres=${genresParam}`)
           .then((response) => response.json())
           .then((data) => {
             this.books = data;
-            this.loading = false;
+            this.loadingBooks = false;
           })
           .catch((error) => {
             this.errorMsg = 'Error fetching data by genres';
-            this.loading = false;
+            this.loadingBooks = false;
             console.error(error);
           });
     },
 
-    fetchAllBooks() {
-      this.loading = true;
-      fetch(`/api/comiccity/comic_book/getAll`)
-          .then((response) => response.json())
-          .then((data) => {
-            this.books = data;
-            this.loading = false;
-          })
-          .catch((error) => {
-            this.errorMsg = 'Error fetching all books';
-            this.loading = false;
-            console.error(error);
-          });
-    },
 
     editBook(id) {
       this.$router.push(`/edit-book/${id}`);
+    },
+
+    toGenres() {
+      this.$router.push(`/genres`);
     },
 
     confirmDelete(bookId) {
@@ -221,15 +257,22 @@ export default {
             console.error('There was a problem with the delete operation:', error);
           });
     },
+
+    AddNewBook() {
+      this.$router.push({ name: 'AddNewBook' });
+    },
   },
+
   mounted() {
     this.fetchAllBooks();
+    this.fetchGenres();
   },
 };
+
 </script>
 
 <style scoped>
-/* Retained original styles for table and other components */
+
 .table-container {
   width: 100%;
   max-width: 1000px;
@@ -238,7 +281,7 @@ export default {
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border: 4px solid #333; /* Bold border to mimic comic panels */
+  border: 4px solid #333;
 }
 
 .table-container h2 {
@@ -261,7 +304,7 @@ table th,
 table td {
   padding: 12px;
   text-align: left;
-  border-bottom: 2px solid #333; /* Thicker border for a comic feel */
+  border-bottom: 2px solid #333;
 }
 
 table th {
@@ -281,7 +324,7 @@ table tr:nth-child(odd) {
 
 table tr:hover {
   background-color: #ffcc00;
-  transform: scale(1.02); /* Slight zoom effect on hover */
+  transform: scale(1.02);
 }
 
 .actions {
@@ -311,7 +354,7 @@ table tr:hover {
 }
 
 .actions button:hover {
-  background-color: #ffcc00; /* Yellow on hover for both buttons */
+  background-color: #ffcc00;
   color: #333;
   border-color: #333;
 }
@@ -339,13 +382,13 @@ table tr:hover {
   background-color: #ffcc00;
 }
 
-/* Strong Borders for Filter Fields */
+
 .strong-border {
-  border: 2px solid #333 !important; /* Stronger, comic-style borders */
+  border: 2px solid #333 !important;
   border-radius: 6px;
 }
 
 .form-check-input.strong-border {
-  border: 2px solid #333 !important; /* Checkbox specific strong borders */
+  border: 2px solid #333 !important;
 }
 </style>

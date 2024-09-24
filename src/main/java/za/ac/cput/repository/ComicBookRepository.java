@@ -21,7 +21,7 @@ public interface ComicBookRepository extends JpaRepository<ComicBook, Long> {
     List<ComicBook> findByNameContainingIgnoreCase(String name);
     List<ComicBook> findBySku(Long sku);
     List<ComicBook> findByReleaseDateBetween(LocalDate startDate, LocalDate endDate);
-    @Query("SELECT c FROM ComicBook c JOIN c.genres g WHERE g IN :genres")
-    List<ComicBook> findByGenresIn(@Param("genres") Set<Genre> genres);
+    @Query("SELECT c FROM ComicBook c JOIN c.genres g WHERE g.name IN :genreNames")
+    List<ComicBook> findByGenreNamesIn(@Param("genreNames") Set<String> genreNames);
 
 }

@@ -22,8 +22,8 @@ public class CustomerService implements ICustomerService{
     @Override
     public Customer create(Customer customer) {
 
-//        Contact contact = contactService.create(customer.getContact());
-//        System.out.println("Saved Contact: " + contact);
+       Contact contact = contactService.create(customer.getContact());
+       System.out.println("Saved Contact: " + contact);
         System.out.println("In create with customer: " + customer);
         if(customer.getCustomerId() ==  null ||
                 customer.getCustomerId() == 0){

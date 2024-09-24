@@ -11,6 +11,7 @@ import za.ac.cput.domain.*;
 
 import za.ac.cput.factory.AuthorFactory;
 import za.ac.cput.factory.ComicBookFactory;
+import za.ac.cput.factory.GenreFactory;
 import za.ac.cput.factory.PublisherFactory;
 import za.ac.cput.service.authorService.AuthorService;
 
@@ -71,9 +72,9 @@ class ComicBookServiceTest {
 
         System.out.println("============================SETUP==================================");
 
-        String url1 ="images/ComicBookCover9.jpeg";
-        String url2="images/ComicBookCover10.jpeg";
-        String url3="images/ComicBookCover6.jpeg";
+        String url1 ="images/ComicBookCover10.jpeg";
+        String url2="images/ComicBookCover8.jpeg";
+        String url3="images/ComicBookCover9.jpeg";
       
         try {
 
@@ -123,10 +124,10 @@ class ComicBookServiceTest {
         publisher3 = PublisherFactory.buildPublisher(5L, "DCComics", 1910);
 //Books
 
-        genres1 = Set.of(Genre.FANTASY, Genre.SCI_FI);
-        genres2 = Set.of(Genre.MYSTERY);
+        Set<Genre> genres1 = Set.of( GenreFactory.buildGenre("Sci-Fi"), GenreFactory.buildGenre("Action"));
+        Set<Genre> genres2 = Set.of(GenreFactory.buildGenre("Fantasy"));
 
-        
+
         book1 = ComicBookFactory.bookBuilder("The GAME 2", genres1, "Spaace Wars in far awa galaxy",
                 "B10", 474.99, 1.50, 7, authors1, publisher3, LocalDate.of(2024, 8, 11), out.toByteArray());
         book2 = ComicBookFactory.bookBuilder("BeeKeeper 3", genres2, "A scientific experiment disaster creates a superhero",

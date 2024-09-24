@@ -60,7 +60,7 @@ class WishListControllerTest {
 
         publisher1 = PublisherFactory.buildPublisher(1234L, "Marvel", 2000);
 
-        Set<Genre> genres1 = Set.of(Genre.FANTASY, Genre.SCI_FI);
+        Set<Genre> genres1 = Set.of( GenreFactory.buildGenre("Sci-Fi"), GenreFactory.buildGenre("Action"));
 
 
         book1 = ComicBookFactory.bookBuilder("Thor", genres1, "AsGuards Prince son of Zuis",
