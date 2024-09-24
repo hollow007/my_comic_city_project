@@ -103,11 +103,11 @@ class CartServiceTest {
         }
 
         //Authors
-        author1 = AuthorFactory.buildAuthor(001L, "Nombulelo", "", "Mbula");
+        author1 = AuthorFactory.buildAuthor(001L, "Nombulelo",  "Mbula");
 
         author2 = AuthorFactory.buildAuthor(002L, "Joyce", "Brandan", "Candance");
 
-        author3 = AuthorFactory.buildAuthor(003L, "Kruben", "", "Naidoo");
+        author3 = AuthorFactory.buildAuthor(003L, "Kruben", "Naidoo");
 
 
         authors1 = new ArrayList<>();
@@ -126,8 +126,8 @@ class CartServiceTest {
 //Books
 
 
-       Set<Genre> genres1 = Set.of(Genre.FANTASY, Genre.SCI_FI);
-        Set<Genre> genres2 = Set.of(Genre.MYSTERY);
+        Set<Genre> genres1 = Set.of( GenreFactory.buildGenre("Sci-Fi"), GenreFactory.buildGenre("Action"));
+        Set<Genre> genres2 = Set.of(GenreFactory.buildGenre("Fantasy"));
 
 
         book1 = ComicBookFactory.bookBuilder("Thor", genres1, "AsGuards Prince son of Zuis",

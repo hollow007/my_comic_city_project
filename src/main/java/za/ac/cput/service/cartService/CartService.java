@@ -66,6 +66,12 @@ public class CartService implements ICartService {
 
         System.out.println("Comic Books: " + comicBooks);
 
+        cart =  new Cart.Builder()
+                .copy(cart)
+                .setComicBooks(comicBooks)
+                .setCustomer(customer)
+                .build();
+
         if (cart != null) {
             System.out.println("cart to be Saved: " + cart);
             if(cart.getCartId() ==  null ||
