@@ -30,3 +30,6 @@ export const addBookToWishList = (wishListId, sku) => {
 export const getCustomerWishList = (email) => {
     return axios.get(`${API_URL}/getCustomerWishList/${email}`);
 };
+export const assignWishListToCustomer = (customerId) => {
+    return axios.get(`${API_URL}/assignWishListToCustomer/${customerId}`);
+};

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Order;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import za.ac.cput.api.AssignCartToCustomerApi;
 import za.ac.cput.domain.*;
 import za.ac.cput.factory.*;
 
@@ -28,6 +29,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class CartServiceTest {
     @Autowired
     private CartService cartService;
+    @Autowired
+    private AssignCartToCustomerApi assignCartToCustomerApi;
     private static Cart cart1;
     private static Cart cart2;
     private static Cart cart3;
@@ -228,7 +231,7 @@ class CartServiceTest {
     void read() {
         System.out.println("============================Read==================================");
 
-        Cart cartRead = cartService.read(2L);
+        Cart cartRead = cartService.read(1L);
         assertNotNull(cartRead);
         System.out.println(cartRead);
     }
@@ -295,5 +298,12 @@ class CartServiceTest {
         System.out.println(cartFetched);
 
 
+    }
+
+    @Test
+    void setAssignCartToCustomerApi() {
+        Cart assignedCart=assignCartToCustomerApi.assignCartToCustomer(2L);
+        assertNotNull(assignedCart);
+        System.out.println(assignedCart);
     }
 }

@@ -35,3 +35,6 @@ export const placeOrder = (cartId, orderData) => { //still needs to be fixed for
 export const getCustomerCart = (email) => {
     return axios.get(`${API_URL}/getCustomerCart/${email}`);
 };
+export const assignCartToCustomer = (customerId) => {
+    return axios.get(`${API_URL}/assignCartToCustomer/${customerId}`);
+};

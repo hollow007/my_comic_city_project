@@ -3,6 +3,7 @@ package za.ac.cput.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import za.ac.cput.api.AddToWishListApi;
+import za.ac.cput.api.AssignWishListToCustomerApi;
 import za.ac.cput.api.RemoveFromWishListApi;
 import za.ac.cput.domain.Cart;
 import za.ac.cput.domain.WishList;
@@ -17,11 +18,14 @@ public class WishListController {
 private final WishListService wishListService;
 private final AddToWishListApi addToWishListApi;
 private final RemoveFromWishListApi removeFromWishListApi;
+private AssignWishListToCustomerApi assignWishListToCustomerApi;
+@Autowired
 
-    public WishListController(RemoveFromWishListApi removeFromWishListApi,WishListService wishListService, AddToWishListApi addToWishListApi) {
+    public WishListController(RemoveFromWishListApi removeFromWishListApi,WishListService wishListService, AddToWishListApi addToWishListApi,AssignWishListToCustomerApi assignWishListToCustomerApi) {
        this.removeFromWishListApi=removeFromWishListApi;
         this.addToWishListApi=addToWishListApi;
         this.wishListService = wishListService;
+        this.assignWishListToCustomerApi=assignWishListToCustomerApi;
     }
 
 
@@ -65,5 +69,10 @@ private final RemoveFromWishListApi removeFromWishListApi;
     @GetMapping("/getCustomerWishList/{email}")
     public WishList getCustomerWishList(@PathVariable("email") String email){
         return wishListService.getWishListWithCustomerEmail(email);
+    }
+    @GetMapping("/assignWishListToCustomer/{customerId}")
+    public WishList assignWishListToCustomer(@PathVariable("customerId") Long customerId){
+        System.out.println("Arrived at Controller method with Id:"+customerId);
+        return assignWishListToCustomerApi.assignWishListToCustomer(customerId);
     }
 }

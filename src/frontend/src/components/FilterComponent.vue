@@ -2,6 +2,7 @@
   <div class="filter-container">
     <h3>Filter By</h3>
 
+    <!-- Price Filter -->
     <div class="filter-group">
       <h4>Price</h4>
       <div class="price-slider-container">
@@ -20,14 +21,16 @@
       </div>
     </div>
 
+    <!-- Genre Filter -->
     <div class="filter-group">
       <h4>Genre</h4>
       <select v-model="selectedGenre">
         <option value="">All</option>
-        <option v-for="genre in genres" :key="genre" :value="genre">{{ genre }}</option>
+        <option v-for="genre in genres" :key="genre" :value="genre.name">{{ genre.name }}</option>
       </select>
     </div>
 
+    <!-- Release Date Filter -->
     <div class="filter-group">
       <h4>Release Date</h4>
       <div class="date-range">
@@ -42,11 +45,12 @@
       </div>
     </div>
 
+    <!-- Publisher Filter -->
     <div class="filter-group">
       <h4>Publisher</h4>
       <select v-model="selectedPublisher">
         <option value="">All</option>
-        <option v-for="publisher in publishers" :key="publisher" :value="publisher">{{ publisher }}</option>
+        <option v-for="publisher in publishers" :key="publisher" :value="publisher.name">{{ publisher.name }}</option>
       </select>
     </div>
 
@@ -55,6 +59,9 @@
 </template>
 
 <script>
+import { getAllGenre } from "@/services/GenreService";
+import { getAllPublishers } from "@/services/PublisherService";
+
 export default {
   data() {
     return {
@@ -63,24 +70,49 @@ export default {
       selectedReleaseDateFrom: '',
       selectedReleaseDateTo: '',
       selectedPublisher: '',
-      genres: ['Action', 'Adventure', 'Drama', 'Fantasy'],
-      publishers: ['SA Comics', 'DC', 'Dark Horse'],
+      genres: [],
+      publishers: [],
     };
   },
+  mounted() {
+    this.loadGenres();
+    this.fetchPublishers();
+  },
+
   methods: {
     updatePriceRange() {
       // No need for logic here for a single slider
     },
+
+    async loadGenres() {
+      try {
+        const response = await getAllGenre();
+        this.genres = response.data;
+      } catch (error) {
+        console.error("Error fetching genres:", error);
+      }
+    },
+
+    async fetchPublishers() {
+      try {
+        const response = await getAllPublishers();
+        this.publishers = response.data;
+      } catch (error) {
+        console.error("Error fetching publishers:", error);
+      }
+    },
+
     applyFilters() {
-      this.$emit('filter', {
+      this.$emit("filter", {
         minPrice: 0, // Fixed min price
         maxPrice: this.maxPrice,
-        genre: this.selectedGenre,
-        releaseDateFrom: this.selectedReleaseDateFrom,
-        releaseDateTo: this.selectedReleaseDateTo,
-        publisher: this.selectedPublisher,
+        genre: this.selectedGenre ? this.selectedGenre : null,
+        releaseDateFrom: this.selectedReleaseDateFrom || null,
+        releaseDateTo: this.selectedReleaseDateTo || null,
+        publisher: this.selectedPublisher ? this.selectedPublisher : null,
       });
     },
+
     formatCurrency(value) {
       return `R${value.toLocaleString()}`;
     }

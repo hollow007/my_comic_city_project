@@ -1,30 +1,32 @@
 <template>
   <div class="create-customer-container">
     <h1 class="title">Create a Customer Account</h1>
+    <!-- Importing and using the spinner -->
+    <SpinnerComponent :visible="loading" />
     <form @submit.prevent="handleSubmit">
       <label for="firstName">First Name:</label>
-      <input id="firstName" v-model="customer.firstName" placeholder="First Name" required />
+      <input id="firstName" v-model="customer.firstName" placeholder="First Name" required/>
 
       <label for="middleName">Middle Name:</label>
-      <input id="middleName" v-model="customer.middleName" placeholder="Middle Name" />
+      <input id="middleName" v-model="customer.middleName" placeholder="Middle Name"/>
 
       <label for="lastName">Last Name:</label>
-      <input id="lastName" v-model="customer.lastName" placeholder="Last Name" required />
+      <input id="lastName" v-model="customer.lastName" placeholder="Last Name" required/>
 
       <label for="email">Email:</label>
-      <input id="email" type="email" v-model="customer.contact.email" placeholder="Email" required />
+      <input id="email" type="email" v-model="customer.contact.email" placeholder="Email" required/>
 
       <label for="mobile">Mobile:</label>
-      <input id="mobile" v-model="customer.contact.mobile" placeholder="Mobile" />
+      <input id="mobile" v-model="customer.contact.mobile" placeholder="Mobile"/>
 
       <label for="billingAddress">Billing Address:</label>
-      <input id="billingAddress" v-model="customer.contact.billingAddress" placeholder="Billing Address" />
+      <input id="billingAddress" v-model="customer.contact.billingAddress" placeholder="Billing Address"/>
 
       <label for="shippingAddress">Shipping Address:</label>
-      <input id="shippingAddress" v-model="customer.contact.shippingAddress" placeholder="Shipping Address" />
+      <input id="shippingAddress" v-model="customer.contact.shippingAddress" placeholder="Shipping Address"/>
 
       <label for="password">Password:</label>
-      <input id="password" type="password" v-model="customer.password" placeholder="Password" required />
+      <input id="password" type="password" v-model="customer.password" placeholder="Password" required/>
 
       <button type="submit" :disabled="!isValidForm">Create Account</button>
     </form>
@@ -33,11 +35,17 @@
 </template>
 
 <script>
-import CustomerService from '@/services/CustomerService'; // Ensure you have this service to handle the API calls
+import CustomerService from '@/services/CustomerService';
+import {assignCartToCustomer} from "@/services/cartService";
+import {assignWishListToCustomer} from "@/services/wishlistService";
+import SpinnerComponent from "@/components/SpinnerComponent.vue"; // Ensure you have this service to handle the API calls
 
 export default {
+  components:{
+    SpinnerComponent,
+  },
   data() {
-    return {
+    return {  loading: false,
       customer: {
         firstName: '',
         middleName: '',
@@ -64,7 +72,7 @@ export default {
         this.errorMessage = 'Please fill out all required fields.';
         return;
       }
-
+      this.loading = true
       const customerData = {
         name: {
           firstName: this.customer.firstName,
@@ -94,23 +102,41 @@ export default {
 
 
       console.log('Customer Data Being Submitted:', customerData);
-
       try {
-        let response = await CustomerService.createCustomer(customerData);
+        console.log('Customer data being sent:', customerData);
 
-        console.log('Customer saved successfully:', response);
+        const createdCustomer = await CustomerService.createCustomer(customerData);
+        console.log('Customer saved successfully:', createdCustomer);
+
+        const customerId = createdCustomer.customerId;
+
+        const response2 = await assignCartToCustomer(customerId);
+        console.log('Cart assigned successfully', response2);
+
+        const response3=await assignWishListToCustomer(customerId);
+        console.log('WishList assigned successfully',response3)
+
         alert('Account created successfully!');
         this.$router.push('/login');
       } catch (error) {
-        console.error('Error saving customer:', error);
+        console.error('Error saving customer:', error.response ? error.response.data : error);
         this.errorMessage = 'Failed to create account.';
       }
+      finally {
+        this.loading = false; // Hide spinner
+      }
     }
-  }
+  },
 };
 </script>
 
 <style scoped>
+
+/* Disable button when loading */
+button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
 .create-customer-container {
   max-width: 600px;
   margin: 0 auto;

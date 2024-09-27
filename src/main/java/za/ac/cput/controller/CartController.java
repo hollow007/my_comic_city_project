@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import za.ac.cput.api.AddToCartApi;
+import za.ac.cput.api.AssignCartToCustomerApi;
 import za.ac.cput.api.RemoveFromCartApi;
 import za.ac.cput.domain.Cart;
 import za.ac.cput.service.cartService.CartService;
@@ -18,12 +19,14 @@ public class CartController {
     private CartService cartService;
     private AddToCartApi addToCartApi;
     private RemoveFromCartApi removeFromCartApi;
+    private AssignCartToCustomerApi assignCartToCustomerApi;
 
     @Autowired
-    public CartController(CartService cartService,AddToCartApi addToCartApi,RemoveFromCartApi removeFromCartApi) {
+    public CartController(CartService cartService,AddToCartApi addToCartApi,RemoveFromCartApi removeFromCartApi,AssignCartToCustomerApi assignCartToCustomerApi) {
         this.cartService = cartService;
         this.addToCartApi=addToCartApi;
         this.removeFromCartApi=removeFromCartApi;
+        this.assignCartToCustomerApi=assignCartToCustomerApi;
     }
 
 
@@ -76,6 +79,11 @@ public class CartController {
     public Cart getCartWithCustomerEmail(@PathVariable("email") String email){
         return cartService.getCartByCustomerEmail(email);
     }
+@GetMapping("/assignCartToCustomer/{customerId}")
+    public Cart assignCartToCustomer(@PathVariable("customerId") Long customerId){
+    System.out.println("Arrived at Controller method with Id:"+customerId);
+        return assignCartToCustomerApi.assignCartToCustomer(customerId);
+}
 
 }
 

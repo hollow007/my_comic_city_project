@@ -20,83 +20,16 @@ import java.util.stream.Collectors;
 @Service
 public class CartService implements ICartService {
     private CartRepository cartRepository;
-    private ComicBookRepository comicBookRepository;
-
-
-    private CustomerService customerService;
-    private ComicBookService comicBookService;
-
 
     @Autowired
-    public CartService(CartRepository cartRepository, CustomerService customerService, ComicBookService comicBookService, ComicBookRepository comicBookRepository) {
+    public CartService(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
-
-        this.customerService = customerService;
-        this.comicBookRepository = comicBookRepository;
-        this.comicBookService = comicBookService;
-
-
     }
 
     @Override
     public Cart create(Cart cart) {
 
-        Customer customer = customerService.create(cart.getCustomer());
-        List<ComicBook> comicBooks = cart.getComicBooks();
-
-        if (comicBooks != null) {
-            comicBooks = comicBooks.stream()
-                    .map(comicBook -> {
-                        System.out.println("comicBook: " + comicBook );
-                        if (comicBook.getSKU()  == null) {
-                            // If comicBookID is null, save the comicBooks directly
-                            return comicBookService.create(comicBook);
-
-                        } else {
-
-                            // If comicBookID is not null, try to find the comicBook in the repository
-                            Optional<ComicBook> existingComicBook = comicBookRepository.findById(comicBook.getSKU());
-
-                            // Return the existing comicBook if found, or save and return the new one if not found
-                            return existingComicBook.orElseGet(() -> comicBookService.create(comicBook));
-                        }
-                    })
-                    .collect(Collectors.toList());
-        }
-
-        System.out.println("Comic Books: " + comicBooks);
-
-        cart =  new Cart.Builder()
-                .copy(cart)
-                .setComicBooks(comicBooks)
-                .setCustomer(customer)
-                .build();
-
-        if (cart != null) {
-            System.out.println("cart to be Saved: " + cart);
-            if(cart.getCartId() ==  null ||
-                    cart.getCartId() == 0){
-                System.out.println("saving new cart");
-
-                cart = cartRepository.save(cart);
-                System.out.println("Saved");
-                System.out.println("Saved cart" + cart);
-            }else{
-                System.out.println("checking if existing cart exists");
-
-                Optional<Cart> existingCart = cartRepository.findById(cart.getCartId());
-
-                if (existingCart.isPresent()) {
-                    System.out.println("found cart");
-                    cart = existingCart.get();
-                }else{
-                    cartRepository.save(cart);
-
-                }
-
-            }
-        }
-        return  cart;
+        return cartRepository.save(cart);
     }
 
     @Override
@@ -106,8 +39,7 @@ public class CartService implements ICartService {
 
     @Override
     public Cart update(Cart cart) {
-        System.out.println(cart);
-        comicBookRepository.saveAll(cart.getComicBooks());
+
         return cartRepository.save(cart);
     }
 

@@ -197,5 +197,13 @@ class WishListControllerTest {
         assertNotNull(readWishList);
         System.out.println("Customer's WishList: " + response.getBody());
     }
+    @Test
+    void assignCartToNewCustomer() {
+        String url = BASE_URL +"/assignWishListToCustomer/"+12;
+        ResponseEntity<WishList>response=testRestTemplate.getForEntity(url,WishList.class);
+        WishList fetchedWishList=response.getBody();
+        assertNotNull(fetchedWishList);
+        System.out.println(fetchedWishList);
+    }
 
 }

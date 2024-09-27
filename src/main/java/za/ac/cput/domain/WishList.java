@@ -1,5 +1,6 @@
 package za.ac.cput.domain;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -27,6 +28,7 @@ public class WishList{
             joinColumns = @JoinColumn(name = "wishList_id"),
             inverseJoinColumns = @JoinColumn(name = "comicbook_id")
     )
+    @Nullable
     private List<ComicBook> comicBooks;
     private LocalDate createdDate;
     private LocalDate updatedDate;

@@ -17,13 +17,15 @@ public class CustomerController {
     private CustomerService service;
 
     @PostMapping("/create")
-    public Customer create(@RequestBody Customer customer){
+    public ResponseEntity<Customer> create(@RequestBody Customer customer) {
         System.out.println("Entered Customer");
-        System.out.println("Customer: " + customer);
-        Customer savedCustomer = service.create(customer);
-        return savedCustomer;
-    }
 
+        System.out.println("Customer: " + customer);
+
+        Customer savedCustomer = service.create(customer);
+        System.out.println("Saved Customer: " + savedCustomer);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedCustomer);
+    }
     @GetMapping("/read/{customerId}")
     public Customer read(@PathVariable long customerId){
         return service.read(customerId);

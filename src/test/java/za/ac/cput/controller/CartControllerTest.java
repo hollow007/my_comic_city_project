@@ -220,4 +220,12 @@ class CartControllerTest {
         System.out.println("Customer's Cart: " + response.getBody());
     }
 
+    @Test
+    void assignCartToNewCustomer() {
+        String url = BASE_URL +"/assignCartToCustomer/"+2;
+        ResponseEntity<Cart>response=restTemplate.getForEntity(url,Cart.class);
+        Cart fetchedCart=response.getBody();
+        assertNotNull(fetchedCart);
+        System.out.println(fetchedCart);
+    }
 }
