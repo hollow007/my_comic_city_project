@@ -2,6 +2,7 @@
   <div id="home-page">
     <NavBar  @search-query="handleSearchQuery" />
     <HeroSection/>
+    <SpinnerComponent :visible="loading" />
 
     <!-- Conditional rendering based on showAll flag -->
     <ProductGrid
@@ -55,10 +56,12 @@ import FilterComponent from '@/components/FilterComponent.vue';
 import {getAllComicBooks, searchComicBooksByName} from '@/services/comicBookService';
 import { addBookToCart, getCustomerCart } from "@/services/cartService";
 import { addBookToWishList, getCustomerWishList } from "@/services/wishlistService";
+import SpinnerComponent from "@/components/SpinnerComponent.vue";
 
 export default {
   name: 'HomePage',
   components: {
+    SpinnerComponent,
     NavBar,
     HeroSection,
     ProductGrid,
@@ -141,6 +144,7 @@ export default {
       }
     },
     updateDisplayedComics() {
+
       let filteredComics = this.allComics;
 
 
