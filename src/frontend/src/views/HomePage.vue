@@ -109,8 +109,8 @@ export default {
         const response = await getAllComicBooks();
         const allComics = response.data;
 
-        this.newArrivals = allComics.slice(0, 5);
-        this.hotPicks = allComics.slice(5, 10);
+        this.newArrivals = allComics.slice(0, 4);
+        this.hotPicks = allComics.slice(4, 8);
 
         this.allComics = allComics;
         this.totalPages = Math.ceil(allComics.length / this.itemsPerPage);
@@ -143,7 +143,7 @@ export default {
     updateDisplayedComics() {
       let filteredComics = this.allComics;
 
-      // Apply filters if any
+
       if (this.filters.minPrice !== undefined && this.filters.maxPrice !== undefined) {
         filteredComics = filteredComics.filter(comic =>
             comic.price >= this.filters.minPrice && comic.price <= this.filters.maxPrice
@@ -151,9 +151,12 @@ export default {
       }
 
       if (this.filters.genre) {
-        filteredComics = filteredComics.filter(comic => comic.genre === this.filters.genre);
+        filteredComics = filteredComics.filter(comic =>
+            comic.genres.some(genre => genre.name === this.filters.genre)
+        );
       }
-      // Apply release date range filter
+
+
       if (this.filters.releaseDateFrom && this.filters.releaseDateTo) {
         const fromDate = new Date(this.filters.releaseDateFrom);
         const toDate = new Date(this.filters.releaseDateTo);
@@ -177,6 +180,7 @@ export default {
       this.updateDisplayedComics();
     },
     handlePageChange(newPage) {
+
       this.currentPage = newPage;
       this.updateDisplayedComics();
     },

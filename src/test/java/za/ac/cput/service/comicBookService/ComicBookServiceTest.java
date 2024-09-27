@@ -72,9 +72,9 @@ class ComicBookServiceTest {
 
         System.out.println("============================SETUP==================================");
 
-        String url1 ="images/ComicBookCover10.jpeg";
-        String url2="images/ComicBookCover8.jpeg";
-        String url3="images/ComicBookCover9.jpeg";
+        String url1 ="images/ComicBookCover1.jpeg";
+        String url2="images/ComicBookCover2.jpeg";
+        String url3="images/ComicBookCover3.jpeg";
       
         try {
 
@@ -98,11 +98,11 @@ class ComicBookServiceTest {
 
 
         //Authors
-        author1 = AuthorFactory.buildAuthor(001L, "Mbuyazi", "Mlu");
+        author1 = AuthorFactory.buildAuthor(1L, "Lamark", "Principle", "Darwin");
         System.out.println(author1);
-        author2 = AuthorFactory.buildAuthor(002L, "Sherly", "Avuyile", "Bobby");
+        author2 = AuthorFactory.buildAuthor(2L, "Jacob", "Gedleyihlekisa", "Zuma");
         System.out.println(author2);
-        author3 = AuthorFactory.buildAuthor(003L, "Daton",  "Zwivhuya");
+        author3 = AuthorFactory.buildAuthor(3L, "Brown",  "Chris");
         System.out.println(author3);
 
         authors1 = new ArrayList<>();
@@ -119,9 +119,9 @@ class ComicBookServiceTest {
         authors2.add(author1);
 
 
-        publisher1 = PublisherFactory.buildPublisher(1234L, "CputComics", 2000);
-        publisher2 = PublisherFactory.buildPublisher(5L, "KwazuluComics", 2009);
-        publisher3 = PublisherFactory.buildPublisher(5L, "DCComics", 1910);
+        publisher1 = PublisherFactory.buildPublisher(1L, "Kat Publishers", 2010);
+        publisher2 = PublisherFactory.buildPublisher(2L, "Nathan Publishers", 2007);
+        publisher3 = PublisherFactory.buildPublisher(3L,"DC",1910);
 //Books
 
         Set<Genre> genres1 = Set.of( GenreFactory.buildGenre("Sci-Fi"), GenreFactory.buildGenre("Action"));

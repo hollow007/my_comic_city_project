@@ -25,7 +25,7 @@ class PublisherServiceTest {
     static void setUp() {
         publisher1 = PublisherFactory.buildPublisher(1L, "Kat Publishers", 2010);
         publisher2 = PublisherFactory.buildPublisher(2L, "Nathan Publishers", 2007);
-        publisher3 = publisher1;
+        publisher3 = PublisherFactory.buildPublisher(3L,"DC",1910);
     }
 
     @Test
@@ -39,6 +39,10 @@ class PublisherServiceTest {
         Publisher savedPublisher2 = service.create(publisher2);
         assertNotNull(savedPublisher2);
         System.out.println(savedPublisher2);
+
+        Publisher savedPublisher3 = service.create(publisher3);
+        assertNotNull(savedPublisher3);
+        System.out.println(savedPublisher3);
     }
 
     @Test

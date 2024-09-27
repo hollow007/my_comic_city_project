@@ -81,17 +81,18 @@
       <ul class="bottom-nav-links">
         <router-link to="/">
           <li><a href="#">Home
-            <font-awesome-icon icon="chevronUp" class="icon arrow-icon"/>
+            <font-awesome-icon icon="chevron-up" class="icon arrow-icon"/>
           </a></li>
         </router-link>
         <li><a href="#">Shop by genre
-          <font-awesome-icon icon="chevronUp" class="icon arrow-icon"/>
+
+          <font-awesome-icon icon="chevron-up" class="icon arrow-icon"/>
         </a></li>
         <li><a href="#">Shop by publisher
-          <font-awesome-icon icon="chevronUp" class="icon arrow-icon"/>
+          <font-awesome-icon icon="chevron-up" class="icon arrow-icon"/>
         </a></li>
         <li><a href="#" @click.prevent="navigateToShopAll">Shop all
-          <font-awesome-icon icon="chevronUp" class="icon arrow-icon"/>
+          <font-awesome-icon icon="chevron-up" class="icon arrow-icon"/>
         </a></li>
       </ul>
     </div>
@@ -443,17 +444,18 @@ input[type="search"]:focus + .icon1 {
 /* Arrow Icon for Dropdown */
 .arrow-icon {
   margin-left: 5px;
-  font-size: 0.8rem;
+  font-size: 0.5rem;
   transition: transform 0.3s;
 }
 
-.arrow-icon.rotate {
-  transform: rotate(180deg);
+
+.bottom-nav-links li:hover .arrow-icon {
+  transform: rotate(180deg); /* Rotate the icon */
 }
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-  .navbar {
+  .navbarr {
     flex-direction: column;
     align-items: flex-start;
   }

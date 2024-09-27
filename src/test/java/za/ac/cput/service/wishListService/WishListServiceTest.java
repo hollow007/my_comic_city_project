@@ -4,6 +4,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import za.ac.cput.api.AssignWishListToCustomerApi;
 import za.ac.cput.domain.*;
 import za.ac.cput.factory.*;
 import za.ac.cput.service.customerService.CustomerService;
@@ -28,7 +29,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class WishListServiceTest {
     @Autowired
     private WishListService wishListService;
-
+    @Autowired
+    private AssignWishListToCustomerApi assignWishListToCustomerApi;
     private static WishList wishList1;
     private static WishList wishList2;
     private static WishList wishList3;
@@ -317,6 +319,12 @@ class WishListServiceTest {
         assertNotNull(wishList);
         System.out.println(wishList);
 
+    }
 
+    @Test
+    void name() {
+        WishList assignedWishList=assignWishListToCustomerApi.assignWishListToCustomer(12L);
+        assertNotNull(assignedWishList);
+        System.out.println(assignedWishList);
     }
 }
