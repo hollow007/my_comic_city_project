@@ -44,6 +44,7 @@
 
 import {getCustomerWishList} from "@/services/wishlistService";
 import {getCustomerCart} from "@/services/cartService";
+import axios from "axios";
 
 export default {
   data() {
@@ -57,42 +58,46 @@ export default {
   methods: {
     async login() {
       this.loginError = '';
-      if (!this.email || !this.password) {
-        this.loginError = 'Please enter both email and password.';
-        return;
-      }
       this.isLoading = true;
 
+      const url = 'http://localhost:8080/comiccity/auth/login';
+      console.log(this.email);
       try {
-        const response = await fetch(`/api/comiccity/Customer/login/${encodeURIComponent(this.email)}/${encodeURIComponent(this.password)}`, {
-          method: 'GET',
+        const response = await axios.post(url, {
+          email: this.email,
+          password: this.password
+        }, {
           headers: {
             'Content-Type': 'application/json',
           }
         });
 
-        if (response.ok) {
-          const data = await response.text();
-          if (data === 'Login successful') {
-            localStorage.setItem('userEmail', this.email); // Store user email or another identifier
+        if (response.status === 200) {
+          const token = response.data.token;
+          const redirectUrl = response.data.redirectUrl;
+          const role = response.data.role;
+          localStorage.setItem('authToken', token);
+          this.$emit('authenticated');
+
+          if(role === "CUSTOMER") {
             try {
               const cartResponse = await getCustomerCart(this.email);
               this.$emit('update-cart-count', cartResponse.data.comicBooks.length);
-               const wishlistResponse = await getCustomerWishList(this.email);
+              const wishlistResponse = await getCustomerWishList(this.email);
               this.$emit('update-wishList-count', wishlistResponse.data.comicBooks.length);
 
             } catch (error) {
               console.error('Error fetching data:', error);
             }
-            this.$router.push('/');
-          } else {
-            this.loginError = 'Invalid email or password.';
-            alert(this.loginError)
           }
+
+          await this.$router.push(redirectUrl);
+          //  await this.$router.push('/dashboard'); // Redirect to a general dashboard
         } else {
-          const data = await response.json();
-          this.loginError = data.error || 'Invalid email or password.';
+          alert('Login failed: ' + response.statusText);
         }
+
+
       } catch (error) {``
         this.loginError = 'Invalid email or password.';
         console.error('There was a problem with the fetch operation:', error);

@@ -6,6 +6,7 @@ import za.ac.cput.service.IService;
 
 import java.util.List;
 
+@Service
 public interface IPublisherService extends IService<Publisher, Long> {
     List<Publisher> getall();
 }

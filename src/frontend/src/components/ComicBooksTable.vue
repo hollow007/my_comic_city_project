@@ -232,7 +232,7 @@ export default {
     },
 
     toGenres() {
-      this.$router.push(`/genres`);
+      this.$router.push({ name: 'genres' });
     },
 
     confirmDelete(bookId) {
@@ -241,6 +241,7 @@ export default {
         this.deleteComic(bookId);
       }
     },
+
 
     deleteComic(bookId) {
       fetch(`api/comiccity/comic_book/delete/${bookId}`, {
@@ -261,6 +262,7 @@ export default {
     AddNewBook() {
       this.$router.push({ name: 'AddNewBook' });
     },
+
   },
 
   mounted() {

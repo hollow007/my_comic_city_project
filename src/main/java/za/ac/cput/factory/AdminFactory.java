@@ -6,13 +6,13 @@ import za.ac.cput.util.Helper;
 public class AdminFactory {
 
 
-    public static Admin buildAdmin(Long employeeId, String firstName, String middleName, String lastName, String password, Contact adminContact) {
-        if (employeeId <= 0 || Helper.isStringNullorEmpty(firstName) || Helper.isStringNullorEmpty(middleName) || Helper.isStringNullorEmpty(lastName) || Helper.isStringNullorEmpty(password) || Helper.isObjectNull(adminContact)) {
+    public static Admin buildAdmin(String firstName, String middleName, String lastName, String password, Contact adminContact) {
+        if ( Helper.isStringNullorEmpty(firstName) || Helper.isStringNullorEmpty(middleName) || Helper.isStringNullorEmpty(lastName) || Helper.isStringNullorEmpty(password) || Helper.isObjectNull(adminContact)) {
             return null;
         }
         Name name = new Name.NameBuilder().setFirstName(firstName).setMiddleName(middleName).setLastName(lastName).build();
 
-        return new Admin.AdminBuilder().setEmployeeId(employeeId)
+        return new Admin.AdminBuilder()
                 .setContact(adminContact)
                 .setPassword(password)
                 .setName(name)
@@ -21,8 +21,8 @@ public class AdminFactory {
     }
 
 
-    public static Admin buildAdmin(Long employeeId, String firstName, String lastName, String password, Contact contact) {
-        if (employeeId <= 0 || Helper.isStringNullorEmpty(firstName) || Helper.isStringNullorEmpty(lastName) || Helper.isStringNullorEmpty(password) || Helper.isObjectNull(contact)) {
+    public static Admin buildAdmin(String firstName, String lastName, String password, Contact contact) {
+        if ( Helper.isStringNullorEmpty(firstName) || Helper.isStringNullorEmpty(lastName) || Helper.isStringNullorEmpty(password) || Helper.isObjectNull(contact)) {
             return null;
         }
         Name name = new Name.NameBuilder().
@@ -30,7 +30,7 @@ public class AdminFactory {
                 setLastName(lastName).
                 build();
 
-        return new Admin.AdminBuilder().setEmployeeId(employeeId)
+        return new Admin.AdminBuilder()
                 .setContact(contact)
                 .setPassword(password)
                 .setName(name)
