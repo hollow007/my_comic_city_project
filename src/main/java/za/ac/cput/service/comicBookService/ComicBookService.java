@@ -67,5 +67,12 @@ public class ComicBookService implements IComicBookService{
     public List<ComicBook> findByGenreNamesIn( Set<String> genres){
         return repo.findByGenreNamesIn(genres);
     }
+
+    public List<ComicBook>findByBooksPublisher(String publisher){
+        return repo.findComicBooksByPublisher_Name(publisher);
+    }
+    public List<ComicBook>findByPriceLessThanEqual(Double price){
+        return repo.findComicBooksByPriceLessThanEqual(price);
+    }
 }
 

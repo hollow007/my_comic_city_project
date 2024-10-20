@@ -221,4 +221,10 @@ class ComicBookServiceTest {
         System.out.println(comicBookService.getAll());
 
 }
+
+    @Test
+    void findByPublisher() {
+        List<ComicBook>comicBookList=comicBookService.findByBooksPublisher("DC");
+        System.out.println(comicBookList);
+    }
 }
