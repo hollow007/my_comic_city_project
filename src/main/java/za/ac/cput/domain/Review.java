@@ -22,7 +22,7 @@ public class Review {
 
     @ManyToOne
     private ComicBook comicBook;
-    @ManyToOne( fetch = FetchType.EAGER)
+    @ManyToOne( fetch = FetchType.LAZY)
     private Customer customer;
 
     private int reviewRating;
@@ -75,6 +75,11 @@ public class Review {
 
     public Review setComicBook(ComicBook comicBook) {
         this.comicBook = comicBook;
+        return this;
+    }
+
+    public Review setCustomer(Customer customer){
+        this.customer = customer;
         return this;
     }
 
@@ -133,6 +138,9 @@ public class Review {
         }
 
         public ReviewBuilder setReviewRating(int reviewRating) {
+            if (reviewRating < 0 || reviewRating > 5) {
+                throw new IllegalArgumentException("Review rating must be between 0 and 5.");
+            }
             this.reviewRating = reviewRating;
             return this;
         }
