@@ -25,6 +25,7 @@ class CustomerService {
         });
     }
 
+
     async fetchCustomerByEmail(email) {
         const url = `${this.apiUrl}/getByEmail/${email}`;
         return await this.request(url, {
@@ -32,5 +33,6 @@ class CustomerService {
             headers: { 'Content-Type': 'application/json' },
         });
     }
+
 }
 export default new CustomerService();

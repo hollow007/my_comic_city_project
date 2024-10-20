@@ -6,66 +6,40 @@ import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+
 @Entity
+@DiscriminatorValue("Customer")
 public class Customer extends User{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long customerId;
 
     protected Customer() {
     }
 
     private Customer(CustomerBuilder c) {
-        this.customerId = c.customerId;
-        name = c.name;
-        password = c.password;
-        contact = c.contact;
+        this.name = c.name;
+        this.password = c.password;
+        this.contact = c.contact;
+        this.roles = c.roles;
+        this.userId = c.userId;
+        this.password = c.password;
+        this.roles = c.roles;
+
     }
 
-
-    public Long getCustomerId() {
-        return customerId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "customerId=" + customerId +
-                ", password='" + password + '\'' +
-                ", name=" + name +
-                ", contact=" + contact +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Customer customer)) return false;
-        return Objects.equals(customerId, customer.customerId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(customerId);
-    }
 
     public static class CustomerBuilder{
 
-        private long customerId;
+        private long userId;
         private Name name;
         private String password;
         private Contact contact;
+        protected Set<Role> roles;
 
         public CustomerBuilder() {
         }
 
-
-        public CustomerBuilder setCustomerId(long customerId) {
-            this.customerId = customerId;
+        public CustomerBuilder setUserId(long userId) {
+            this.userId = userId;
             return this;
         }
 
@@ -83,12 +57,17 @@ public class Customer extends User{
             this.contact = contact;
             return this;
         }
+        public CustomerBuilder setRoles(Set<Role> roles) {
+            this.roles = roles;
+            return this;
+        }
 
         public CustomerBuilder copy(Customer c) {
-            this.customerId = c.customerId;
+            this.userId = c.userId;
             this.name = c.name;
             this.password = c.password;
-            contact = c.contact;
+            this.contact = c.contact;
+            this.roles = c.roles;
             return this;
         }
 

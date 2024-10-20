@@ -1,13 +1,14 @@
 package za.ac.cput.service.customerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import za.ac.cput.domain.Author;
-import za.ac.cput.domain.Contact;
-import za.ac.cput.domain.Customer;
+import za.ac.cput.domain.*;
 import za.ac.cput.repository.CustomerRepository;
+import za.ac.cput.repository.RoleRepository;
 import za.ac.cput.service.contactService.ContactService;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,31 +19,27 @@ public class CustomerService implements ICustomerService{
     @Autowired
     private ContactService contactService;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     @Override
     public Customer create(Customer customer) {
 
-       Contact contact = contactService.create(customer.getContact());
-       System.out.println("Saved Contact: " + contact);
-        System.out.println("In create with customer: " + customer);
-        if(customer.getCustomerId() ==  null ||
-                customer.getCustomerId() == 0){
-            System.out.println("saving new customer");
+        String encodedPassword = passwordEncoder.encode(customer.getPassword());
+        Role adminRole = roleRepository.findByName("ROLE_CUSTOMER")
+                .orElseThrow(() -> new RuntimeException("Role not found: ROLE_CUSTOMER"));
 
-            customer = repository.save(customer);
-            System.out.println("Saved");
-            System.out.println("Saved customer" + customer);
-        }else{
-            System.out.println("checking if existing customer exists");
+        Customer customer2 = new Customer.CustomerBuilder()
+                .copy(customer)
+                .setPassword(encodedPassword)
+                .setRoles(Collections.singleton(adminRole))
+                .build();
 
-            Optional<Customer> existingProperty = repository.findById(customer.getCustomerId());
-
-            if (existingProperty.isPresent()) {
-                System.out.println("found customer");
-                customer = existingProperty.get();
-            }}
-
-        return  customer;
+        return repository.save(customer2);
     }
 
     @Override

@@ -26,16 +26,16 @@
       <aside class="col-md-3 col-lg-2 bg-dark sidebar">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <router-link class="nav-link text-light" to="/comic-books">Comic Books</router-link>
+            <router-link class="nav-link text-light" to="/admin-layout/comic-books">Comic Books</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link text-light" to="/view-orders">Orders Management</router-link>
+            <router-link class="nav-link text-light" to="/admin-layout/view-orders">Orders Management</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link text-light" to="/authors">Authors</router-link>
+            <router-link class="nav-link text-light" to="/admin-layout/authors">Authors</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link text-light" to="/publishers">Publishers</router-link>
+            <router-link class="nav-link text-light" to="/admin-layout/publishers">Publishers</router-link>
           </li>
         </ul>
         <!-- Fixed Logout Button -->
@@ -57,7 +57,8 @@ export default {
     logout() {
       const isConfirmed = confirm('Are you sure you want to Logout?');
       if (isConfirmed) {
-        this.$router.push('/');
+        localStorage.removeItem('authToken');
+        this.$router.push('/login');
       }
     },
   }

@@ -1,4 +1,4 @@
-package za.ac.cput.service.customerService;
+package za.ac.cput.service.adminService;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.*;
@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.*;
 import za.ac.cput.factory.*;
+import za.ac.cput.service.adminService.AdminService;
 import za.ac.cput.service.contactService.ContactService;
 
 import java.time.LocalDate;
@@ -17,19 +18,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class CustomerServiceTest {
+class AdminServiceTest {
     @Autowired
-    private CustomerService service;
+    private AdminService service;
 
     @Autowired
     private ContactService contactService;
 
-    private Customer customer1;
-    private Customer customer2;
+
+    private Admin admin1;
+    private Admin admin2;
 
     private List<Publisher> publishers;
-    static Customer savedCustomer;
-    static Customer savedCustomer2;
+
+    static Admin savedAdmin1;
+    static Admin savedAdmin2;
     @BeforeEach
     void setUp() {
 
@@ -45,28 +48,28 @@ class CustomerServiceTest {
         Address shippingAddress2 = ShippingAddressFactory.buildShippingAddress(LocalTime.of(9, 52), "33 sea Drive 2", "Kibbler park 2", "2092", "Johannesburg");
         System.out.println(shippingAddress);
 
-        Contact con1 = CustomerContactFactory.buildContact("leroy8@gmail.com", "0739946042", shippingAddress, billingAddress);
+        Contact con1 = CustomerContactFactory.buildContact("admin1@gmail.com", "0739946042", shippingAddress, billingAddress);
         System.out.println(con1);
 
-        Contact con2 = CustomerContactFactory.buildContact("jimmy2@gmail.com", "0739946042", shippingAddress2, billingAddress2);
+        Contact con2 = CustomerContactFactory.buildContact("admin2@gmail.com", "0739946042", shippingAddress2, billingAddress2);
 
-        customer1 = CustomerFactory.buildCustomer("Leroy", "Kulcha", "Liam", "l@123", con1);
-        customer2 = CustomerFactory.buildCustomer("James", "Kulcha", "Jimmy", "k@123", con2);
+        admin1 = AdminFactory.buildAdmin("Leroy", "Kulcha", "Liam", "ad1@123", con1);
+        admin2 = AdminFactory.buildAdmin("James", "Kulcha", "Jimmy", "ad2@123", con2);
     }
 
-        @Test
+    @Test
     @Order(1)
     void create() {
         System.out.println("===========================CREATE========================================");
-   contactService.create(customer1.getContact());
-    savedCustomer = service.create(customer1);
-    assertNotNull(savedCustomer);
-    System.out.println(savedCustomer);
+        contactService.create(admin1.getContact());
+        savedAdmin1 = service.create(admin1);
+        assertNotNull(admin1);
+        System.out.println(savedAdmin1);
 
-    contactService.create(customer2.getContact());
-     savedCustomer2 = service.create(customer2);
-    assertNotNull(savedCustomer2);
-    System.out.println(savedCustomer2);
+        contactService.create(admin2.getContact());
+        savedAdmin2 = service.create(admin2);
+        assertNotNull(admin2);
+        System.out.println(savedAdmin2);
 
 
     }
@@ -75,45 +78,44 @@ class CustomerServiceTest {
     @Order(2)
     void read() {
         System.out.println("===========================READ========================================");
-
-        Customer readCustomer = service.read(savedCustomer2.getUserId());
-        assertNotNull(readCustomer);
-        System.out.println(readCustomer);
+        Admin readAdmin = service.read(savedAdmin2.getUserId());
+        assertNotNull(readAdmin);
+        System.out.println(readAdmin);
     }
 
     @Test
     @Order(3)
     void update() {
         System.out.println("===========================UPDATE========================================");
-        Customer updateCustomer = new Customer.CustomerBuilder().copy(savedCustomer)
-                .setPassword("lkulcha456")
+        Admin updateAdmin = new Admin.AdminBuilder().copy(savedAdmin1)
+                .setPassword("l2@123")
                 .build();
 
-        Customer savedCustomer = service.update(updateCustomer);
-        assertEquals(savedCustomer.getUserId(), updateCustomer.getUserId());
-        assertNotNull(savedCustomer);
-        System.out.println(savedCustomer);
+        Admin savedAdmin = service.update(updateAdmin);
+        assertEquals(savedAdmin.getUserId(), updateAdmin.getUserId());
+        assertNotNull(savedAdmin);
+        System.out.println(savedAdmin);
     }
     @Test
     @Order(4)
     void delete(){
-        boolean isDeleted = service.delete(Long.valueOf(savedCustomer.getUserId()));
+        boolean isDeleted = service.delete(Long.valueOf(savedAdmin1.getUserId()));
         assertTrue(isDeleted);
-        System.out.println("Customer no " + savedCustomer.getUserId() + " deleted");
+        System.out.println("Customer no " + savedAdmin1.getUserId() + " deleted");
     }
     @Test
     @Order(5)
     void getall(){
         System.out.println("==================================GET ALL===========================");
-        System.out.println(service.getall());
+        System.out.println(service.getAll());
     }
-    @Test
-    @Order(6)
-    void getByEmail(){
-        System.out.println("==================================GET By Email===========================");
-       Customer customer=service.getCustomerByEmail("vxayiya@gmail.com");
-       assertNotNull(customer);
-       System.out.println(customer);
-    }
+//    @Test
+//    @Order(6)
+//    void getByEmail(){
+//        System.out.println("==================================GET By Email===========================");
+//        Customer customer=service.("vxayiya@gmail.com");
+//        assertNotNull(customer);
+//        System.out.println(customer);
+//    }
 
 }
