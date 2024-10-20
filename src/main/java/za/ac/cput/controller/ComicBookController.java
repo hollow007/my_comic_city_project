@@ -71,14 +71,28 @@ public class ComicBookController {
         return new ResponseEntity<>(comicBooks, HttpStatus.OK);
     }
 
-//    @GetMapping("/search/genres")
+    //    @GetMapping("/search/genres")
 //    public ResponseEntity<List<ComicBook>> findByGenresIn(@RequestParam("genres") Set<Genre> genres) {
 //        List<ComicBook> comicBooks = comicBookService.findByGenresIn(genres);
 //        return new ResponseEntity<>(comicBooks, HttpStatus.OK);
 //    }
     @GetMapping("/search/genres")
     public List<ComicBook> getComicBooksByGenres(@RequestParam List<String> genres) {
+        System.out.print("HIIIII");
+        System.out.println(genres.toString());
         Set<String> genreSet = new HashSet<>(genres);
-        return comicBookService.findByGenreNamesIn(genreSet);
+        System.out.println(genreSet.toString());
+        List<ComicBook> comicBooks = comicBookService.findByGenreNamesIn(genreSet);
+        System.out.println(comicBooks.toString());
+
+        return comicBooks;
+    }
+    @GetMapping("/filter/publisher/{publisher}")
+    public List<ComicBook> findByPublisherContainingIgnoreCase(@PathVariable("publisher") String publisher) {
+        return comicBookService.findByBooksPublisher(publisher);
+    }
+    @GetMapping("/filter/price/{price}")
+    public List<ComicBook> findByPriceLessThanEqual(@PathVariable("price") double price) {
+        return comicBookService.findByPriceLessThanEqual(price);
     }
 }

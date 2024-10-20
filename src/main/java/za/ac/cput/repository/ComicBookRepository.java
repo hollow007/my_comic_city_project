@@ -23,5 +23,8 @@ public interface ComicBookRepository extends JpaRepository<ComicBook, Long> {
     List<ComicBook> findByReleaseDateBetween(LocalDate startDate, LocalDate endDate);
     @Query("SELECT c FROM ComicBook c JOIN c.genres g WHERE g.name IN :genreNames")
     List<ComicBook> findByGenreNamesIn(@Param("genreNames") Set<String> genreNames);
+//    List<ComicBook>findByPublisher(@Param("publisher")String publisher);
+    List<ComicBook>findComicBooksByPublisher_Name(String publisher);
+    List<ComicBook>findComicBooksByPriceLessThanEqual(Double price);
 
 }

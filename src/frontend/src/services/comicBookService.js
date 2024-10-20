@@ -24,3 +24,9 @@ export const getAllComicBooks = () => {
 export const searchComicBooksByName = (name) => {
     return axios.get(`${API_URL}/search/name/${name}`);
 };
+export const getBooksByPlublisher= (publisher) => {
+    return axios.get(`${API_URL}/filter/publisher/${publisher}`);
+};
+export const getBooksByPriceLessThanEqual= (price) => {
+    return axios.get(`${API_URL}/filter/price/${price}`);
+};
