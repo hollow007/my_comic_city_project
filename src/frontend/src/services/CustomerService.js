@@ -24,5 +24,7 @@ class CustomerService {
             body: JSON.stringify(customer),
         });
     }
+
+
 }
 export default new CustomerService();

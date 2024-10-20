@@ -3,6 +3,7 @@ package za.ac.cput.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import za.ac.cput.domain.ComicBook;
 import za.ac.cput.domain.Genre;
@@ -22,6 +23,7 @@ public class ComicBookController {
     private ComicBookService comicBookService;
 
     @PostMapping("/create")
+    //@PreAuthorize("hasRole('ADMIN')")
     public ComicBook create(@RequestBody ComicBook comicBook) {
         System.out.println("Entered Comic book");
         System.out.println(comicBook);

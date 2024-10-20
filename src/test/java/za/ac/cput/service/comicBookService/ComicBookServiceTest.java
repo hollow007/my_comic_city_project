@@ -154,6 +154,7 @@ class ComicBookServiceTest {
     @Test
     @Order(1)
     void create() {
+
         System.out.println("=============================CREATE====================================");
         ComicBook savedComicCook1 = comicBookService.create(book1);
         assertNotNull(savedComicCook1);

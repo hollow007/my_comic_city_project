@@ -5,56 +5,52 @@ import jakarta.persistence.*;
 
 
 import java.util.Objects;
+import java.util.Set;
 
 
 @Entity
+@DiscriminatorValue("Admin")
 public class Admin extends User {
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Id
-    private Long employeeId;
 
-    public Admin() {
+    protected Admin() {
 
     }
 
     public Admin(AdminBuilder builder) {
 
-        this.employeeId=builder.employeeId;
+        this.userId=builder.userId;
         this.name = builder.name;
         this.password = builder.password;
         this.contact=builder.contact;
+        this.roles = builder.roles;
+
         }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Admin admin)) return false;
-        return Objects.equals(employeeId, admin.employeeId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(employeeId);
-    }
 
     @Override
     public String toString() {
         return "Admin{" +
-                "employeeId=" + employeeId +
+                "userId=" + userId +
                 ", password='" + password + '\'' +
                 ", name=" + name +
                 ", contact=" + contact +
+                ", roles=" + roles +
                 '}';
     }
 
     public static class AdminBuilder {
-        private Long employeeId;
+        private Long userId;
         private String password;
-
         private Name name;
         private  Contact contact;
+        protected Set<Role> roles;
+
 
         public AdminBuilder() {
+        }
+
+        public AdminBuilder setUserId(Long userId) {
+            this.userId = userId;
+            return this;
         }
 
         public AdminBuilder setContact(Contact contact) {
@@ -62,8 +58,9 @@ public class Admin extends User {
             return this;
         }
 
-        public AdminBuilder setEmployeeId(Long employeeId) {
-            this.employeeId = employeeId;
+
+        public AdminBuilder setRoles(Set<Role> roles) {
+            this.roles = roles;
             return this;
         }
 
@@ -76,11 +73,13 @@ public class Admin extends User {
             this.name = name;
             return this;
         }
+
         public AdminBuilder copy(Admin admin){
-            this.employeeId=admin.employeeId;
+            this.userId=admin.userId;
             this.name=admin.name;
             this.contact=admin.contact;
             this.password=admin.password;
+            this.roles = admin.roles;
             return this;
         }
 

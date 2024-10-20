@@ -3,9 +3,11 @@ package za.ac.cput.factory;
 import za.ac.cput.domain.*;
 import za.ac.cput.util.Helper;
 
+import java.util.Set;
+
 
 public class CustomerFactory {
-    public static Customer buildCustomer(String firstName,String middleName, String lastName, String password, Contact contact){
+    public static Customer buildCustomer(String firstName, String middleName, String lastName, String password, Contact contact){
         if( Helper.isStringNullorEmpty(firstName)|| Helper.isStringNullorEmpty(middleName)
                 || Helper.isStringNullorEmpty(lastName) || Helper.isStringNullorEmpty(password) ||
                 contact == null

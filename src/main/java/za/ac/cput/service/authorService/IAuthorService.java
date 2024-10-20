@@ -8,6 +8,7 @@ import za.ac.cput.service.IService;
 
 import java.util.List;
 
+@Service
 public interface IAuthorService extends IService<Author, Long> {
     List<Author> getAll();
 }

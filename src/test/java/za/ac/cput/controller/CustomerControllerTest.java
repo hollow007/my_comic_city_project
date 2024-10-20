@@ -71,7 +71,7 @@ class CustomerControllerTest {
     @Test
     @Order(2)
     void read() {
-        String url = base_url + "/read/" + savedCustomer.getCustomerId();
+        String url = base_url + "/read/" + savedCustomer.getUserId();
         System.out.println("URL: " + url);
         ResponseEntity<Customer> response = restTemplate.getForEntity(url, Customer.class);
         System.out.println("Response: " + response);
@@ -97,13 +97,13 @@ class CustomerControllerTest {
         Customer updatedCustomer = postResponse.getBody();
         System.out.println("From JPA: " + updatedCustomer);
 
-        assertEquals(updateCustomer.getCustomerId(), updatedCustomer.getCustomerId());
+        assertEquals(updateCustomer.getUserId(), updatedCustomer.getUserId());
     }
 
     @Test
     @Order(4)
     void delete() {
-        String url = base_url + "/delete/" + Long.valueOf(savedCustomer.getCustomerId());
+        String url = base_url + "/delete/" + Long.valueOf(savedCustomer.getUserId());
         System.out.println("URL: " + url);
         restTemplate.delete(url);
         System.out.println("Success: deleted customer");
