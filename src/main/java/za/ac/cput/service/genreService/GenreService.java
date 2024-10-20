@@ -21,9 +21,8 @@ public class GenreService implements IGenreService{
 
     @Override
     public Genre read(Long aLong) {
-        return read(aLong);
+        return genreRepository.findById(aLong).orElse(null);
     }
-
 
     @Override
     public Genre update(Genre genre) {

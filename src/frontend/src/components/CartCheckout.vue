@@ -1,9 +1,8 @@
-<!-- Cart Checkout Component -->
 <template>
   <div id="cart-checkout">
     <NavBar />
     <h1>Checkout</h1>
-    <CartSummary :cart="cartItems"  cart-id=""/>
+    <CartSummary :cart="cartItems" cart-id=""/>
 
     <div class="checkout-form">
       <h2>Shipping Information</h2>
@@ -66,7 +65,9 @@
 import NavBar from '@/components/NavBar.vue';
 import CartSummary from '@/components/CartSummary.vue';
 import FooterSection from '@/components/FooterSection.vue';
-import { placeOrder } from '@/services/cartService';
+import { createOrder } from '@/services/orderService';
+import CustomerService from "@/services/CustomerService";
+import {getCustomerCart} from "@/services/cartService"; // Import the service for creating orders
 
 export default {
   name: 'CartCheckout',
@@ -86,37 +87,57 @@ export default {
       cardNumber: '',
       cardExpiration: '',
       cardCVC: '',
-      error: null
+      error: null,
+      customer: null
     };
   },
   created() {
     this.cartItems = this.$route.params.cartItems || [];
   },
   methods: {
-    async placeOrder() {  //this method still needs to be altered for backend functionality, hardcoded some values.
+    checkAuthStatus() {
+      const userEmail = localStorage.getItem('userEmail');
+      if (userEmail) {
+        this.customer = CustomerService.fetchCustomerByEmail(userEmail);
+
+      }
+    },
+    async placeOrder() {
+      const userEmail = localStorage.getItem('userEmail');
+      const response = await getCustomerCart(userEmail);
+      this.cart = response.data;
+      this.cartItems = this.cart.comicBooks || [];
       const orderData = {
-        orderId: 'ORD-' + Date.now().toString(), // Generate a unique order ID as a string
-        orderDate: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
-        comicBooks: [
-          { id: 'CB001', title: 'Batman: Year One', price: 19.99 },
-          { id: 'CB002', title: 'Watchmen', price: 24.99 }
-        ],
-        totalAmount: 44.98, // Sum of comic book prices
-        customer: 12345 // Hard-coded customer ID as a Long
-      };
+        orderId: null,
+        orderDate: new Date().toISOString().split('T')[0],
+        comicBooks: this.cartItems,
+        totalAmount: this.calculateTotalAmount(),
+        customer: this.customer,
+        status: null,
+      }
+
+      console.log("Hi",orderData);
 
       try {
-        await placeOrder(orderData);
+        const response = await createOrder(orderData);
         alert('Order placed successfully!');
-        console.log('Order placed with data:', orderData);
+        console.log('Order placed with data:', response);
       } catch (error) {
         alert('Failed to place order.');
         console.error('Error placing order:', error);
       }
+    },
+
+    calculateTotalAmount() {
+      return this.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
     }
-  }
+  },
+  mounted() {
+    this.checkAuthStatus();
+  },
 };
 </script>
+
 
 <style scoped>
 #cart-checkout {

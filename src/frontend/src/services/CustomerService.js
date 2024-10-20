@@ -2,7 +2,7 @@ class CustomerService {
     constructor() {
     this.apiUrl = '/api/comiccity/Customer'; // Base URL for the API, assuming you're using a proxy
 }
-// Helper method to handle fetch requests
+
     async request(url, options) {
         try {
             const response = await fetch(url, options);
@@ -15,7 +15,7 @@ class CustomerService {
             throw error;
         }
     }
-// Create a new customer
+
     async createCustomer(customer) {
         const url = `${this.apiUrl}/create`;
         return await this.request(url, {
@@ -25,6 +25,14 @@ class CustomerService {
         });
     }
 
+
+    async fetchCustomerByEmail(email) {
+        const url = `${this.apiUrl}/getByEmail/${email}`;
+        return await this.request(url, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        });
+    }
 
 }
 export default new CustomerService();

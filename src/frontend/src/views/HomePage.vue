@@ -1,8 +1,8 @@
 <template>
   <div id="home-page">
-    <NavBar  @search-query="handleSearchQuery" />
+    <NavBar @search-query="handleSearchQuery"/>
     <HeroSection/>
-    <SpinnerComponent :visible="loading" />
+    <SpinnerComponent :visible="loading"/>
 
     <!-- Conditional rendering based on showAll flag -->
     <ProductGrid
@@ -24,7 +24,7 @@
 
     <!-- Shop All Section -->
     <div v-if="showAll" class="shop-all-container">
-      <FilterComponent  @filter="handleFilter" />
+      <FilterComponent @filter="handleFilter"/>
       <div class="comics-and-pagination">
         <ProductGrid
             title="All Comics"
@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <FooterSection />
+    <FooterSection/>
   </div>
 </template>
 
@@ -53,9 +53,14 @@ import ProductGrid from '@/components/ProductGrid.vue';
 import FooterSection from '@/components/FooterSection.vue';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import FilterComponent from '@/components/FilterComponent.vue';
-import {getAllComicBooks, searchComicBooksByName} from '@/services/comicBookService';
-import { addBookToCart, getCustomerCart } from "@/services/cartService";
-import { addBookToWishList, getCustomerWishList } from "@/services/wishlistService";
+import {
+  getAllComicBooks,
+  getBooksByPlublisher,
+  getBooksByPriceLessThanEqual,
+  searchComicBooksByName
+} from '@/services/comicBookService';
+import {addBookToCart, getCustomerCart} from "@/services/cartService";
+import {addBookToWishList, getCustomerWishList} from "@/services/wishlistService";
 import SpinnerComponent from "@/components/SpinnerComponent.vue";
 
 export default {
@@ -87,9 +92,9 @@ export default {
         price: '',
         genre: '',
         releaseDateFrom: '',
-        releaseDateTo:'',
+        releaseDateTo: '',
         publisher: ''
-      },searchQuery: '',
+      }, searchQuery: '',
     };
   },
   created() {
@@ -128,51 +133,109 @@ export default {
         this.loading = false;
       }
     },
+
     async handleSearchQuery(query) {
       this.searchQuery = query;
       if (this.searchQuery) {
         try {
           const searchResults = await searchComicBooksByName(this.searchQuery);
           this.allComics = searchResults.data;  // Update allComics to display only search results
-          this.updateDisplayedComics();
+          await this.updateDisplayedComics();
         } catch (error) {
           this.error = 'Failed to fetch search results.';
         }
       } else {
         // If searchQuery is empty, refetch all comics
-        await this.fetchComicBooks() ;
+        await this.fetchComicBooks();
       }
     },
-    updateDisplayedComics() {
+    async updateDisplayedComics() {
 
       let filteredComics = this.allComics;
 
 
       if (this.filters.minPrice !== undefined && this.filters.maxPrice !== undefined) {
-        filteredComics = filteredComics.filter(comic =>
-            comic.price >= this.filters.minPrice && comic.price <= this.filters.maxPrice
-        );
-      }
+        this.loading = true
+        try {
+          const response = await getBooksByPriceLessThanEqual(this.filters.maxPrice);
+          console.log(response.data)
+          if (response.data != null) {
+            filteredComics = response.data
+          }
 
+        } catch (error) {
+          this.loading = false;
+          throw new Error("Error fetching books")
+        } finally {
+          this.loading = false;
+        }
+
+
+
+      }
       if (this.filters.genre) {
-        filteredComics = filteredComics.filter(comic =>
-            comic.genres.some(genre => genre.name === this.filters.genre)
-        );
+
+        try {
+
+          this.loading = true; // Start loading state
+
+          const genres = [this.filters.genre];
+          const response = await fetch(`/api/comiccity/comic_book/search/genres?genres=${genres}`);
+          const data = await response.json();
+
+          filteredComics = data;
+        } catch (error) {
+          this.errorMsg = 'Error fetching data by genres';
+          console.error(error);
+        } finally {
+          this.loading = false; // Stop loading state after fetch completes
+        }
       }
+      if (this.filters.releaseDateFrom && this.filters.releaseDateTo
+      ) {
 
 
-      if (this.filters.releaseDateFrom && this.filters.releaseDateTo) {
-        const fromDate = new Date(this.filters.releaseDateFrom);
-        const toDate = new Date(this.filters.releaseDateTo);
-        filteredComics = filteredComics.filter(comic => {
-          const releaseDate = new Date(comic.releaseDate);
-          return releaseDate >= fromDate && releaseDate <= toDate;
-        });
+        const fromDate = this.filters.releaseDateFrom;
+        const toDate = this.filters.releaseDateTo;
+
+        try {
+
+          this.loading = true;
+          const response = await fetch(`/api/comiccity/comic_book/search/releaseDates?startDate=${fromDate}&endDate=${toDate}`)
+          const data1 = await response.json();
+          console.log(data1)
+
+          filteredComics = data1;
+
+
+        } catch (error) {
+          this.loading = false;
+          console.error(error);
+        } finally {
+          this.loading = false;
+        }
+
       }
 
       if (this.filters.publisher) {
-        filteredComics = filteredComics.filter(comic => comic.publisher.name === this.filters.publisher);
+        try {
+          this.loading = true;
+
+          const response = await getBooksByPlublisher(this.filters.publisher);
+
+          if (response.data == null)
+            throw new Error("Error getting boooks")
+          else
+            filteredComics = response.data;
+        } catch (error) {
+          console.log(error)
+          this.loading = false;
+        } finally {
+          this.loading = false;
+        }
       }
+
+      this.loading = false;
 
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
@@ -182,12 +245,14 @@ export default {
     handleFilter(filters) {
       this.filters = filters;
       this.updateDisplayedComics();
-    },
+    }
+    ,
     handlePageChange(newPage) {
 
       this.currentPage = newPage;
       this.updateDisplayedComics();
-    },
+    }
+    ,
     async addToCart(sku) {
       const userEmail = localStorage.getItem('userEmail');
 
@@ -204,7 +269,8 @@ export default {
       } catch (error) {
         alert('Failed to add comic to cart.');
       }
-    },
+    }
+    ,
     async toggleWishlist(sku) {
       const userEmail = localStorage.getItem('userEmail');
 
@@ -223,7 +289,8 @@ export default {
       }
     }
   }
-};
+}
+;
 </script>
 
 <style scoped>
@@ -236,7 +303,6 @@ body {
 .shop-all-container {
   display: flex;
 }
-
 
 
 .comics-and-pagination {

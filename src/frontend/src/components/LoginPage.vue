@@ -106,7 +106,6 @@ export default {
       }
     },
     createAccount() {
-      // Handle account creation logic
       this.$router.push('/signUp');
     }
   }
