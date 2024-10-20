@@ -3,8 +3,10 @@ package za.ac.cput.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import za.ac.cput.domain.CustomerOrder;
+import za.ac.cput.domain.OrderStatus;
 import za.ac.cput.service.customerOrderService.CustomerOrderService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -16,7 +18,18 @@ public class CustomerOrderController {
 
     @PostMapping("/create")
     public CustomerOrder create(@RequestBody CustomerOrder customerOrder) {
-        return customerOrderService.create(customerOrder);
+        System.out.println("Received CustomerOrder: " + customerOrder);
+        LocalDate orderDate = LocalDate.now();
+        OrderStatus status = OrderStatus.PROCESSING;
+
+        CustomerOrder newOrder = new CustomerOrder.CustomerOrderBuilder()
+                .setOrderDate(orderDate)
+                .setComicBooks(customerOrder.getComicBooks())
+                .setCustomer(customerOrder.getCustomer())
+                .setTotalAmount(customerOrder.getTotalAmount())
+                .setStatus(status)
+                .build();
+        return customerOrderService.create(newOrder);
     }
 
     @GetMapping("/read/{customerOrderId}")

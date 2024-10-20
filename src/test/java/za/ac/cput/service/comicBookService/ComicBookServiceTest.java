@@ -14,6 +14,8 @@ import za.ac.cput.factory.ComicBookFactory;
 import za.ac.cput.factory.GenreFactory;
 import za.ac.cput.factory.PublisherFactory;
 import za.ac.cput.service.authorService.AuthorService;
+import za.ac.cput.service.genreService.GenreService;
+import za.ac.cput.service.publisherService.PublisherService;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -33,6 +35,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class ComicBookServiceTest {
     @Autowired
     private ComicBookService comicBookService;
+
+    @Autowired
+    private GenreService genreService;
+
     private static ComicBook book1;
     private static ComicBook book2;
     private static ComicBook book3;
@@ -65,19 +71,18 @@ class ComicBookServiceTest {
 
     static Set<Genre> genres1 ;
     static Set<Genre> genres2 ;
-       
+
 
     @BeforeAll
-    static void  setUp() {
+    static void setUp(@Autowired GenreService genreService) {
 
         System.out.println("============================SETUP==================================");
 
-        String url1 ="images/ComicBookCover1.jpeg";
-        String url2="images/ComicBookCover2.jpeg";
-        String url3="images/ComicBookCover3.jpeg";
-      
-        try {
+        String url1 = "images/ComicBookCover1.jpeg";
+        String url2 = "images/ComicBookCover2.jpeg";
+        String url3 = "images/ComicBookCover3.jpeg";
 
+        try {
             image = ImageIO.read(new File(url1));
             out = new ByteArrayOutputStream();
             ImageIO.write(image, "jpeg", out);
@@ -89,20 +94,32 @@ class ComicBookServiceTest {
             image2 = ImageIO.read(new File(url3));
             out2 = new ByteArrayOutputStream();
             ImageIO.write(image2, "jpeg", out2);
-
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
+        Genre sciFi =genreService.read(1L);
+        if (sciFi == null) {
+            sciFi = genreService.create(GenreFactory.buildGenre("Sci-Fi"));
+        }
 
+        Genre action = genreService.read(2L);
+        if (action == null) {
+            action = genreService.create(GenreFactory.buildGenre("Action"));
+        }
+        Genre fantasy = genreService.read(3L);
+        if (fantasy == null) {
+            fantasy = genreService.create(GenreFactory.buildGenre("Fantasy"));
+        }
 
+        genres1 = Set.of(sciFi, action);
+        genres2 = Set.of(fantasy);
 
-        //Authors
         author1 = AuthorFactory.buildAuthor(1L, "Lamark", "Principle", "Darwin");
         System.out.println(author1);
         author2 = AuthorFactory.buildAuthor(2L, "Jacob", "Gedleyihlekisa", "Zuma");
         System.out.println(author2);
-        author3 = AuthorFactory.buildAuthor(3L, "Brown",  "Chris");
+        author3 = AuthorFactory.buildAuthor(3L, "Brown", "Chris");
         System.out.println(author3);
 
         authors1 = new ArrayList<>();
@@ -110,46 +127,40 @@ class ComicBookServiceTest {
         authors1.add(author3);
 
         authors2 = new ArrayList<>();
-        authors1.add(author1);
+        authors2.add(author1);
         authors2.add(author2);
         authors2.add(author3);
 
         authors3 = new ArrayList<>();
         authors3.add(author3);
-        authors2.add(author1);
-
+        authors3.add(author1);
 
         publisher1 = PublisherFactory.buildPublisher(1L, "Kat Publishers", 2010);
         publisher2 = PublisherFactory.buildPublisher(2L, "Nathan Publishers", 2007);
-        publisher3 = PublisherFactory.buildPublisher(3L,"DC",1910);
-//Books
+        publisher3 = PublisherFactory.buildPublisher(3L, "DC", 1910);
 
-        Set<Genre> genres1 = Set.of( GenreFactory.buildGenre("Sci-Fi"), GenreFactory.buildGenre("Action"));
-        Set<Genre> genres2 = Set.of(GenreFactory.buildGenre("Fantasy"));
-
-
-        book1 = ComicBookFactory.bookBuilder("The GAME 2", genres1, "Spaace Wars in far awa galaxy",
+        book1 = ComicBookFactory.bookBuilder("The GAME 2", genres1, "Space Wars in far away galaxy",
                 "B10", 474.99, 1.50, 7, authors1, publisher3, LocalDate.of(2024, 8, 11), out.toByteArray());
+
         book2 = ComicBookFactory.bookBuilder("BeeKeeper 3", genres2, "A scientific experiment disaster creates a superhero",
                 "B11", 699.99, 3.80, 6, authors1, publisher1, LocalDate.of(2024, 7, 17), out1.toByteArray());
-        book3 = ComicBookFactory.bookBuilder("The LastMan 2", genres1, "A power hungry villean threatens to destroy earth",
+
+        book3 = ComicBookFactory.bookBuilder("The LastMan 2", genres1, "A power hungry villain threatens to destroy earth",
                 "B12", 1980.99, 2.40, 3, authors2, publisher2, LocalDate.of(2024, 07, 20), out2.toByteArray());
 
         comicBooks1 = new ArrayList<>();
         comicBooks1.add(book1);
         comicBooks1.add(book3);
 
-
         comicBooks2 = new ArrayList<>();
         comicBooks2.add(book1);
-        comicBooks1.add(book3);
         comicBooks2.add(book2);
 
         comicBooks3 = new ArrayList<>();
         comicBooks3.add(book2);
         comicBooks3.add(book3);
-
     }
+
 
     @Test
     @Order(1)
