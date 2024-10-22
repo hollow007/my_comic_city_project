@@ -6,6 +6,8 @@ public class AuthResponse implements Serializable {
     private String token;
     private String role;
     private String redirectUrl;
+    //first names
+
 
     protected AuthResponse() {
     }

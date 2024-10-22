@@ -9,8 +9,8 @@
           <input v-model="comicBook.sku" type="text" class="form-control" placeholder="Auto Generated" disabled />
         </div>
         <div class="col-md-6 mb-3">
-          <label class="form-label">Name</label>
-          <input v-model="comicBook.name" type="text" class="form-control" placeholder="Enter name" />
+          <label class="form-label">Name <span style="color: red;">*</span></label>
+          <input v-model="comicBook.name" type="text" class="form-control" placeholder="Enter name" required/>
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label">Genres</label>
@@ -22,32 +22,34 @@
               placeholder="Select genres"
               label="name"
               track-by="name"
-              @input="updateGenres">
+              @input="updateGenres"
+              required>
+          >
           </multiselect>
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label">ISBN</label>
-          <input v-model="comicBook.isbn" type="text" class="form-control" placeholder="Enter ISBN" />
+          <input v-model="comicBook.isbn" type="text" class="form-control" placeholder="Enter ISBN" required/>
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label">Weight</label>
-          <input v-model="comicBook.weight" type="text" class="form-control" placeholder="Enter weight" />
+          <input v-model="comicBook.weight" type="number" class="form-control" placeholder="Enter weight" required/>
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label">Price</label>
-          <input v-model="comicBook.price" type="text" class="form-control" placeholder="Enter price" />
+          <input v-model="comicBook.price" type="number" class="form-control" placeholder="Enter price" required/>
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label">Release Date</label>
-          <input v-model="comicBook.releaseDate" type="date" class="form-control" />
+          <input v-model="comicBook.releaseDate" type="date" class="form-control" required/>
         </div>
         <div class="col-md-6 mb-3">
           <label class="form-label">Quantity</label>
-          <input v-model="comicBook.quantity" type="text" class="form-control" placeholder="Enter Quantity" />
+          <input v-model="comicBook.quantity" type="number" class="form-control" placeholder="Enter Quantity" required/>
         </div>
         <div class="col-12 mb-3">
           <label class="form-label">Description</label>
-          <textarea v-model="comicBook.description" class="form-control" rows="4" placeholder="Enter description"></textarea>
+          <textarea v-model="comicBook.description" class="form-control" rows="4" placeholder="Enter description" required></textarea>
         </div>
       </div>
 
@@ -221,6 +223,9 @@ export default {
       }
     },
     handleCancel() {
+      if (confirm("Are you sure you want to cancel? All unsaved changes will be lost.")) {
+        this.$router.go(-1);
+      }
       console.log('Form canceled');
     },
     validateForm() {
@@ -272,7 +277,7 @@ export default {
 
 
         console.log('Comic book saved successfully:', response);
-        this.$router.push(`/comic-books`);
+        this.$router.go(-1);
 
 
         alert('Comic book saved successfully!');
