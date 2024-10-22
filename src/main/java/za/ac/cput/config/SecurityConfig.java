@@ -45,22 +45,23 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/wishList/assignWishListToCustomer/**").permitAll()
 
                         // Expose only the read method
-                        .requestMatchers(HttpMethod.GET, "/comic_book/read/**").permitAll() // Public access to read
+                        //.requestMatchers(HttpMethod.GET, "/comic_book/read/**").permitAll() // Public access to read
                         .requestMatchers(HttpMethod.GET, "/comic_book/getAll").permitAll()
 
-                        // Admin routes
+                         //Admin routes
                         .requestMatchers("/admin/**", "/genres/**",
                                 "/comic_book/**", "/author/**",
                                 "/Publisher/**").
-                        hasRole("ADMIN")
+                        hasAuthority("ROLE_ADMIN")
 
-                        // Customer routes
-
+                        // Customer router
                         .requestMatchers("/customer/**").hasRole("CUSTOMER")
 
                         // Any other requests must be authenticated
                         .anyRequest().authenticated()
                 )
+
+
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

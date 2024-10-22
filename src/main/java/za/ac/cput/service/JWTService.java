@@ -151,6 +151,7 @@ import java.util.function.Function;
         // Validate the JWT token against user details
         public boolean validateToken(String token, UserDetails userDetails) {
             final String username = extractUserName(token);
+
             return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
         }
 

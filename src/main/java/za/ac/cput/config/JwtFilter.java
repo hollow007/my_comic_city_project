@@ -49,13 +49,19 @@ public class JwtFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userService.loadUserByUsername(username);
             if (jwtService.validateToken(token, userDetails)) {
+
+                logger.info("Token is valid: " + jwtService.validateToken(token, userDetails));
+                logger.info("User authenticated with roles: " + userDetails.getAuthorities());
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
-
+        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            logger.info("Authenticated User: " + SecurityContextHolder.getContext().getAuthentication().getName());
+            logger.info("Authorities: " + SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        }
         filterChain.doFilter(request, response);
     }
 }
