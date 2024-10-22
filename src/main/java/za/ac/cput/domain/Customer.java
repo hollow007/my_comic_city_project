@@ -18,9 +18,7 @@ public class Customer extends User{
 
     private Customer(CustomerBuilder c) {
         this.name = c.name;
-        this.password = c.password;
         this.contact = c.contact;
-        this.roles = c.roles;
         this.userId = c.userId;
         this.password = c.password;
         this.roles = c.roles;

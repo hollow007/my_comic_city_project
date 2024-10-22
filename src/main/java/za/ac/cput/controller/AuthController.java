@@ -66,7 +66,7 @@ public class AuthController {
                     redirectUrl = "/admin-layout";
                     break;
                 case "ROLE_CUSTOMER":
-                    redirectUrl = "/dashboard";
+                    redirectUrl = "/";
                     break;
 
                 default:
