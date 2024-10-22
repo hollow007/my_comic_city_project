@@ -84,7 +84,7 @@ public class AuthController {
 
         } catch (Exception e) {
             // Handle authentication errors
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
 

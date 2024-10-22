@@ -24,6 +24,7 @@ import AddNewAuthor from "@/components/AddNewAuthor.vue";
 import AddNewPublisher from "@/components/AddNewPublisher.vue";
 import EditPublisher from "@/components/EditPublisher.vue";
 import GenreManagment from "@/components/GenreManagment.vue";
+import axios from "axios";
 
 const routes = [
     // Public routes (available to all users)
@@ -85,14 +86,19 @@ const router = createRouter({
 
 // Helper function to check if a token is expired
 function isTokenExpired(token) {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload.exp * 1000 < Date.now();
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.exp * 1000 < Date.now();
+    } catch (error) {
+        console.error("Invalid token format:", error);
+        return true; // Expire the token if there’s an issue
+    }
 }
 
 // Global before guard to check authentication and role-based access
 router.beforeEach(async (to, from, next) => {
     const requiresAuth = to.meta.requiresAuth;
-    const requiredRole = to.meta.role; // Role required by the route
+    const requiredRole = to.meta.role;
     const token = localStorage.getItem('authToken');
 
     // If the route requires authentication
@@ -121,13 +127,31 @@ router.beforeEach(async (to, from, next) => {
 export default router;
 
 //Axios global configuration to include JWT token in every request
-// axios.interceptors.request.use((config) => {
-//     const token = localStorage.getItem('authToken');
-//     if (token) {
-//         config.headers['Authorization'] = `Bearer ${token}`;
-//     }
-//     return config;
-// }, (error) => {
-//     return Promise.reject(error);
-// });
+axios.interceptors.request.use((config) => {
+    const publicPaths = ['/Contact/create', '/Customer/create' ,'/wishList/assignWishListToCustomer/**',
+        '/cart/assignCartToCustomer/']; // List of public endpoints
+
+    // Check if the request URL is not a public route
+    if (!publicPaths.includes(config.url)) {
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+    }
+
+    return config;
+}, (error) => {
+    return Promise.reject(error);
+});
+axios.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.response && error.response.status === 401) {
+            // Handle token expiration
+            localStorage.removeItem('authToken');
+            router.push({ name: 'LoginPage' });
+        }
+        return Promise.reject(error);
+    }
+);
 
