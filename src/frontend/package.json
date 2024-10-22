@@ -16,6 +16,7 @@
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "core-js": "^3.8.3",
+    "jwt-decode": "^4.0.0",
     "lines-and-columns": "^2.0.4",
     "vue": "^3.2.13",
     "vue-multiselect": "^3.0.0",
