@@ -11,6 +11,7 @@ import java.util.Set;
 @Entity
 @DiscriminatorValue("Customer")
 public class Customer extends User{
+    //address missing
 
     protected Customer() {
     }
@@ -63,7 +64,11 @@ public class Customer extends User{
         }
 
         public CustomerBuilder copy(Customer c) {
-            this.userId = c.userId;
+
+            if(c.getUserId()  != null){
+                this.userId = c.getUserId();
+            }
+
             this.name = c.name;
             this.password = c.password;
             this.contact = c.contact;

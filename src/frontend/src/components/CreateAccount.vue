@@ -38,7 +38,8 @@
 import CustomerService from '@/services/CustomerService';
 import {assignCartToCustomer} from "@/services/cartService";
 import {assignWishListToCustomer} from "@/services/wishlistService";
-import SpinnerComponent from "@/components/SpinnerComponent.vue"; // Ensure you have this service to handle the API calls
+import SpinnerComponent from "@/components/SpinnerComponent.vue";
+import * as ContactService from "@/services/ContactService"; // Ensure you have this service to handle the API calls
 
 export default {
   components:{
@@ -72,6 +73,11 @@ export default {
         this.errorMessage = 'Please fill out all required fields.';
         return;
       }
+      const contactData = {
+        email: this.customer.contact.email,
+        mobile: this.customer.contact.mobile
+      };
+
       this.loading = true
       const customerData = {
         name: {
@@ -81,22 +87,9 @@ export default {
         },
         password: this.customer.password,
         contact: {
-          email: this.customer.contact.email,
-          mobile: this.customer.contact.mobile,
-          shippingAddress: {
-            time: "09:52", // Ensure you have the correct time format
-            streetAddress: "34 Batersea Drive2",
-            suburb: "Kibbler Park",
-            postalCode: "2092",
-            city: "Johannesburg"
-          },
-          billingAddress: {
-            paymentMethod: "card", // Add the payment method
-            streetAddress: "34 Batersea Drive3",
-            suburb: "Kibbler Park",
-            postalCode: "2090",
-            city: "Johannesburg"
-          }
+          email: contactData.email,
+          mobile: contactData.mobile
+
         }
       };
 
@@ -105,10 +98,13 @@ export default {
       try {
         console.log('Customer data being sent:', customerData);
 
+        const savedContact = await ContactService.createContact(contactData);
+        console.log('Contact saved successfully:', savedContact);
+
         const createdCustomer = await CustomerService.createCustomer(customerData);
         console.log('Customer saved successfully:', createdCustomer);
 
-        const customerId = createdCustomer.customerId;
+        const customerId = createdCustomer.userId;
 
         const response2 = await assignCartToCustomer(customerId);
         console.log('Cart assigned successfully', response2);

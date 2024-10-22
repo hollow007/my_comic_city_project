@@ -37,18 +37,25 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         // Public routes
-                        .requestMatchers("/", "/auth/login","/login", "/signUp").permitAll() // Public routes
+                        .requestMatchers("/", "/auth/login", "/login", "/signUp").permitAll() // Public routes
+                        .requestMatchers(HttpMethod.POST, "/Customer/create", "/Contact/create").permitAll() // Allow customer sign-up
+                        .requestMatchers(HttpMethod.POST, "/cart/assignCartToCustomer/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/cart/assignCartToCustomer/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/wishList/assignWishListToCustomer/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/wishList/assignWishListToCustomer/**").permitAll()
 
                         // Expose only the read method
                         .requestMatchers(HttpMethod.GET, "/comic_book/read/**").permitAll() // Public access to read
                         .requestMatchers(HttpMethod.GET, "/comic_book/getAll").permitAll()
+
                         // Admin routes
                         .requestMatchers("/admin/**", "/genres/**",
-                                         "/comic_book/**" ,"/author/**",
-                                        "/Publisher/**")
-                                        .hasRole("ADMIN")
+                                "/comic_book/**", "/author/**",
+                                "/Publisher/**").
+                        hasRole("ADMIN")
 
                         // Customer routes
+
                         .requestMatchers("/customer/**").hasRole("CUSTOMER")
 
                         // Any other requests must be authenticated
@@ -58,6 +65,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
