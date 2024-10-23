@@ -54,7 +54,7 @@ import FooterSection from '@/components/FooterSection.vue';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import FilterComponent from '@/components/FilterComponent.vue';
 import {
-  getAllComicBooks, getBooksByDateInBetween, getBooksByGenre, getBooksByGenres,
+  getAllComicBooks, getBooksByDateInBetween,  getBooksByGenres,
   getBooksByPlublisher,
   getBooksByPriceLessThanEqual,
   searchComicBooksByName
