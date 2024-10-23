@@ -42,7 +42,7 @@
       <tr v-for="author in authors" :key="author.authorID">
         <td>{{ author.authorID }}</td>
         <td>{{ formatAuthorName(author) }}</td>
-        <td>{{ author.name.lastName }}</td>
+        <td>{{ author.name.lastName || ''}}</td>
         <td class="actions">
           <button @click="editAuthor(author.authorID)">Edit</button>
           <button @click="confirmDelete(author.authorID)" class="delete">Delete</button>
@@ -57,6 +57,9 @@
 </template>
 
 <script>
+
+
+import {getAllAuthors} from "@/services/AuthorService";
 
 export default {
 
@@ -89,19 +92,24 @@ export default {
     },
 
 
-    fetchAllAuthors() {
+    async fetchAllAuthors() {
       this.loading = true;
-      fetch(`/api/comiccity/author/getAll`)
-          .then((response) => response.json())
-          .then((data) => {
-            this.authors = data;
-            this.loading = false;
-          })
-          .catch((error) => {
-            this.errorMsg = 'Error fetching all authors';
-            this.loading = false;
-            console.error(error);
-          });
+      try {
+        const response = await getAllAuthors();
+        this.authors =response.data.map(author => ({
+          authorID: author.authorID,
+          name: {
+            firstName: author.name.firstName,
+            middleName: author.name.middleName || '',
+            lastName: author.name.lastName
+          },
+          fullName: `${author.authorID} - ${author.name.firstName} ${author.name.middleName || ''} ${author.name.lastName}`.trim(),
+        }));
+        console.log('Authors:', this.authors)
+        this.loading = false;
+      } catch (error) {
+        console.error('Error fetching genres:', error);
+      }
     },
 
     editAuthor(id) {

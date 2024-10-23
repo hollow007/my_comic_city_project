@@ -39,6 +39,7 @@
 <script>
 import { getCustomerWishList, removeBookFromWishList } from "@/services/wishlistService";
 import Notification from "@/components/NotificationComponent.vue";
+import {jwtDecode} from "jwt-decode";
 
 export default {
   name: 'WishlistSummary',
@@ -65,36 +66,37 @@ export default {
   },
   methods: {
     async fetchWishlist() {
-      const userEmail = localStorage.getItem('userEmail');
-      if (!userEmail) {
-        console.error('User email not found. Please log in.');
-        //this.$router.push('/login'); // Redirect to login page if user is not logged in
-        return;
-      }
-      try {
-        const response = await getCustomerWishList(userEmail);
-        this.wishList = response.data;
-        this.wishlistItems = this.wishList.comicBooks || []; // Safely assign wishlist items
-        this.wishListTotal = this.wishlistItems.reduce((total, item) => total + item.price, 0);
-        this.$emit('update-wishList-count', this.wishlistItems.length);
-      } catch (error) {
-        console.error('Error fetching wishlist items:', error);
-        this.notification.message = 'Failed to load wishlist.';
-      }
-    },
-    async removeItem(sku) {
-      const isConfirmed = confirm('Are you sure you want to remove this item from your wishlist?');
-      if (isConfirmed) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        this.isAuthenticated = true;
         try {
-          await removeBookFromWishList(this.wishList.wishListId, sku);
-          await this.fetchWishlist(); // Refresh the wishlist
-          this.notification.message = 'Item removed successfully';
+          const response = await getCustomerWishList(decodedToken.sub);
+          this.wishList = response.data;
+          this.wishlistItems = this.wishList.comicBooks || []; // Safely assign wishlist items
+          this.wishListTotal = this.wishlistItems.reduce((total, item) => total + item.price, 0);
+          this.$emit('update-wishList-count', this.wishlistItems.length);
         } catch (error) {
-          console.error('Error removing item from wishlist:', error);
-          this.notification.message = 'Failed to remove item.';
+          console.error('Error fetching wishlist items:', error);
+          this.notification.message = 'Failed to load wishlist.';
         }
       }
     },
+    async removeItem(sku)
+      {
+        const isConfirmed = confirm('Are you sure you want to remove this item from your wishlist?');
+        if (isConfirmed) {
+          try {
+            await removeBookFromWishList(this.wishList.wishListId, sku);
+            await this.fetchWishlist(); // Refresh the wishlist
+            this.notification.message = 'Item removed successfully';
+          } catch (error) {
+            console.error('Error removing item from wishlist:', error);
+            this.notification.message = 'Failed to remove item.';
+          }
+        }
+      },
+
     getPhotoUrl(photo) {
       return `data:image/jpeg;base64,${photo}`;
     },
@@ -103,6 +105,7 @@ export default {
     }
   }
 };
+
 </script>
 
 

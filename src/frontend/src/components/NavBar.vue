@@ -1,109 +1,128 @@
 <template>
   <div class="no-bootstrap-affect">
-  <nav class="navbarr">
-    <!-- Top Section -->
-    <div class="top-section">
-      <div class="left-side">
-        <font-awesome-icon icon="facebook" class="icon social-icon"/>
-        <font-awesome-icon icon="instagram" class="icon social-icon"/>
-        <span class="slogan">Best Comic Store in Town</span>
-      </div>
-      <div class="right-side">
-        <a href="#">About Us</a>
-        <a href="#">Contact Us</a>
-      </div>
-    </div>
-
-    <!-- Horizontal Line -->
-    <hr class="section-divider"/>
-
-    <!-- Middle Section -->
-    <div class="middle-section">
-      <div class="logo">
-        <router-link to='/'>
-          <img :src="require('@/assets/Designer.png')" alt="Comicity Logo"/>
-        </router-link>
+    <nav class="navbarr">
+      <!-- Top Section -->
+      <div class="top-section">
+        <div class="left-side">
+          <font-awesome-icon icon="facebook" class="icon social-icon" />
+          <font-awesome-icon icon="instagram" class="icon social-icon" />
+          <span class="slogan">Best Comic Store in Town</span>
+        </div>
+        <div class="right-side">
+          <a href="#">About Us</a>
+          <a href="#">Contact Us</a>
+        </div>
       </div>
 
-      <div class="icon-container">
-        <label for="search-input" class="search-label">
-          <input type="search" id="search-input" placeholder="Search..."  @input="handleSearchInput"/>
-          <font-awesome-icon icon="search" class="icon1"/>
-        </label>
+      <!-- Horizontal Line -->
+      <hr class="section-divider" />
 
-        <!-- Cart Icon Wrapper -->
-        <div class="relative cart-icon-wrapper" @click="showCart" @mouseenter="showCart" @mouseleave="hideCart">
-          <font-awesome-icon icon="shopping-cart" class="icon cart-icon"/>
-          <div class="cart-badge">{{ cartItemCount }}</div>
-          <CartSummary v-if="isCartVisible" @update-cart-count="updateCartCount"/>
+      <!-- Middle Section -->
+      <div class="middle-section">
+        <div class="logo">
+          <router-link to='/'>
+            <img :src="require('@/assets/Designer.png')" alt="Comicity Logo" />
+          </router-link>
         </div>
 
-        <!-- Wishlist Icon Wrapper -->
-        <div class="relative wishlist-icon-wrapper" @click="showWishlist" @mouseenter="showWishlist" @mouseleave="hideWishlist">
-          <font-awesome-icon icon="heart" class="icon wishlist-icon"/>
-          <div class="cart-badge">{{ wishListItemCount }}</div>
-          <WishlistSummary v-if="isWishlistVisible" @update-wishList-count="updateWishListCount"
-                           :wishListId="wishListId"/>
-        </div>
+        <div class="icon-container">
+          <label for="search-input" class="search-label">
+            <input type="search" id="search-input" placeholder="Search..." @input="handleSearchInput" />
+            <font-awesome-icon icon="search" class="icon1" />
+          </label>
 
-        <!-- Conditionally Render User Icon or Login | Sign Up -->
-        <div v-if="isAuthenticated">
-          <div class="user-info" @click.stop="toggleDropdown">
-            <font-awesome-icon icon="user" class="icon"/>
-            <span class="user-name">{{ userName }}</span>
+          <!-- Cart Icon Wrapper -->
+          <div class="relative cart-icon-wrapper" @click="showCart" @mouseenter="showCart" @mouseleave="hideCart">
+            <font-awesome-icon icon="shopping-cart" class="icon cart-icon" />
+            <div class="cart-badge">{{ cartItemCount }}</div>
+            <CartSummary v-if="isCartVisible" @update-cart-count="updateCartCount" />
+          </div>
 
-            <div v-if="isDropdownVisible" class="dropdown-menu">
-              <ul>
-                <li><a href="#">Inbox</a></li>
-                <li><a href="#">Account</a></li>
-                <li><a href="#">Help</a></li>
-                <li><a href="#" @click="logout">Logout</a></li>
-              </ul>
+          <!-- Wishlist Icon Wrapper -->
+          <div class="relative wishlist-icon-wrapper" @click="showWishlist" @mouseenter="showWishlist" @mouseleave="hideWishlist">
+            <font-awesome-icon icon="heart" class="icon wishlist-icon" />
+            <div class="cart-badge">{{ wishListItemCount }}</div>
+            <WishlistSummary v-if="isWishlistVisible" @update-wishList-count="updateWishListCount" :wishListId="wishListId" />
+          </div>
+
+          <!-- Conditionally Render User Icon or Login | Sign Up -->
+          <div v-if="isAuthenticated">
+            <div class="user-info" @click.stop="toggleDropdown">
+              <font-awesome-icon icon="user" class="icon" />
+              <span class="user-name">{{ userName }}</span>
+
+              <div v-if="isDropdownVisible" class="dropdown-menu">
+                <ul>
+                  <li><a href="#">Inbox</a></li>
+                  <li><a href="#">Account</a></li>
+                  <li><a href="#">Help</a></li>
+                  <li><a href="#" @click="logout">Logout</a></li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div v-else class="auth-links">
-          <button @click="goToLogin" class="nav-button">Login</button>
-          <span>|</span>
-          <button @click="goToSignup" class="nav-button">Sign Up</button>
-        </div>
+          <div v-else class="auth-links">
+            <button @click="goToLogin" class="nav-button">Login</button>
+            <span>|</span>
+            <button @click="goToSignup" class="nav-button">Sign Up</button>
+          </div>
 
-        <font-awesome-icon icon="sun" class="icon" @click="toggleTheme"/>
+          <font-awesome-icon icon="sun" class="icon" @click="toggleTheme" />
+        </div>
       </div>
-    </div>
 
-    <!-- Horizontal Line -->
-    <hr class="section-divider"/>
+      <!-- Horizontal Line -->
+      <hr class="section-divider" />
 
-    <!-- Bottom Section -->
-    <div class="bottom-section">
-      <ul class="bottom-nav-links">
-        <router-link to="/">
-          <li><a href="#">Home
-            <font-awesome-icon icon="chevron-up" class="icon arrow-icon"/>
+      <!-- Bottom Section with Dropdown Menus -->
+      <div class="bottom-section">
+        <ul class="bottom-nav-links">
+          <router-link to="/">
+            <li><a href="#">Home
+              <font-awesome-icon icon="chevron-up" class="icon arrow-icon" />
+            </a></li>
+          </router-link>
+
+          <!-- Shop by Genre with Dropdown -->
+          <li class="dropdown" @mouseenter="showDropdown('genre')" @mouseleave="hideDropdown('genre')">
+            <a href="#">Shop by Genre
+              <font-awesome-icon icon="chevron-up" class="icon arrow-icon" />
+            </a>
+            <ul v-if="isGenreDropdownVisible" class="dropdown-menu genre-dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Adventure</a></li>
+              <li><a href="#">Fantasy</a></li>
+              <li><a href="#">Horror</a></li>
+            </ul>
+          </li>
+          <!-- Shop by Publisher with Dropdown -->
+          <li class="dropdown" @mouseenter="showDropdown('publisher')" @mouseleave="hideDropdown('publisher')">
+            <a href="#">Shop by Publisher
+              <font-awesome-icon icon="chevron-up" class="icon arrow-icon" />
+            </a>
+            <ul v-if="isPublisherDropdownVisible" class="dropdown-menu">
+              <li><a href="#">Marvel</a></li>
+              <li><a href="#">DC</a></li>
+              <li><a href="#">Image Comics</a></li>
+              <li><a href="#">Dark Horse</a></li>
+            </ul>
+          </li>
+
+          <li><a href="#" @click.prevent="navigateToShopAll">Shop all
+            <font-awesome-icon icon="chevron-up" class="icon arrow-icon" />
           </a></li>
-        </router-link>
-        <li><a href="#">Shop by genre
-
-          <font-awesome-icon icon="chevron-up" class="icon arrow-icon"/>
-        </a></li>
-        <li><a href="#">Shop by publisher
-          <font-awesome-icon icon="chevron-up" class="icon arrow-icon"/>
-        </a></li>
-        <li><a href="#" @click.prevent="navigateToShopAll">Shop all
-          <font-awesome-icon icon="chevron-up" class="icon arrow-icon"/>
-        </a></li>
-      </ul>
-    </div>
-    <hr class="section-divider"/>
-  </nav>
+        </ul>
+      </div>
+      <hr class="section-divider" />
+    </nav>
   </div>
 </template>
 
 <script>
 import CartSummary from './CartSummary.vue';
 import WishlistSummary from './WishlistSummary.vue';
+import { jwtDecode } from "jwt-decode";
 
 export default {
   name: 'NavBar',
@@ -113,11 +132,12 @@ export default {
     WishlistSummary,
   },
 
-
   data() {
     return {
       isCartVisible: false,
       isWishlistVisible: false,
+      isGenreDropdownVisible: false,
+      isPublisherDropdownVisible: false,
       cartItemCount: 0,
       wishListItemCount: 0,
       isAuthenticated: false,
@@ -137,19 +157,17 @@ export default {
     toggleDropdown() {
       this.isDropdownVisible = !this.isDropdownVisible;
     },
-    handleOutsideClick(event) {
-      const profileElement = this.$refs.userProfile;
-      if (profileElement && !profileElement.contains(event.target)) {
-        this.isDropdownVisible = false;
-      }
-    },
     checkAuthStatus() {
-      const userEmail = localStorage.getItem('userEmail');
-      if (userEmail) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        const decodedToken = jwtDecode(token);
         this.isAuthenticated = true;
-        fetch(`/api/comiccity/Customer/getByEmail/${userEmail}`, {
+
+
+        fetch(`/api/comiccity/Customer/getByEmail/${decodedToken.sub}`, {
           method: 'GET',
           headers: {
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           }
         })
@@ -197,7 +215,7 @@ export default {
       this.wishListItemCount = count;
     },
     toggleTheme() {
-      // Handle theme toggle logic here
+
     },
     goToLogin() {
       this.$router.push('/login');
@@ -206,18 +224,53 @@ export default {
       this.$router.push('/signUp');
     },
     navigateToShopAll() {
-      // Navigate to the HomePage and trigger the shop all view
       this.$router.push({ path: '/', query: { shopAll: true } });
-    }
-  },
+    },
 
-  beforeUnmount() {
-    document.removeEventListener('click', this.handleOutsideClick);
-  },
+    showDropdown(type) {
+      if (type === 'genre') this.isGenreDropdownVisible = true;
+      if (type === 'publisher') this.isPublisherDropdownVisible = true;
+    },
+    hideDropdown(type) {
+      if (type === 'genre') this.isGenreDropdownVisible = false;
+      if (type === 'publisher') this.isPublisherDropdownVisible = false;
+    }
+  }
 };
 </script>
-<style scoped>
 
+<style scoped>
+/* Dropdown Menu Styling */
+.dropdown-menu {
+  position: absolute;
+  background-color: #444;
+  color: white;
+  list-style-type: none;
+  padding: 10px;
+  margin: 0;
+  border: 1px solid #333;
+  z-index: 100;
+  display: block;
+}
+
+.dropdown-menu li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.dropdown-menu li a {
+  color: black;
+  text-decoration: none;
+}
+
+
+.genre-dropdown-menu {
+  left: 20px;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
 .user-info {
   display: flex;
   align-items: center;

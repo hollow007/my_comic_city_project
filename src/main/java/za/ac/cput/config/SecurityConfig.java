@@ -43,24 +43,35 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/cart/assignCartToCustomer/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/wishList/assignWishListToCustomer/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/wishList/assignWishListToCustomer/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/comic_book/read/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/comic_book/search/name/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/comic_book/comic_book/search/**").permitAll()
+
+                        .requestMatchers(HttpMethod.GET,"/comic_book/search/genres/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/comic_book/filter/publisher/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/comic_book/filter/price/**").permitAll()
+
 
                         // Expose only the read method
-                        .requestMatchers(HttpMethod.GET, "/comic_book/read/**").permitAll() // Public access to read
+                        //.requestMatchers(HttpMethod.GET, "/comic_book/read/**").permitAll() // Public access to read
                         .requestMatchers(HttpMethod.GET, "/comic_book/getAll").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/genres/getAll").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/Publisher/getall").permitAll()
 
-                        // Admin routes
+                         //Admin routes
                         .requestMatchers("/admin/**", "/genres/**",
-                                "/comic_book/**", "/author/**",
+                                "/comic_book/delete/**", "/author/**",
                                 "/Publisher/**").
-                        hasRole("ADMIN")
+                        hasAuthority("ROLE_ADMIN")
 
-                        // Customer routes
-
-                        .requestMatchers("/customer/**").hasRole("CUSTOMER")
+                        // Customer router
+                        .requestMatchers("/customer/**","/cart/**","/comiccity/wishList/**").hasAuthority("ROLE_CUSTOMER")
 
                         // Any other requests must be authenticated
                         .anyRequest().authenticated()
                 )
+
+
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

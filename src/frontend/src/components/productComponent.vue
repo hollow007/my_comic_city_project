@@ -121,7 +121,8 @@ export default {
 
   methods: {
     async fetchComicDetails() {
-      this.sku = this.$route.params.sku; // Get the SKU from route parameters
+      this.sku = this.$route.params.sku;
+      console.log(this.sku)// Get the SKU from route parameters
       try {
         const response = await getComicBook(this.sku); // Fetch the comic details using the SKU
         this.comic = response.data;

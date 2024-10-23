@@ -32,7 +32,8 @@ const routes = [
     { path: '/login', name: 'LoginPage', component: LoginPage },
     { path: '/signUp', name: 'CreateAccount', component: CreateAccount },
     { path: '/comic/:sku', name: 'view-item', component: ViewItem, props: true }, // View Comic Item
-
+    { path: '/cart', name: 'ShoppingCart', component: ShoppingCart }, // Shopping cart
+    { path: '/wishList', name: 'ShoppingWishList', component: ShoppingWishList },
     // Admin routes (already grouped under admin layout)
     {
         path: '/admin-layout',
@@ -66,8 +67,7 @@ const routes = [
             { path: 'addresses', name: 'Addresses', component: AddressesPage }, // Manage addresses
             { path: 'account-details', name: 'AccountDetails', component: AccountDetails }, // Account details
             { path: 'wishlist', name: 'WishListPage', component: WishListPage }, // Wish list
-            { path: 'cart', name: 'ShoppingCart', component: ShoppingCart }, // Shopping cart
-            { path: 'wishList', name: 'ShoppingWishList', component: ShoppingWishList }, // Shopping wish list
+            // Shopping wish list
             {
                 path: 'cartcheckout',
                 name: 'CartCheckout',
@@ -129,7 +129,7 @@ export default router;
 //Axios global configuration to include JWT token in every request
 axios.interceptors.request.use((config) => {
     const publicPaths = ['/Contact/create', '/Customer/create' ,'/wishList/assignWishListToCustomer/**',
-        '/cart/assignCartToCustomer/']; // List of public endpoints
+        '/cart/assignCartToCustomer/',"/comic_book/getAll"]; // List of public endpoints
 
     // Check if the request URL is not a public route
     if (!publicPaths.includes(config.url)) {
@@ -146,7 +146,7 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use(
     response => response,
     error => {
-        if (error.response && error.response.status === 401) {
+        if (error.response && error.response.status === 401 || error.response.status === 403) {
             // Handle token expiration
             localStorage.removeItem('authToken');
             router.push({ name: 'LoginPage' });

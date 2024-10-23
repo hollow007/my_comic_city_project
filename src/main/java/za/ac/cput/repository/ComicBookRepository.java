@@ -27,4 +27,5 @@ public interface ComicBookRepository extends JpaRepository<ComicBook, Long> {
     List<ComicBook>findComicBooksByPublisher_Name(String publisher);
     List<ComicBook>findComicBooksByPriceLessThanEqual(Double price);
 
+
 }

@@ -58,6 +58,8 @@
 
 <script>
 
+import {getAllPublishers} from "@/services/PublisherService";
+
 export default {
 
   data() {
@@ -71,7 +73,7 @@ export default {
   methods: {
     fetchPublishersByName() {
       if (!this.searchName) {
-        this.fetchAllAuthors();
+        this.fetchAllPublishers();
         return;
       }
       this.loading = true;
@@ -89,19 +91,20 @@ export default {
     },
 
 
-    fetchAllPublishers() {
+    async fetchAllPublishers() {
       this.loading = true;
-      fetch(`/api/comiccity/Publisher/getall`)
-          .then((response) => response.json())
-          .then((data) => {
-            this.publishers = data;
-            this.loading = false;
-          })
-          .catch((error) => {
-            this.errorMsg = 'Error fetching all authors';
-            this.loading = false;
-            console.error(error);
-          });
+      try {
+        const response = await getAllPublishers();
+        this.publishers = response.data.map(publisher => ({
+          publisherId: publisher.publisherId,
+          name: publisher.name,
+          yearFounded: publisher.yearFounded,
+          fullName: `${publisher.publisherId} - ${publisher.name} ${publisher.yearFounded}`,
+        }));
+        this.loading = false;
+      } catch (error) {
+        console.error('Error fetching publishers:', error);
+      }
     },
 
     editPublisher(id) {

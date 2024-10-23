@@ -65,10 +65,10 @@ public class ComicBookController {
         return new ResponseEntity<>(comicBooks, HttpStatus.OK);
     }
 
-    @GetMapping("/search/releaseDates")
+    @GetMapping("/search/releaseDates/{startDate}/{endDate}")
     public ResponseEntity<List<ComicBook>> findByReleaseDateBetween(
-            @RequestParam("startDate") LocalDate startDate,
-            @RequestParam("endDate") LocalDate endDate) {
+          @PathVariable("startDate") LocalDate startDate,
+           @PathVariable("endDate") LocalDate endDate) {
         List<ComicBook> comicBooks = comicBookService.findByReleaseDateBetween(startDate, endDate);
         return new ResponseEntity<>(comicBooks, HttpStatus.OK);
     }
@@ -89,6 +89,8 @@ public class ComicBookController {
 
         return comicBooks;
     }
+
+
     @GetMapping("/filter/publisher/{publisher}")
     public List<ComicBook> findByPublisherContainingIgnoreCase(@PathVariable("publisher") String publisher) {
         return comicBookService.findByBooksPublisher(publisher);

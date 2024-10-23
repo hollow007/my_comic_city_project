@@ -54,7 +54,7 @@ import FooterSection from '@/components/FooterSection.vue';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import FilterComponent from '@/components/FilterComponent.vue';
 import {
-  getAllComicBooks,
+  getAllComicBooks, getBooksByDateInBetween,  getBooksByGenres,
   getBooksByPlublisher,
   getBooksByPriceLessThanEqual,
   searchComicBooksByName
@@ -62,6 +62,7 @@ import {
 import {addBookToCart, getCustomerCart} from "@/services/cartService";
 import {addBookToWishList, getCustomerWishList} from "@/services/wishlistService";
 import SpinnerComponent from "@/components/SpinnerComponent.vue";
+import {jwtDecode} from "jwt-decode";
 
 export default {
   name: 'HomePage',
@@ -136,6 +137,7 @@ export default {
 
     async handleSearchQuery(query) {
       this.searchQuery = query;
+      console.log(this.searchQuery)
       if (this.searchQuery) {
         try {
           const searchResults = await searchComicBooksByName(this.searchQuery);
@@ -171,7 +173,6 @@ export default {
         }
 
 
-
       }
       if (this.filters.genre) {
 
@@ -180,8 +181,8 @@ export default {
           this.loading = true; // Start loading state
 
           const genres = [this.filters.genre];
-          const response = await fetch(`/api/comiccity/comic_book/search/genres?genres=${genres}`);
-          const data = await response.json();
+          const response = await getBooksByGenres(genres);
+          const data = await response.data;
 
           filteredComics = data;
         } catch (error) {
@@ -201,8 +202,8 @@ export default {
         try {
 
           this.loading = true;
-          const response = await fetch(`/api/comiccity/comic_book/search/releaseDates?startDate=${fromDate}&endDate=${toDate}`)
-          const data1 = await response.json();
+          const response = await getBooksByDateInBetween(fromDate,toDate)
+          const data1 = await response.data;
           console.log(data1)
 
           filteredComics = data1;
@@ -254,38 +255,40 @@ export default {
     }
     ,
     async addToCart(sku) {
-      const userEmail = localStorage.getItem('userEmail');
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        this.isAuthenticated = true;
 
-      if (userEmail === null) {
-        console.error('No user email found. Please log in.');
-        return;
-      }
 
-      try {
-        const response = await getCustomerCart(userEmail);
-        this.cartItems = response.data.comicBooks || [];
-        await addBookToCart(response.data.cartId, sku);
-        alert('Comic added to cart!');
-      } catch (error) {
-        alert('Failed to add comic to cart.');
+        try {
+          const response = await getCustomerCart(decodedToken.sub);
+          console .log("Customer cart fetsched for customer ",decodedToken.sub,response.data)
+          this.cartItems = response.data.comicBooks || [];
+          console.log(response.data.cartId)
+          await addBookToCart(response.data.cartId, sku);
+          alert('Comic added to cart!');
+        } catch (error) {
+          alert('Failed to add comic to cart.');
+        }
       }
     }
     ,
     async toggleWishlist(sku) {
-      const userEmail = localStorage.getItem('userEmail');
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        this.isAuthenticated = true;
 
-      if (userEmail === null) {
-        console.error('No user email found. Please log in.');
-        return;
-      }
 
-      try {
-        const response = await getCustomerWishList(userEmail);
-        this.wishlistItems = response.data.comicBooks || [];
-        await addBookToWishList(response.data.wishListId, sku);
-        alert('Comic added to WishList!');
-      } catch (error) {
-        alert('Failed to update wishlist.');
+        try {
+          const response = await getCustomerWishList(decodedToken.sub);
+          this.wishlistItems = response.data.comicBooks || [];
+          await addBookToWishList(response.data.wishListId, sku);
+          alert('Comic added to WishList!');
+        } catch (error) {
+          alert('Failed to update wishlist.');
+        }
       }
     }
   }
