@@ -78,7 +78,7 @@ public class ComicBookController {
 //        List<ComicBook> comicBooks = comicBookService.findByGenresIn(genres);
 //        return new ResponseEntity<>(comicBooks, HttpStatus.OK);
 //    }
-    @GetMapping("/search/genres")
+    @GetMapping("/search/genres/{genres}")
     public List<ComicBook> getComicBooksByGenres(@RequestParam List<String> genres) {
         System.out.print("HIIIII");
         System.out.println(genres.toString());

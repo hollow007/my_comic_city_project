@@ -77,6 +77,7 @@ public class CartController {
     }
     @GetMapping("/getCustomerCart/{email}")
     public Cart getCartWithCustomerEmail(@PathVariable("email") String email){
+        System.out.println("eamil recieved"+email);
         return cartService.getCartByCustomerEmail(email);
     }
 @GetMapping("/assignCartToCustomer/{customerId}")
