@@ -44,20 +44,20 @@ class CustomerOrderServiceTest {
 
         Publisher publisher1 = PublisherFactory.buildPublisher(1L, "Marvel", 2000);
 
-        author1 = AuthorFactory.buildAuthor(001L, "Lamark", "Darwin");
-        author2 = AuthorFactory.buildAuthor(002L, "Jacob", "Gedleyihlekisa", "Zuma");
+        author1 = AuthorFactory.buildAuthor(1L, "Lamark", "Darwin");
+        author2 = AuthorFactory.buildAuthor(2L, "Jacob", "Gedleyihlekisa", "Zuma");
         authors.add(author1);
         authors.add(author2);
 
         Genre sciFi = genreService.read(1L);
-        if (sciFi == null) {
-            sciFi = genreService.create(GenreFactory.buildGenre("Sci-Fi"));
-        }
+//        if (sciFi == null) {
+//            sciFi = genreService.create(GenreFactory.buildGenre("Sci-Fi"));
+//        }
 
         Genre action = genreService.read(2L);
-        if (action == null) {
-            action = genreService.create(GenreFactory.buildGenre("Action"));
-        }
+//        if (action == null) {
+//            action = genreService.create(GenreFactory.buildGenre("Action"));
+//        }
 
         Set<Genre> genres1 = Set.of(sciFi, action);
 

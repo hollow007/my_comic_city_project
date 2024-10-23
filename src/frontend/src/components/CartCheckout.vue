@@ -67,7 +67,7 @@ import CartSummary from '@/components/CartSummary.vue';
 import FooterSection from '@/components/FooterSection.vue';
 import { createOrder } from '@/services/orderService';
 import CustomerService from "@/services/CustomerService";
-import {getCustomerCart} from "@/services/cartService"; // Import the service for creating orders
+import {getCustomerCart} from "@/services/cartService";
 
 export default {
   name: 'CartCheckout',
