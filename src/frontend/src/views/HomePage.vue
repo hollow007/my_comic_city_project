@@ -54,7 +54,7 @@ import FooterSection from '@/components/FooterSection.vue';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import FilterComponent from '@/components/FilterComponent.vue';
 import {
-  getAllComicBooks,getBooksByGenres,
+  getAllComicBooks, getBooksByDateInBetween,  getBooksByGenres,
   getBooksByPlublisher,
   getBooksByPriceLessThanEqual,
   searchComicBooksByName
@@ -137,6 +137,7 @@ export default {
 
     async handleSearchQuery(query) {
       this.searchQuery = query;
+      console.log(this.searchQuery)
       if (this.searchQuery) {
         try {
           const searchResults = await searchComicBooksByName(this.searchQuery);
@@ -180,7 +181,7 @@ export default {
           this.loading = true; // Start loading state
 
           const genres = [this.filters.genre];
-          const response = await getBooksByGenres(genres)
+          const response = await getBooksByGenres(genres);
           const data = await response.data;
 
           filteredComics = data;
@@ -201,8 +202,8 @@ export default {
         try {
 
           this.loading = true;
-          const response = await fetch(`/api/comiccity/comic_book/search/releaseDates?startDate=${fromDate}&endDate=${toDate}`)
-          const data1 = await response.json();
+          const response = await getBooksByDateInBetween(fromDate,toDate)
+          const data1 = await response.data;
           console.log(data1)
 
           filteredComics = data1;

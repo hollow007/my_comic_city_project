@@ -121,6 +121,7 @@ import {
   searchComicBooksByName
 } from "@/services/comicBookService";
 
+
 export default {
   data() {
     return {
@@ -193,6 +194,7 @@ export default {
         return;
       }
       this.loadingBooks = true;
+
       try {
         if (this.startDate && this.endDate) {
           const response = await getComicBooksByReleaseDates(this.startDate, this.endDate);
@@ -206,6 +208,7 @@ export default {
       }finally {
         this.loadingGenres = false;
       }
+
     },
 
     async fetchBooksByGenres() {
