@@ -31,7 +31,14 @@ export const getBooksByPriceLessThanEqual= (price) => {
     return axios.get(`${API_URL}/filter/price/${price}`);
 
 };
-export const getBooksByGenres= (genres) => {
-    return axios.get(`${API_URL}/search/genres/${genres}`);
+export const getBooksByGenres = (genres) => {
+    const params = new URLSearchParams();
+    genres.forEach(genre => params.append('genres', genre));
+
+    return axios.get(`${API_URL}/search/genres`, { params });
+};
+
+export const getBooksByDateInBetween= (fromDate,toDate) => {
+    return axios.get(`${API_URL}/search/releaseDates/${fromDate}/${toDate}`);
 
 };
