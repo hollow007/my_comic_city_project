@@ -115,6 +115,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import { getAllGenre } from "@/services/GenreService";
 
+
 export default {
   data() {
     return {
@@ -179,7 +180,7 @@ export default {
           });
     },
 
-    fetchBooksByReleaseDate() {
+    async fetchBooksByReleaseDate() {
       if (!this.startDate || !this.endDate) {
         this.errorMsg = 'Please enter both start and end dates';
         return;
@@ -189,6 +190,8 @@ export default {
         return;
       }
       this.loadingBooks = true;
+
+
       fetch(`/api/comiccity/comic_book/search/releaseDates?startDate=${this.startDate}&endDate=${this.endDate}`)
           .then((response) => response.json())
           .then((data) => {
