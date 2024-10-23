@@ -40,6 +40,7 @@
 <script>
 import { getCustomerCart, removeBookFromCart } from "@/services/cartService";
 import Notification from "@/components/NotificationComponent.vue";
+import {jwtDecode} from "jwt-decode";
 
 export default {
   name: 'CartSummary',
@@ -66,23 +67,22 @@ export default {
   },
   methods: {
     async fetchCart() {
-      const userEmail = localStorage.getItem('userEmail');
-      if (!userEmail) {
-        console.error('User email not found. Please log in.');
-        // this.$router.push('/login'); // Redirect to login page if user is not logged in
-        return;
-      }
-      try {
-        const response = await getCustomerCart(userEmail);
-        this.cart = response.data;
-        this.cartItems = this.cart.comicBooks || []; // Safely assign cart items
-        this.cartTotal = this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        this.isAuthenticated = true;
+        try {
+          const response = await getCustomerCart(decodedToken.sub);
+          this.cart = response.data;
+          this.cartItems = this.cart.comicBooks || []; // Safely assign cart items
+          this.cartTotal = this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
-        // Emit the cart item count to the parent component
-        this.$emit('update-cart-count', this.cartItems.length);
-      } catch (error) {
-        console.error('Error fetching cart items:', error);
-        this.notification.message = 'Failed to load cart.';
+          // Emit the cart item count to the parent component
+          this.$emit('update-cart-count', this.cartItems.length);
+        } catch (error) {
+          console.error('Error fetching cart items:', error);
+          this.notification.message = 'Failed to load cart.';
+        }
       }
     },
     async removeItem(sku) {

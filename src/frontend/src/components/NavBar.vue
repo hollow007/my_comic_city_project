@@ -162,7 +162,7 @@ export default {
       if (token) {
         const decodedToken = jwtDecode(token);
         this.isAuthenticated = true;
-        this.userName = decodedToken.firstName;
+
 
         fetch(`/api/comiccity/Customer/getByEmail/${decodedToken.sub}`, {
           method: 'GET',
@@ -215,7 +215,7 @@ export default {
       this.wishListItemCount = count;
     },
     toggleTheme() {
-      // Handle theme toggle logic here
+
     },
     goToLogin() {
       this.$router.push('/login');
@@ -226,7 +226,7 @@ export default {
     navigateToShopAll() {
       this.$router.push({ path: '/', query: { shopAll: true } });
     },
-    // Show or hide the dropdown based on hover
+
     showDropdown(type) {
       if (type === 'genre') this.isGenreDropdownVisible = true;
       if (type === 'publisher') this.isPublisherDropdownVisible = true;

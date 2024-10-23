@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/cart/assignCartToCustomer/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/wishList/assignWishListToCustomer/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/wishList/assignWishListToCustomer/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/comic_book/read/**").permitAll()
 
                         // Expose only the read method
                         //.requestMatchers(HttpMethod.GET, "/comic_book/read/**").permitAll() // Public access to read
@@ -55,7 +56,7 @@ public class SecurityConfig {
                         hasAuthority("ROLE_ADMIN")
 
                         // Customer router
-                        .requestMatchers("/customer/**").hasRole("CUSTOMER")
+                        .requestMatchers("/customer/**","/cart/**","/comiccity/wishList/**").hasAuthority("ROLE_CUSTOMER")
 
                         // Any other requests must be authenticated
                         .anyRequest().authenticated()

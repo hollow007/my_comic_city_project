@@ -62,6 +62,7 @@
 <script>
 import { getCustomerCart} from "@/services/cartService";
 import NavBar from "@/components/NavBar.vue";
+import {jwtDecode} from "jwt-decode";
 
 export default {
   components: {
@@ -99,18 +100,20 @@ export default {
       return 'R ' + amount.toFixed(2);
     },
     async fetchCart() {
-      const userEmail = localStorage.getItem('userEmail');
-      if (!userEmail) {
-        console.error('User email not found. Please log in.');
-        this.$router.push('/');
-      }
-      try {
-        const response = await getCustomerCart(userEmail);
-        this.cart = response.data ||{comicBooks: []};
-        this.cartItems = this.cart.comicBooks;
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        this.isAuthenticated = true;
+        try {
 
-      } catch (error) {
-        console.error('Error fetching cart items:', error);
+
+          const response = await getCustomerCart(decodedToken.sub);
+          this.cart = response.data || {comicBooks: []};
+          this.cartItems = this.cart.comicBooks;
+
+        } catch (error) {
+          console.error('Error fetching cart items:', error);
+        }
       }
     },
 

@@ -29,4 +29,9 @@ export const getBooksByPlublisher= (publisher) => {
 };
 export const getBooksByPriceLessThanEqual= (price) => {
     return axios.get(`${API_URL}/filter/price/${price}`);
+
+};
+export const getBooksByGenres= (genres) => {
+    return axios.get(`${API_URL}/search/genres/${genres}`);
+
 };
