@@ -28,9 +28,6 @@ public class SecurityConfig {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private CustomAuthenticationSuccessHandler successHandler; // Inject the custom success handler
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -45,7 +42,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/wishList/assignWishListToCustomer/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/comic_book/read/**").permitAll()
 
-                        // Expose only the read method
+
                         //.requestMatchers(HttpMethod.GET, "/comic_book/read/**").permitAll() // Public access to read
                         .requestMatchers(HttpMethod.GET, "/comic_book/getAll").permitAll()
 
