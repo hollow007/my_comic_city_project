@@ -77,27 +77,27 @@
               <font-awesome-icon icon="chevron-up" class="icon arrow-icon" />
             </a></li>
           </router-link>
-
+          <!-- Genre Dropdown -->
           <li class="dropdown" @mouseenter="showDropdown('genre')" @mouseleave="hideDropdown('genre')">
             <a href="#">Shop by Genre
               <font-awesome-icon icon="chevron-up" class="icon arrow-icon" />
             </a>
             <ul v-if="isGenreDropdownVisible" class="dropdown-menu genre-dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Adventure</a></li>
-              <li><a href="#">Fantasy</a></li>
-              <li><a href="#">Horror</a></li>
+              <li v-for="genre in genres" :key="genre.id">
+                <a href="#">{{ genre.name }}</a>
+              </li>
             </ul>
           </li>
+
+          <!-- Publisher Dropdown -->
           <li class="dropdown" @mouseenter="showDropdown('publisher')" @mouseleave="hideDropdown('publisher')">
             <a href="#">Shop by Publisher
               <font-awesome-icon icon="chevron-up" class="icon arrow-icon" />
             </a>
             <ul v-if="isPublisherDropdownVisible" class="dropdown-menu">
-              <li><a href="#">Marvel</a></li>
-              <li><a href="#">DC</a></li>
-              <li><a href="#">Image Comics</a></li>
-              <li><a href="#">Dark Horse</a></li>
+              <li v-for="publisher in publishers" :key="publisher.id">
+                <a href="#">{{ publisher.name }}</a>
+              </li>
             </ul>
           </li>
 
@@ -115,6 +115,8 @@
 import CartSummary from './CartSummary.vue';
 import WishlistSummary from './WishlistSummary.vue';
 import { jwtDecode } from "jwt-decode";
+import {getAllGenre} from "@/services/GenreService";
+import {getAllPublishers} from "@/services/PublisherService";
 
 export default {
   name: 'NavBar',
@@ -137,12 +139,30 @@ export default {
       isDropdownVisible: false,
     };
   },
-
   created() {
     this.checkAuthStatus();
+    this.loadGenres();  // Load genres when the component is created
+    this.fetchPublishers();  // Load publishers when the component is created
   },
 
   methods: {
+    async loadGenres() {
+      try {
+        const response = await getAllGenre();
+        this.genres = response.data;  // Store the fetched genres
+      } catch (error) {
+        console.error("Error fetching genres:", error);
+      }
+    },
+
+    async fetchPublishers() {
+      try {
+        const response = await getAllPublishers();
+        this.publishers = response.data;  // Store the fetched publishers
+      } catch (error) {
+        console.error("Error fetching publishers:", error);
+      }
+    },
     handleSearchInput(event) {
       this.$emit('search-query', event.target.value);
     },
